@@ -1,28 +1,28 @@
 # E-BMaker
 
-<div style="background-color: #4B0082; color: white; padding: 10px; border-radius: 5px; margin: 15px 0;">
+<div style="background-color: #2e0854; color: #39ff14; padding: 10px; border-radius: 5px; margin: 15px 0;">
 <h2>The Ultimate eBook Creator</h2>
 </div>
 
 ## About
 
-**E-BMaker** is an open-source desktop application designed for creating and formatting EPUB files with professional quality and ease. Developed by **Juan Carlos Quintero Rubiano (JkVely)**, this tool aims to democratize digital publishing.
+**E-BMaker** is an open-source desktop application designed for creating and editing EPUB files with professional quality and ease. Developed by **Juan Carlos Quintero Rubiano (JkVely)**, this tool aims to democratize digital publishing.
 
-<div style="background-color: #543e8c; color: white; padding: 8px; border-radius: 5px; margin: 10px 0; border-left: 5px solid #7c53a3;">
-<p>A powerful tool in your creative arsenal</p>
+<div style="background-color: #4b0082; color: #e0e0e0; padding: 8px; border-radius: 5px; margin: 10px 0; border-left: 5px solid #7c53a3;">
+A powerful tool in your creative arsenal
 </div>
 
 ## Vision
 
-E-BMaker will provide a comprehensive solution for authors, publishers, and content creators who need to:
+E-BMaker provides a comprehensive solution for authors, publishers, and content creators who need to:
 
 - Create professionally formatted EPUB files
 - Edit existing eBooks with precision
 - Generate publication-ready digital books
 - Support multiple languages and formats
 
-<div style="background-color: #016930; color: white; padding: 8px; border-radius: 5px; margin: 10px 0; border-left: 5px solid #38761d;">
-<p>Precision and power at your fingertips</p>
+<div style="background-color: #016930; color: #e0e0e0; padding: 8px; border-radius: 5px; margin: 10px 0; border-left: 5px solid #39ff14;">
+Precision and power at your fingertips
 </div>
 
 ## Planned Features
@@ -34,64 +34,53 @@ E-BMaker will provide a comprehensive solution for authors, publishers, and cont
 - Template system for consistent styling
 - Cross-platform compatibility
 
-<div style="background-color: #a01916; color: white; padding: 8px; border-radius: 5px; margin: 10px 0;">
-<p>Transform your content into perfectly formatted eBooks</p>
+<div style="background-color: #a01916; color: #e0e0e0; padding: 8px; border-radius: 5px; margin: 10px 0;">
+Transform your content into perfectly formatted eBooks
 </div>
 
-## Project Structure
+## Project Folder Structure
 
-```
-e-bmaker/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── io/
-│   │   │       └── github/
-│   │   │           └── jkvely/
-│   │   │               ├── MainApp.java         # Clase principal JavaFX
-│   │   │               ├── FXMLController.java  # Controlador de la interfaz
-│   │   │               ├── epub/                # (Recomendado) Lógica de manejo de EPUB
-│   │   │               ├── model/               # (Recomendado) Modelos de datos
-│   │   │               └── util/                # (Recomendado) Utilidades
-│   │   └── resources/
-│   │       ├── fxml/
-│   │       │   └── Scene.fxml                   # Vista principal JavaFX
-│   │       └── styles/
-│   │           └── Styles.css                   # Estilos visuales
-│   └── test/
-│       └── java/                                # Pruebas unitarias
-├── pom.xml                                      # Configuración Maven
-└── README.md
+```text
+ e-bmaker/
+ ├── src/
+ │   ├── main/
+ │   │   ├── java/
+ │   │   │   └── io/
+ │   │   │       └── github/
+ │   │   │           └── jkvely/
+ │   │   │               ├── epub/
+ │   │   │               ├── model/
+ │   │   │               └── util/
+ │   │   └── resources/
+ │   │       ├── fxml/
+ │   │       └── styles/
+ │   └── test/
+ │       └── java/
+ └── target/
 ```
 
-- `MainApp.java`: Punto de entrada de la aplicación JavaFX.
-- `FXMLController.java`: Controlador de la interfaz gráfica.
-- `epub/`: Clases para manejo de archivos EPUB (lectura, escritura, edición).
-- `model/`: Modelos de datos (capítulos, metadatos, etc).
-- `util/`: Utilidades generales.
-- `resources/fxml/`: Archivos FXML para las vistas.
-- `resources/styles/`: Hojas de estilo CSS.
+- `epub/`: EPUB file handling logic
+- `model/`: Data models (chapters, metadata, etc.)
+- `util/`: General utilities
+- `resources/fxml/`: FXML files for JavaFX views
+- `resources/styles/`: CSS stylesheets
 
 ## How to Build and Run
 
-1. Instala JDK 11+ y Maven.
-2. Ejecuta:
+1. Install JDK 11+ and Maven.
+2. Run:
    ```sh
    mvn clean javafx:run
    ```
 
 ## Contribution Guidelines
 
-- Sigue la estructura de carpetas propuesta.
-- Usa JavaDoc en todas las clases y métodos públicos.
-- Los controladores deben estar bien documentados y separados de la lógica de negocio.
-
-## Development Status
-
-This project is currently in the initial planning phase. Contributions, ideas, and feedback are welcome!
+- Follow the proposed folder structure.
+- Use JavaDoc for all public classes and methods.
+- Keep controllers well documented and separated from business logic.
 
 ---
 
-<div style="background-color: #1a1a1a; color: #f5f5f5; padding: 5px; text-align: center; border-radius: 3px;">
+<div style="background-color: #1a1a1a; color: #39ff14; padding: 5px; text-align: center; border-radius: 3px;">
 Open Source Project by Juan Carlos Quintero Rubiano (JkVely)
 </div>
