@@ -6,12 +6,15 @@
 
 ## Languages and Technologies
 
+This project is built using the following programming languages and tools:
+
 [![Java](https://skillicons.dev/icons?i=java)](https://skillicons.dev)
 [![Maven](https://skillicons.dev/icons?i=maven)](https://skillicons.dev)
 [![Languages](https://skillicons.dev/icons?i=html,css)](https://skillicons.dev)
 
 ## Platforms
 
+This application is compatible with the following operating systems:
 [![Windows](https://skillicons.dev/icons?i=windows)](https://skillicons.dev)
 [![Linux](https://skillicons.dev/icons?i=linux)](https://skillicons.dev)
 
