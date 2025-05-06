@@ -93,7 +93,7 @@ Transform your content into perfectly formatted eBooks
 <div style="background-color: #1a1a1a; color: #39ff14; padding: 5px; text-align: center; border-radius: 3px;">
    Open Source Project by:
    <ul style="list-style-type: none; padding: 0 0 0 20px; margin: 0; color: #ffffff;">
-      <li>Juan Carlos Quintero Rubiano (<b>JkVely)</b></li>
+      <li>Juan Carlos Quintero Rubiano (<b><a href="https://github.com/JkVely">JkVely</a></b>)</li>
       <li>Contributors are welcome!</li>
    </ul>
 </div>
