@@ -4,6 +4,17 @@
 <h2>The Ultimate eBook Creator</h2>
 </div>
 
+## Languages and Technologies
+
+[![Java](https://skillicons.dev/icons?i=java)](https://skillicons.dev)
+[![Maven](https://skillicons.dev/icons?i=maven)](https://skillicons.dev)
+[![Languages](https://skillicons.dev/icons?i=html,css)](https://skillicons.dev)
+
+## Platforms
+
+[![Windows](https://skillicons.dev/icons?i=windows)](https://skillicons.dev)
+[![Linux](https://skillicons.dev/icons?i=linux)](https://skillicons.dev)
+
 ## About
 
 **E-BMaker** is an open-source desktop application designed for creating and editing EPUB files with professional quality and ease. Developed by **Juan Carlos Quintero Rubiano (JkVely)**, this tool aims to democratize digital publishing.
