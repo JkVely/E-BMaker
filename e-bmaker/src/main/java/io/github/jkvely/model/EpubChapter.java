@@ -1,11 +1,11 @@
 package io.github.jkvely.model;
 
-import lombok.Data;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-
 import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * EpubChapter represents a chapter or section in an EPUB book, supporting nested chapters and navigation.
@@ -15,10 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EpubChapter {
-    private String id;
+    private int id;
     private String title;
     private String content;
-    private int order;
     private List<Image> images;
 
     /**
