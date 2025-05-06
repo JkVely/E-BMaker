@@ -12,7 +12,7 @@
     <url>https://github.com/jkvely/e-bmaker</url>
 
     <organization>
-        <name></name>
+        <name>E-BMaker</name>
     </organization>
     
     <licenses>
@@ -31,6 +31,7 @@
                 <role>Project Lead</role>
             </roles>
         </developer>
+        <!-- TODO: Add the other Names-->
     </developers>
 
     <properties>
