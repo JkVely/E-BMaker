@@ -68,8 +68,17 @@ Transform your content into perfectly formatted eBooks
 ## How to Build and Run
 
 1. Install JDK 11+ and Maven.
-2. Run:
+2. Clone the repository:
+
    ```sh
+   git clone https://github.com/JkVely/E-BMaker.git
+   cd E-BMaker
+   ```
+
+3. Run:
+
+   ```sh
+   cd e-bmaker
    mvn clean javafx:run
    ```
 
@@ -82,5 +91,9 @@ Transform your content into perfectly formatted eBooks
 ---
 
 <div style="background-color: #1a1a1a; color: #39ff14; padding: 5px; text-align: center; border-radius: 3px;">
-Open Source Project by Juan Carlos Quintero Rubiano (JkVely)
+   Open Source Project by:
+   <ul style="list-style-type: none; padding: 0 0 0 20px; margin: 0; color: #ffffff;">
+      <li>Juan Carlos Quintero Rubiano (<b>JkVely)</b></li>
+      <li>Contributors are welcome!</li>
+   </ul>
 </div>
