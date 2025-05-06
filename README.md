@@ -1,9 +1,5 @@
 # E-BMaker
 
-<div style="background-color: #2e0854; color: #39ff14; padding: 10px; border-radius: 5px; margin: 15px 0;">
-<h2>The Ultimate eBook Creator</h2>
-</div>
-
 ## Languages and Technologies
 
 This project is built using the following programming languages and tools:
@@ -15,6 +11,7 @@ This project is built using the following programming languages and tools:
 ## Platforms
 
 This application is compatible with the following operating systems:
+
 [![Windows](https://skillicons.dev/icons?i=windows)](https://skillicons.dev)
 [![Linux](https://skillicons.dev/icons?i=linux)](https://skillicons.dev)
 
