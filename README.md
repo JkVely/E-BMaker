@@ -105,6 +105,7 @@ Transform your content into perfectly formatted eBooks
    Open Source Project by:
    <ul style="list-style-type: none; padding: 0 0 0 20px; margin: 0; color: #ffffff;">
       <li>Juan Carlos Quintero Rubiano (<b><a href="https://github.com/JkVely">JkVely</a></b>)</li>
+      <li>Giovanny Sierra Reina (<b><a href="https://github.com/Giosreina">Giosreina</a></b>)</li>
       <li>Contributors are welcome!</li>
    </ul>
 </div>
