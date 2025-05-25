@@ -1,0 +1,259 @@
+/*
+ * EVA 00 (claro): blanco, naranja, azul
+ * EVA 01 (oscuro): negro, morado, verde
+ * Minimalista, elegante, con tipografía moderna
+ *
+ * Paleta EVA 00:
+ *   - Azul: #1d446c
+ *   - Blanco: #f1f1f1
+ *   - Naranja: #ffb300
+ *   - Gris: #525252
+ *   - Rojo: #e53935
+ *
+ * Paleta EVA 01:
+ *   - Negro: #181820
+ *   - Morado: #3a3e6e
+ *   - Verde: #7ac943
+ *   - Amarillo: #fcee21
+ *   - Gris oscuro: #231f20
+ */
+
+/* CYBERPUNK CORPORATE THEME - PASTEL & NEON */
+
+/* Light theme (default) */
+.root {
+    -fx-background-color: #ffffff;
+    -fx-font-family: 'Segoe UI Semilight', sans-serif;
+    -fx-font-size: 13px;
+    -fx-text-fill: #16537e;
+}
+.dark .root {
+    -fx-background-color: #181820;
+    -fx-text-fill: #e0e0e0;
+}
+
+.root, .main-content, .mainContentPane, .stack-pane, .center, .eva-epub-structure, .vbox, .hbox {
+    -fx-font-family: 'Inter', 'Segoe UI', 'Fira Sans', 'Montserrat', 'Roboto', 'Nunito', 'Poppins', 'Lato', 'Quicksand', 'Open Sans', 'Source Sans Pro', 'Work Sans', 'Manrope', 'Jost', 'Barlow', 'sans-serif';
+}
+
+.dark .root, .dark .main-content, .dark .mainContentPane, .dark .stack-pane, .dark .center, .dark .eva-epub-structure, .dark .vbox, .dark .hbox {
+    -fx-background-color: #181820;
+    -fx-text-fill: #e0e0e0;
+}
+
+.dark .stack-pane, .dark .mainContentPane {
+    -fx-background-color: #181820;
+}
+
+.dark #mainContentPane, .dark .mainContentPane, .dark .stack-pane {
+    -fx-background-color: #181820;
+}
+
+.dark .vbox, .dark .hbox {
+    -fx-background-color: transparent;
+}
+
+.dark .eva-epub-structure {
+    -fx-background-color: #232336;
+    -fx-text-fill: #e0e0e0;
+}
+
+.dark .label {
+    -fx-text-fill: #fcee21;
+}
+
+.dark .vbox, .dark .hbox, .dark .editor-panel, .dark .preview-panel, .dark .cover-panel, .dark .chapter-panel {
+    -fx-background-color: #232336;
+}
+
+.dark .text-area, .dark .text-field, .dark .editor-panel, .dark .preview-panel, .dark .cover-panel, .dark .chapter-panel {
+    -fx-background-color: #232336 !important;
+    -fx-text-fill: #e0e0e0 !important;
+}
+
+.dark .text-area .content, .dark .text-field .content {
+    -fx-background-color: #232336 !important;
+    -fx-text-fill: #e0e0e0 !important;
+}
+
+.dark .text-area .prompt-text, .dark .text-field .prompt-text {
+    -fx-fill: #888 !important;
+}
+
+.dark .split-pane, .dark .split-pane > * {
+    -fx-background-color: #232336 !important;
+}
+
+.dark .web-view, .dark .webview, .dark .web-view .content {
+    -fx-background-color: #232336 !important;
+}
+
+/* Menu Bar */
+.eva-menu-bar {
+    -fx-background-color: transparent;
+    -fx-border-color: #2986cc;
+    -fx-border-width: 0 0 2px 0;
+    -fx-padding: 8px;
+}
+.dark .eva-menu-bar {
+    -fx-background-color: #232336;
+    -fx-border-color: #965fd4;
+}
+.eva-menu-bar .menu .label {
+    -fx-text-fill: inherit;
+}
+.eva-menu-bar .menu:hover .label {
+    -fx-text-fill: #00C2FF;
+}
+
+/* Toolbar */
+.eva-toolbar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #2986cc;
+    -fx-border-width: 0 0 2px 0;
+    -fx-padding: 6px 12px;
+}
+.dark .eva-toolbar {
+    -fx-background-color: #232336;
+    -fx-border-color: #965fd4;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: transparent;
+    -fx-font-family: 'Segoe UI Semilight', sans-serif;
+    -fx-text-fill: inherit;
+    -fx-border-color: #2986cc;
+    -fx-border-width: 0 0 2px 0;
+    -fx-padding: 6px 12px;
+    -fx-cursor: hand;
+}
+.button:hover {
+    -fx-text-fill: #f1c232;
+}
+.dark .button, .dark .toggle-button {
+    -fx-background-color: #232336;
+    -fx-text-fill: #ffb300;
+    -fx-border-color: #965fd4;
+    -fx-font-family: 'Inter', 'Segoe UI', 'Fira Sans', 'Montserrat', 'sans-serif';
+}
+.dark .button:hover, .dark .toggle-button:hover {
+    -fx-background-color: #3a3e6e;
+    -fx-text-fill: #fcee21;
+}
+
+/* Toggle Buttons */
+.toggle-button {
+    -fx-background-color: transparent;
+    -fx-font-family: 'Segoe UI Semilight', sans-serif;
+    -fx-text-fill: inherit;
+    -fx-border-color: #00C2FF;
+    -fx-border-width: 0 0 2px 0;
+    -fx-cursor: hand;
+}
+.toggle-button:selected {
+    -fx-text-fill: #00C2FF;
+}
+.toggle-button:hover {
+    -fx-text-fill: #00C2FF;
+}
+
+/* List View */
+.list-view {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+.dark .list-view {
+    -fx-background-color: #232336;
+    -fx-border-color: #3a3e6e;
+}
+.list-cell {
+    -fx-font-family: 'Segoe UI Semilight', sans-serif;
+    -fx-text-fill: inherit;
+    -fx-font-size: 12px;
+    -fx-padding: 4px 8px;
+}
+.list-cell:hover {
+    -fx-background-color: rgba(41,134,204,0.1);
+}
+.list-cell:selected {
+    -fx-background-color: #2986cc;
+    -fx-text-fill: #ffffff;
+}
+.dark .list-cell {
+    -fx-background-color: #232336;
+    -fx-text-fill: #e0e0e0;
+}
+.dark .list-cell:selected {
+    -fx-background-color: #3a3e6e;
+    -fx-text-fill: #fcee21;
+}
+
+/* Special 'add new chapter' cell */
+.list-cell.add-chapter-cell {
+    -fx-text-fill: #2986cc;
+}
+
+/* Text Fields & Areas */
+.text-field, .text-area {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: inherit;
+    -fx-border-color: #2986cc;
+    -fx-border-width: 0 0 2px 0;
+    -fx-background-radius: 4px;
+    -fx-padding: 4px 8px;
+}
+.dark .text-field, .dark .text-area {
+    -fx-background-color: #232336;
+    -fx-text-fill: #e0e0e0;
+    -fx-border-color: #965fd4;
+}
+.text-field:focused, .text-area:focused {
+    -fx-border-color: #2986cc;
+}
+.dark .text-field:focused, .dark .text-area:focused {
+    -fx-border-color: #fcee21;
+}
+
+/* Scroll Bars */
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #2986cc;
+    -fx-background-radius: 4px;
+}
+.dark .scroll-bar:vertical .thumb {
+    -fx-background-color: #965fd4;
+}
+
+/* Left panel container */
+.left-panel {
+    -fx-background-color: #ffffff;
+}
+.dark .left-panel {
+    -fx-background-color: #232336;
+}
+
+/* Cover */
+.dark .eva-cover-title, .dark .eva-cover-label, .dark .eva-cover-drop-label {
+    -fx-text-fill: #fcee21;
+}
+
+.dark .eva-cover-upload-btn, .dark .eva-cover-set-btn {
+    -fx-background-color: #3a3e6e;
+    -fx-text-fill: #fcee21;
+    -fx-border-color: #965fd4;
+}
+.dark .eva-cover-upload-btn:hover, .dark .eva-cover-set-btn:hover {
+    -fx-background-color: #965fd4;
+    -fx-text-fill: #fff;
+}
+
+.dark .eva-cover-title-field {
+    -fx-background-color: #232336;
+    -fx-text-fill: #e0e0e0;
+    -fx-border-color: #965fd4;
+}
+
+.dark .eva-cover-image {
+    -fx-effect: dropshadow(gaussian, #965fd4, 10, 0.2, 0, 0);
+}
