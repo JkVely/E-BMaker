@@ -37,7 +37,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mainClass>io.github.jkvely.MainApp</mainClass>
-        <javafx.version>17</javafx.version>
+        <javafx.version>25-ea+18</javafx.version>
         <java.version>11</java.version>
         <ikonli.version>12.3.1</ikonli.version>
         <controlsfx.version>11.1.2</controlsfx.version>
