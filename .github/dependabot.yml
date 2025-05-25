@@ -1,14 +1,3 @@
-Claro, lo que estás viendo es la configuración inicial para Dependabot Version Updates. Este archivo, dependabot.yml, le dice a GitHub cómo y cuándo debe buscar actualizaciones para las dependencias de tu proyecto.
-
-La plantilla que te muestra es genérica. Para tu proyecto Java con Maven, necesitas especificar el ecosistema de paquetes correcto y la ubicación de tu pom.xml.
-
-Cómo configurar dependabot.yml para tu proyecto Java/Maven
-Basándonos en tu pom.xml que está en el directorio e-bmaker/, así es como deberías configurar el archivo dependabot.yml:
-
-Crea un archivo llamado .github/dependabot.yml (si no existe ya) en la raíz de tu repositorio y pon el siguiente contenido:
-
-YAML
-
 # To get started with Dependabot version updates, you'll need to specify which
 # package ecosystems to update and where the package manifests are located.
 # Please see the documentation for all configuration options:
