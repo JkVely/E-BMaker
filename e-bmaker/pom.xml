@@ -31,7 +31,13 @@
                 <role>Project Lead</role>
             </roles>
         </developer>
-        <!-- TODO: Add the other Names-->
+        <developer>
+            <id>Giosreina</id>
+            <name>Giovanny Sierra Reina </name>
+            <roles>
+                <role>Contributor</role>
+            </roles>
+        </developer>
     </developers>
 
     <properties>
