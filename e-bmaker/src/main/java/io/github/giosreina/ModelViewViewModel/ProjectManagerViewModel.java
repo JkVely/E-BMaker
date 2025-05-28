@@ -42,6 +42,9 @@ public class ProjectManagerViewModel {
     public void handleCreateProject() {
         model.setLastAction("Crear Proyecto");
 
+        Stage currentStage = (Stage) createProjectButton.getScene().getWindow();
+        currentStage.close();
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainMenu.fxml"));
             Parent root = loader.load();
