@@ -1,7 +1,15 @@
 package io.github.giosreina.ModelViewViewModel;
 
+import java.io.IOException;
+
+import javax.print.DocFlavor.URL;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class ProjectManagerViewModel {
     
@@ -32,12 +40,30 @@ public class ProjectManagerViewModel {
     
     // Métodos para manejar eventos
     public void handleCreateProject() {
-        // Actualizar el modelo
         model.setLastAction("Crear Proyecto");
-        
-        // Mostrar mensaje (simulación sin backend)
-        showInfoAlert("Crear Proyecto", "Funcionalidad para crear un nuevo proyecto.\n\nEsta acción abriría un diálogo para configurar un nuevo proyecto.");
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainMenu.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            
+            // Agrega el estilo si está disponible
+            java.net.URL css = getClass().getResource("/styles/eva.css");
+            if (css != null) {
+                scene.getStylesheets().add(css.toExternalForm());
+            }
+
+            Stage stage = new Stage();
+            stage.setTitle("E-BMaker");
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showInfoAlert("Error", "No se pudo cargar la interfaz del otro proyecto.");
+        }
     }
+
     
     public void handleOpenProject() {
         // Actualizar el modelo
