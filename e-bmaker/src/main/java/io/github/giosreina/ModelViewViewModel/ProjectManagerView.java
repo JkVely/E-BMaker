@@ -30,7 +30,7 @@ public class ProjectManagerView {
         root.setStyle("-fx-background-color: #f5f5f5;");
         
         // Título
-        Label titleLabel = new Label("Gestor de Proyectos");
+        Label titleLabel = new Label("E-maker - Gestor de Proyectos");
         titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 28));
         titleLabel.setStyle("-fx-text-fill: #333333;");
         
