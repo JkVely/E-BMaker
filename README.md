@@ -33,7 +33,7 @@
 ## 🚀 Instalación Rápida
 
 ### ⚙️ Prerrequisitos
-- **Java 11+** ([Descargar aquí](https://adoptium.net/))
+- **Java 21+** ([Descargar aquí](https://adoptium.net/))
 - **Maven 3.6+** ([Instalación](https://maven.apache.org/install.html))
 
 ### 📥 Pasos de Instalación
