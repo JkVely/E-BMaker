@@ -232,7 +232,7 @@ git push origin feature/nueva-funcionalidad
 
 Encontraste un problema? [Crear issue](https://github.com/JkVely/E-BMaker/issues) con:
 - 🖥️ Sistema operativo y versión de Java
-- 📸 Screenshots del problema  
+- 📸 Screenshots del problema
 - 🔢 Pasos para reproducir
 - 🎨 Tema usado (EVA-00 o EVA-01)
 
@@ -242,7 +242,8 @@ Encontraste un problema? [Crear issue](https://github.com/JkVely/E-BMaker/issues
 
 ### 🎯 **Próximas Características**
 
-- [ ] 🌈 **Más temas EVA** (Unidad 02, 08, etc.)
+- [ ] 📖 **Editor de Metadatos** para EPUB
+- [ ] 🖼️ **Editor de Portada** con herramientas avanzadas
 - [ ] 🔍 **Búsqueda y reemplazo** avanzado
 - [ ] 📱 **Modo responsive** para ventanas pequeñas
 - [ ] 🔗 **Exportación a múltiples formatos** (PDF, MOBI)
