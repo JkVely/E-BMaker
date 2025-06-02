@@ -2,7 +2,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.*?>
 <VBox alignment="TOP_CENTER" spacing="8" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.github.jkvely.controller.EditorPanelController" VBox.vgrow="ALWAYS" minWidth="0" minHeight="0">
-    <TextField fx:id="chapterTitleField" promptText="Título del capítulo" />
-    <TextArea fx:id="editorArea" promptText="Escribe tu capítulo aquí..." VBox.vgrow="ALWAYS" minHeight="0" />
+      fx:controller="io.github.jkvely.controller.EditorPanelController" VBox.vgrow="ALWAYS" minWidth="0" minHeight="0" styleClass="eva-editor-panel">
+    <TextField fx:id="chapterTitleField" promptText="Título del capítulo" styleClass="eva-chapter-title-field" />
+    <TextArea fx:id="editorArea" promptText="Escribe tu capítulo aquí..." VBox.vgrow="ALWAYS" minHeight="0" styleClass="eva-editor-area" />
 </VBox>

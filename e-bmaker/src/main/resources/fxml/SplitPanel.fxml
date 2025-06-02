@@ -3,10 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.web.WebView?>
 <SplitPane orientation="HORIZONTAL" dividerPositions="0.5" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.github.jkvely.controller.SplitPanelController" minWidth="0" minHeight="0">
-    <VBox alignment="TOP_CENTER" spacing="8" styleClass="left-panel" VBox.vgrow="ALWAYS" minWidth="0" minHeight="0">
-        <TextField fx:id="chapterTitleField" promptText="Título del capítulo" styleClass="text-field cyber-title"/>
-        <TextArea fx:id="editorArea" promptText="Editor (Mitad)" styleClass="text-area" VBox.vgrow="ALWAYS" minHeight="0"/>
+      fx:controller="io.github.jkvely.controller.SplitPanelController" minWidth="0" minHeight="0" styleClass="eva-split-panel">
+    <VBox alignment="TOP_CENTER" spacing="8" styleClass="eva-split-left" VBox.vgrow="ALWAYS" minWidth="0" minHeight="0">
+        <TextField fx:id="chapterTitleField" promptText="Título del capítulo" styleClass="eva-chapter-title-field"/>
+        <TextArea fx:id="editorArea" promptText="Editor (Mitad)" styleClass="eva-editor-area" VBox.vgrow="ALWAYS" minHeight="0"/>
     </VBox>
-    <WebView fx:id="previewWebView" prefHeight="300" VBox.vgrow="ALWAYS" minHeight="0" />
+    <WebView fx:id="previewWebView" prefHeight="300" VBox.vgrow="ALWAYS" minHeight="0" styleClass="eva-preview-web" />
 </SplitPane>

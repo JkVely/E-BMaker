@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.web.WebView?>
 <VBox alignment="TOP_CENTER" spacing="8" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.github.jkvely.controller.ChapterPanelController">
-    <TextField fx:id="chapterTitleField" promptText="Título del capítulo" />
-    <TextArea fx:id="editorArea" promptText="Escribe tu capítulo aquí..." />
-    <WebView fx:id="previewWebView" prefHeight="180" />
+      fx:controller="io.github.jkvely.controller.ChapterPanelController" styleClass="eva-chapter-panel">
+    <TextField fx:id="chapterTitleField" promptText="Título del capítulo" styleClass="eva-chapter-title-field" />
+    <TextArea fx:id="editorArea" promptText="Escribe tu capítulo aquí..." styleClass="eva-editor-area" />
+    <WebView fx:id="previewWebView" prefHeight="180" styleClass="eva-preview-web" />
 </VBox>

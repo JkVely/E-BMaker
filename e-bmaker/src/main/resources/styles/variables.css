@@ -1,0 +1,66 @@
+/**
+ * VARIABLES CSS GLOBALES PARA E-BMAKER
+ * Editor de EPUB de código abierto
+ * 
+ * Este archivo contiene las variables CSS que definen los colores,
+ * tipografías y espaciados base para ambos temas.
+ */
+
+:root {
+    /* ========================================
+     * TIPOGRAFÍAS
+     * ======================================== */
+    
+    /* Familia de fuentes principal para interfaces modernas */
+    --font-family-primary: 'Inter', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    
+    /* Familia de fuentes para títulos y encabezados */
+    --font-family-heading: 'Segoe UI Semibold', 'Inter', sans-serif;
+    
+    /* Familia de fuentes para código y texto monoespaciado */
+    --font-family-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+    
+    /* ========================================
+     * TAMAÑOS DE FUENTE
+     * ======================================== */
+    --font-size-xs: 10px;
+    --font-size-sm: 12px;
+    --font-size-base: 14px;
+    --font-size-lg: 16px;
+    --font-size-xl: 18px;
+    --font-size-xxl: 24px;
+    
+    /* ========================================
+     * ESPACIADOS Y DIMENSIONES
+     * ======================================== */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-base: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-xxl: 48px;
+    
+    /* Radios de borde para elementos redondeados */
+    --border-radius-sm: 4px;
+    --border-radius-base: 8px;
+    --border-radius-lg: 12px;
+    
+    /* Anchos de borde */
+    --border-width-thin: 1px;
+    --border-width-base: 2px;
+    --border-width-thick: 3px;
+    
+    /* ========================================
+     * TRANSICIONES Y ANIMACIONES
+     * ======================================== */
+    --transition-fast: 0.15s ease-in-out;
+    --transition-base: 0.25s ease-in-out;
+    --transition-slow: 0.4s ease-in-out;
+    
+    /* ========================================
+     * SOMBRAS
+     * ======================================== */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --shadow-base: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+}

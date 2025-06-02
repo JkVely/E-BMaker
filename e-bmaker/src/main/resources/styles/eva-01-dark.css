@@ -1,0 +1,434 @@
+/**
+ * TEMA EVA-01 (TEMA OSCURO)
+ * Editor de EPUB E-BMaker
+ * 
+ * Inspirado en la Unidad Evangelion 01, este tema utiliza
+ * una paleta de colores oscura con morados y verdes neón.
+ * 
+ * Paleta de colores EVA-01:
+ * - Negro principal: #181820 (Fondo base)
+ * - Gris oscuro: #232336 (Fondos elevados)
+ * - Morado: #3a3e6e (Color primario)
+ * - Morado claro: #965fd4 (Color de acento)
+ * - Verde neón: #7ac943 (Color de éxito y elementos destacados)
+ * - Amarillo neón: #fcee21 (Color de advertencia y elementos activos)
+ * - Blanco: #e0e0e0 (Texto principal)
+ * - Gris claro: #adb5bd (Texto secundario)
+ * - Rojo: #ff4757 (Errores y elementos de peligro)
+ */
+
+/* ========================================
+ * COLORES BASE DEL TEMA OSCURO
+ * ======================================== */
+.eva-01 {
+    /* Colores de fondo */
+    --bg-primary: #181820;
+    --bg-secondary: #232336;
+    --bg-tertiary: #2c2d47;
+    --bg-elevated: #2c2d47;
+    
+    /* Colores de texto */
+    --text-primary: #e0e0e0;
+    --text-secondary: #adb5bd;
+    --text-muted: #6c757d;
+    --text-inverse: #181820;
+    
+    /* Colores de marca (Eva-01) */
+    --color-primary: #3a3e6e;
+    --color-primary-hover: #4a4e7e;
+    --color-primary-light: rgba(58, 62, 110, 0.15);
+    
+    --color-accent: #965fd4;
+    --color-accent-hover: #a66ee4;
+    --color-accent-light: rgba(150, 95, 212, 0.15);
+    
+    /* Colores adicionales del tema */
+    --color-neon-green: #7ac943;
+    --color-neon-yellow: #fcee21;
+    --color-neon-purple: #965fd4;
+    
+    /* Colores de estado */
+    --color-success: #7ac943;
+    --color-warning: #fcee21;
+    --color-error: #ff4757;
+    --color-info: #3742fa;
+    
+    /* Colores de borde */
+    --border-primary: #3a3e6e;
+    --border-secondary: #2c2d47;
+    --border-focus: var(--color-neon-yellow);
+    
+    /* Sombras específicas del tema */
+    --shadow-primary: 0 4px 12px rgba(150, 95, 212, 0.3);
+    --shadow-accent: 0 4px 12px rgba(252, 238, 33, 0.3);
+    --shadow-neon-green: 0 4px 12px rgba(122, 201, 67, 0.3);
+}
+
+/* ========================================
+ * ELEMENTOS BASE
+ * ======================================== */
+
+/* Contenedor raíz de la aplicación */
+.eva-01 .root {
+    -fx-background-color: var(--bg-primary);
+    -fx-text-fill: var(--text-primary);
+    -fx-font-family: var(--font-family-primary);
+    -fx-font-size: var(--font-size-base);
+}
+
+/* Contenedores principales */
+.eva-01 .main-content,
+.eva-01 .stack-pane,
+.eva-01 .vbox,
+.eva-01 .hbox {
+    -fx-background-color: transparent;
+}
+
+/* Forzar fondo oscuro en elementos específicos */
+.eva-01 .mainContentPane,
+.eva-01 #mainContentPane {
+    -fx-background-color: var(--bg-primary) !important;
+}
+
+/* ========================================
+ * BARRA DE MENÚ Y TOOLBAR
+ * ======================================== */
+
+/* Barra de menú principal */
+.eva-01 .eva-menu-bar {
+    -fx-background-color: var(--bg-secondary);
+    -fx-border-color: var(--border-primary);
+    -fx-border-width: 0 0 var(--border-width-thin) 0;
+    -fx-padding: var(--spacing-sm);
+}
+
+.eva-01 .eva-menu-bar .menu .label {
+    -fx-text-fill: var(--text-primary);
+    -fx-font-family: var(--font-family-primary);
+    -fx-font-size: var(--font-size-base);
+}
+
+.eva-01 .eva-menu-bar .menu:hover .label {
+    -fx-text-fill: var(--color-neon-yellow);
+}
+
+/* Barra de herramientas */
+.eva-01 .eva-toolbar {
+    -fx-background-color: var(--bg-secondary);
+    -fx-border-color: var(--border-primary);
+    -fx-border-width: 0 0 var(--border-width-thin) 0;
+    -fx-padding: var(--spacing-sm) var(--spacing-base);
+}
+
+/* ========================================
+ * BOTONES Y CONTROLES INTERACTIVOS
+ * ======================================== */
+
+/* Botones principales */
+.eva-01 .button {
+    -fx-background-color: var(--bg-secondary);
+    -fx-text-fill: var(--color-accent);
+    -fx-font-family: var(--font-family-primary);
+    -fx-font-size: var(--font-size-base);
+    -fx-border-color: var(--color-accent);
+    -fx-border-width: 0 0 var(--border-width-base) 0;
+    -fx-border-radius: 0;
+    -fx-background-radius: var(--border-radius-sm);
+    -fx-padding: var(--spacing-sm) var(--spacing-base);
+    -fx-cursor: hand;
+}
+
+.eva-01 .button:hover {
+    -fx-background-color: var(--color-primary);
+    -fx-text-fill: var(--color-neon-yellow);
+    -fx-border-color: var(--color-neon-yellow);
+    -fx-effect: var(--shadow-accent);
+}
+
+.eva-01 .button:pressed {
+    -fx-background-color: var(--color-accent);
+    -fx-text-fill: var(--text-inverse);
+}
+
+/* Botones de alternancia (ToggleButton) */
+.eva-01 .toggle-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: var(--text-secondary);
+    -fx-font-family: var(--font-family-primary);
+    -fx-font-size: var(--font-size-base);
+    -fx-border-color: var(--border-secondary);
+    -fx-border-width: 0 0 var(--border-width-base) 0;
+    -fx-border-radius: 0;
+    -fx-background-radius: var(--border-radius-sm);
+    -fx-padding: var(--spacing-sm) var(--spacing-base);
+    -fx-cursor: hand;
+}
+
+.eva-01 .toggle-button:hover {
+    -fx-text-fill: var(--color-neon-yellow);
+    -fx-border-color: var(--color-neon-yellow);
+}
+
+.eva-01 .toggle-button:selected {
+    -fx-background-color: var(--color-primary-light);
+    -fx-text-fill: var(--color-neon-yellow);
+    -fx-border-color: var(--color-neon-yellow);
+    -fx-effect: var(--shadow-accent);
+}
+
+/* ========================================
+ * CAMPOS DE TEXTO Y ÁREAS DE TEXTO
+ * ======================================== */
+
+.eva-01 .text-field,
+.eva-01 .text-area {
+    -fx-background-color: var(--bg-secondary);
+    -fx-text-fill: var(--text-primary);
+    -fx-font-family: var(--font-family-primary);
+    -fx-font-size: var(--font-size-base);
+    -fx-border-color: var(--border-primary);
+    -fx-border-width: var(--border-width-thin);
+    -fx-border-radius: var(--border-radius-sm);
+    -fx-background-radius: var(--border-radius-sm);
+    -fx-padding: var(--spacing-sm);
+}
+
+/* Forzar estilos en el contenido interno */
+.eva-01 .text-field .content,
+.eva-01 .text-area .content {
+    -fx-background-color: var(--bg-secondary) !important;
+    -fx-text-fill: var(--text-primary) !important;
+}
+
+.eva-01 .text-field:focused,
+.eva-01 .text-area:focused {
+    -fx-border-color: var(--color-neon-yellow);
+    -fx-border-width: var(--border-width-base);
+    -fx-effect: dropshadow(gaussian, var(--color-neon-yellow), 6, 0.4, 0, 0);
+}
+
+.eva-01 .text-field .prompt-text,
+.eva-01 .text-area .prompt-text {
+    -fx-fill: var(--text-muted);
+}
+
+/* ========================================
+ * LISTAS Y ELEMENTOS DE NAVEGACIÓN
+ * ======================================== */
+
+/* Panel de estructura EPUB */
+.eva-01 .eva-epub-structure {
+    -fx-background-color: var(--bg-secondary);
+    -fx-border-color: var(--border-primary);
+    -fx-border-width: 0 var(--border-width-thin) 0 0;
+    -fx-padding: var(--spacing-base);
+}
+
+.eva-01 .eva-epub-title {
+    -fx-text-fill: var(--color-neon-yellow);
+    -fx-font-family: var(--font-family-heading);
+    -fx-font-size: var(--font-size-lg);
+    -fx-font-weight: bold;
+}
+
+/* Lista de contenidos */
+.eva-01 .list-view {
+    -fx-background-color: var(--bg-secondary);
+    -fx-border-color: var(--border-primary);
+    -fx-border-width: var(--border-width-thin);
+    -fx-border-radius: var(--border-radius-sm);
+    -fx-background-radius: var(--border-radius-sm);
+}
+
+.eva-01 .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: var(--text-primary);
+    -fx-font-family: var(--font-family-primary);
+    -fx-font-size: var(--font-size-sm);
+    -fx-padding: var(--spacing-sm);
+    -fx-border-width: 0;
+}
+
+.eva-01 .list-cell:hover {
+    -fx-background-color: var(--color-primary-light);
+    -fx-text-fill: var(--color-neon-yellow);
+}
+
+.eva-01 .list-cell:selected {
+    -fx-background-color: var(--color-primary);
+    -fx-text-fill: var(--color-neon-yellow);
+    -fx-effect: var(--shadow-accent);
+}
+
+/* Celda especial para agregar capítulos */
+.eva-01 .list-cell.add-chapter-cell {
+    -fx-text-fill: var(--color-neon-green);
+    -fx-font-weight: bold;
+}
+
+.eva-01 .list-cell.add-chapter-cell:hover {
+    -fx-background-color: rgba(122, 201, 67, 0.15);
+    -fx-text-fill: var(--color-neon-green);
+    -fx-effect: var(--shadow-neon-green);
+}
+
+/* ========================================
+ * BARRAS DE DESPLAZAMIENTO
+ * ======================================== */
+
+.eva-01 .scroll-bar:vertical .thumb {
+    -fx-background-color: var(--color-accent);
+    -fx-background-radius: var(--border-radius-base);
+}
+
+.eva-01 .scroll-bar:vertical .track {
+    -fx-background-color: var(--bg-tertiary);
+    -fx-background-radius: var(--border-radius-base);
+}
+
+.eva-01 .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: var(--color-accent-hover);
+}
+
+/* ========================================
+ * PANELES ESPECÍFICOS
+ * ======================================== */
+
+/* Panel de edición de portada */
+.eva-01 .cover-panel {
+    -fx-background-color: var(--bg-secondary);
+    -fx-padding: var(--spacing-xl);
+}
+
+.eva-01 .eva-cover-title {
+    -fx-text-fill: var(--color-neon-yellow);
+    -fx-font-family: var(--font-family-heading);
+    -fx-font-size: var(--font-size-xxl);
+    -fx-font-weight: bold;
+}
+
+.eva-01 .eva-cover-label {
+    -fx-text-fill: var(--text-primary);
+    -fx-font-family: var(--font-family-primary);
+    -fx-font-size: var(--font-size-base);
+    -fx-font-weight: bold;
+}
+
+.eva-01 .eva-cover-drop-label {
+    -fx-text-fill: var(--text-secondary);
+    -fx-font-family: var(--font-family-primary);
+    -fx-font-size: var(--font-size-sm);
+}
+
+.eva-01 .eva-cover-upload-btn,
+.eva-01 .eva-cover-set-btn {
+    -fx-background-color: var(--color-primary);
+    -fx-text-fill: var(--color-neon-yellow);
+    -fx-font-family: var(--font-family-primary);
+    -fx-font-weight: bold;
+    -fx-border-color: var(--color-accent);
+    -fx-border-width: var(--border-width-thin);
+    -fx-border-radius: var(--border-radius-sm);
+    -fx-background-radius: var(--border-radius-sm);
+    -fx-padding: var(--spacing-base) var(--spacing-lg);
+}
+
+.eva-01 .eva-cover-upload-btn:hover,
+.eva-01 .eva-cover-set-btn:hover {
+    -fx-background-color: var(--color-accent);
+    -fx-text-fill: var(--text-inverse);
+    -fx-effect: var(--shadow-primary);
+}
+
+.eva-01 .eva-cover-title-field {
+    -fx-background-color: var(--bg-secondary);
+    -fx-text-fill: var(--text-primary);
+    -fx-font-family: var(--font-family-primary);
+    -fx-font-size: var(--font-size-lg);
+    -fx-border-color: var(--border-primary);
+    -fx-border-width: var(--border-width-base);
+    -fx-border-radius: var(--border-radius-sm);
+    -fx-background-radius: var(--border-radius-sm);
+    -fx-padding: var(--spacing-base);
+}
+
+.eva-01 .eva-cover-image {
+    -fx-effect: var(--shadow-primary);
+}
+
+/* Panel de vista seleccionada */
+.eva-01 .eva-epub-selected {
+    -fx-text-fill: var(--text-secondary);
+    -fx-font-family: var(--font-family-primary);
+    -fx-font-size: var(--font-size-sm);
+    -fx-font-style: italic;
+}
+
+/* Botón para agregar capítulos */
+.eva-01 .eva-add-chapter-btn {
+    -fx-background-color: var(--color-neon-green);
+    -fx-text-fill: var(--text-inverse);
+    -fx-font-family: var(--font-family-primary);
+    -fx-font-weight: bold;
+    -fx-border-color: transparent;
+    -fx-border-radius: var(--border-radius-sm);
+    -fx-background-radius: var(--border-radius-sm);
+    -fx-padding: var(--spacing-sm) var(--spacing-base);
+    -fx-cursor: hand;
+}
+
+.eva-01 .eva-add-chapter-btn:hover {
+    -fx-background-color: #8fd451;
+    -fx-effect: var(--shadow-neon-green);
+}
+
+/* ========================================
+ * VISOR WEB PARA PREVIEW
+ * ======================================== */
+
+.eva-01 .web-view {
+    -fx-background-color: var(--bg-secondary);
+    -fx-border-color: var(--border-primary);
+    -fx-border-width: var(--border-width-thin);
+    -fx-border-radius: var(--border-radius-sm);
+    -fx-background-radius: var(--border-radius-sm);
+}
+
+/* Forzar fondo oscuro en el contenido web */
+.eva-01 .web-view .content {
+    -fx-background-color: var(--bg-secondary) !important;
+}
+
+/* ========================================
+ * PANELES DIVIDIDOS (SplitPane)
+ * ======================================== */
+
+.eva-01 .split-pane {
+    -fx-background-color: var(--bg-primary);
+}
+
+.eva-01 .split-pane .split-pane-divider {
+    -fx-background-color: var(--border-primary);
+    -fx-padding: 0 2px 0 2px;
+}
+
+/* Forzar fondos en paneles divididos */
+.eva-01 .split-pane > * {
+    -fx-background-color: var(--bg-secondary) !important;
+}
+
+/* ========================================
+ * ELEMENTOS DE PANELES ESPECÍFICOS
+ * ======================================== */
+
+/* Paneles de editor, preview, etc. */
+.eva-01 .editor-panel,
+.eva-01 .preview-panel,
+.eva-01 .chapter-panel {
+    -fx-background-color: var(--bg-secondary);
+}
+
+/* Panel izquierdo en vista dividida */
+.eva-01 .left-panel {
+    -fx-background-color: var(--bg-secondary);
+}
