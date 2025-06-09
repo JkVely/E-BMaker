@@ -1,33 +1,42 @@
 package io.github.giosreina.ModelViewViewModel.OpenLogic.EpubUnzipped;
 
 import java.util.List;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.*;
+import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 public class EpubExtractor {
-    public static void ReadZip(ZipFile file) {
+    public static Map<String, List<String>> FindHtmlAndXhtml(ZipFile file) {
+        Map<String, List<String>> HtmlAndXhtmlContent = new HashMap<>();
+
         try {
-            ZipFile zipFile = file;
-            List<String> fileNames = new ArrayList<>();
-            for (java.util.Enumeration<? extends ZipEntry> e = zipFile.entries(); e.hasMoreElements(); ) {
-                ZipEntry entry = e.nextElement();
-                if (!entry.isDirectory()) {
-                    fileNames.add(entry.getName());
+            java.util.Enumeration<? extends ZipEntry> entries = file.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                String name = entry.getName();
+                if (name.endsWith(".html") || name.endsWith(".xhtml")) {
+                    List<String> content = ReadFileFromZip(file, entry);
+                    HtmlAndXhtmlContent.put(name, content);
                 }
             }
-            zipFile.close();
-            for(String fileName : fileNames) {
-                System.out.println("Archivo: " + fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return HtmlAndXhtmlContent;
+    }
+    public static List<String> ReadFileFromZip(ZipFile file, ZipEntry entry) {
+        List<String> content = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(file.getInputStream(entry)))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.add(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return content;
     }
 }
