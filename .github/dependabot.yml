@@ -8,7 +8,7 @@ updates:
   - package-ecosystem: "maven"
     directory: "/e-bmaker"
     schedule:
-      interval: "weekly" # Frecuencia con la que Dependabot buscará actualizaciones (semanalmente)
+      interval: "monthly" # Frecuencia con la que Dependabot buscará actualizaciones (semanalmente)
 
     labels:
       - "dependencies" # Añade una etiqueta a los PRs de Dependabot
