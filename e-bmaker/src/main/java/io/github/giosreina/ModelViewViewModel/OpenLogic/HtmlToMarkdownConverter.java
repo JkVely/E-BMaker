@@ -4,10 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class HtmlToMarkdownConverter {
-    /**
-     * Convierte texto Markdown básico a HTML.
-     * Soporta: **negrita**, _cursiva_, # títulos, listas y saltos de línea.
-     */
     public static List<String> convert(List<String> html) {
         List<String> markdown = new ArrayList<>();
         for(String linehtml: html) {

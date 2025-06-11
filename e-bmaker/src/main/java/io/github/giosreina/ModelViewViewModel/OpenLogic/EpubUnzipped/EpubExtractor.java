@@ -9,10 +9,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class EpubExtractor {
-    public static Map<String, List<String>> FindHtmlAndXhtml(ZipFile file) {
+    public static Map<String, List<String>> FindHtmlAndXhtml(String fileDirectory) {
         Map<String, List<String>> HtmlAndXhtmlContent = new HashMap<>();
 
         try {
+            ZipFile file = new ZipFile(fileDirectory);
             java.util.Enumeration<? extends ZipEntry> entries = file.entries();
             while (entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();

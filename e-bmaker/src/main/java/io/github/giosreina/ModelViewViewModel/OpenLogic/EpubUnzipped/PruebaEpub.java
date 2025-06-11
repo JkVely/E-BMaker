@@ -5,10 +5,7 @@ import java.util.*;
 public class PruebaEpub {
     public static void main(String[] args) {
         try {
-            // Asegúrate de que el archivo ZIP exista en la ruta especificada
-            ZipFile file = new ZipFile("C:\\Users\\ASUS\\Documents\\htmlsDePrueba.zip");
-            System.out.println("El archivo existe: " + file);
-            Map<String, List<String>> htmlAndXhtmlContent = EpubExtractor.FindHtmlAndXhtml(file);
+            Map<String, List<String>> htmlAndXhtmlContent = EpubExtractor.FindHtmlAndXhtml("C:\\Users\\ASUS\\Documents\\htmlsDePrueba.zip");
 
             
             for(List<String> content : htmlAndXhtmlContent.values()) {
