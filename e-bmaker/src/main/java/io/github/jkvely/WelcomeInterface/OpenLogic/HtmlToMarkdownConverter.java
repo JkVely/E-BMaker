@@ -1,4 +1,4 @@
-package io.github.giosreina.WelcomeInterface.OpenLogic;
+package io.github.jkvely.WelcomeInterface.OpenLogic;
 
 import java.util.List;
 import java.util.ArrayList;

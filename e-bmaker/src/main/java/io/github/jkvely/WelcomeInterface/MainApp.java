@@ -1,4 +1,4 @@
-package io.github.giosreina.WelcomeInterface;
+package io.github.jkvely.WelcomeInterface;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

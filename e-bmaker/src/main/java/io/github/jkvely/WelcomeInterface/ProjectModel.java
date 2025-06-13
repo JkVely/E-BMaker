@@ -1,4 +1,4 @@
-package io.github.giosreina.WelcomeInterface;
+package io.github.jkvely.WelcomeInterface;
 
 public class ProjectModel {
     
