@@ -1,4 +1,4 @@
-package io.github.giosreina.ModelViewViewModel.OpenLogic;
+package io.github.giosreina.WelcomeInterface.OpenLogic;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;

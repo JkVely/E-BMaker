@@ -1,4 +1,4 @@
-package io.github.giosreina.ModelViewViewModel;
+package io.github.giosreina.WelcomeInterface;
 
 public class ProjectModel {
     

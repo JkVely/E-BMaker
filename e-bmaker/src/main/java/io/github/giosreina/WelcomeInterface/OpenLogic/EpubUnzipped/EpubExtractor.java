@@ -1,4 +1,4 @@
-package io.github.giosreina.ModelViewViewModel.OpenLogic.EpubUnzipped;
+package io.github.giosreina.WelcomeInterface.OpenLogic.EpubUnzipped;
 
 import java.util.List;
 import java.util.HashMap;

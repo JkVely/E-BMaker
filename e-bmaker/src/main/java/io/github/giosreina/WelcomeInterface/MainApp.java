@@ -1,4 +1,4 @@
-package io.github.giosreina.ModelViewViewModel;
+package io.github.giosreina.WelcomeInterface;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
