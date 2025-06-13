@@ -6,6 +6,10 @@ import java.util.Map;
 import java.util.zip.*;
 import java.util.ArrayList;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class EpubExtractor {
@@ -27,6 +31,26 @@ public class EpubExtractor {
             e.printStackTrace();
         }
         return HtmlAndXhtmlContent;
+    }
+    public static Map<String, byte[]> extractImages(String epubFile) throws IOException {
+        Map<String, byte[]> imageMap = new HashMap<>();
+
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(epubFile))) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                // Filtrar solo archivos de imagen
+                if (entry.getName().toLowerCase().matches(".*\\.(jpg|jpeg|png|gif|svg)$")) {
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[1024];
+                    int len;
+                    while ((len = zis.read(buffer)) > 0) {
+                        baos.write(buffer, 0, len);
+                    }
+                    imageMap.put(new File(entry.getName()).getName(), baos.toByteArray());
+                }
+            }
+        }
+        return imageMap;
     }
     public static List<String> ReadFileFromZip(ZipFile file, ZipEntry entry) {
         List<String> content = new ArrayList<>();
