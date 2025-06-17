@@ -9,15 +9,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import io.github.jkvely.viewmodel.ProjectManagerViewModel;
+import io.github.jkvely.viewmodel.InterfaceViewModel;
 
-public class ProjectManagerView {
+public class InterfaceView {
     
     private VBox root;
-    private ProjectManagerViewModel viewModel;
+    private InterfaceViewModel viewModel;
     
-    public ProjectManagerView() {
-        viewModel = new ProjectManagerViewModel();
+    public InterfaceView() {
+        viewModel = new InterfaceViewModel();
         initializeView();
         bindEvents();
     }

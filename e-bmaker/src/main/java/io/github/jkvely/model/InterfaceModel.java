@@ -1,12 +1,12 @@
 package io.github.jkvely.model;
 
-public class ProjectModel {
+public class InterfaceModel {
     
     private String lastAction;
     private String projectName;
     private String projectPath;
     
-    public ProjectModel() {
+    public InterfaceModel() {
         this.lastAction = "";
         this.projectName = "";
         this.projectPath = "";

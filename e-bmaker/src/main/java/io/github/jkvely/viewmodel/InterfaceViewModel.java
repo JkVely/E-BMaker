@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.print.DocFlavor.URL;
 
-import io.github.jkvely.model.ProjectModel;
+import io.github.jkvely.model.InterfaceModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,14 +12,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class ProjectManagerViewModel {
+public class InterfaceViewModel {
     
     private Button createProjectButton;
     private Button openProjectButton;
-    private ProjectModel model;
+    private InterfaceModel model;
     
-    public ProjectManagerViewModel() {
-        model = new ProjectModel();
+    public InterfaceViewModel() {
+        model = new InterfaceModel();
     }
     
     // Getters y Setters para los botones

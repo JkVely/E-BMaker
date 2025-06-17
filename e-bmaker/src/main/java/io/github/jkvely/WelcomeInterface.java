@@ -1,6 +1,6 @@
 package io.github.jkvely;
 
-import io.github.jkvely.view.ProjectManagerView;
+import io.github.jkvely.view.InterfaceView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,7 +11,7 @@ public class WelcomeInterface extends Application {
     public void start(Stage primaryStage) {
         try {
             // Crear la vista
-            ProjectManagerView view = new ProjectManagerView();
+            InterfaceView view = new InterfaceView();
             
             // Crear la escena
             Scene scene = new Scene(view.getRoot(), 600, 400);
