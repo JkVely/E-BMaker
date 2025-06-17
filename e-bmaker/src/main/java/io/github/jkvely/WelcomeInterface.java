@@ -1,11 +1,11 @@
 package io.github.jkvely;
 
-import io.github.jkvely.WelcomeInterface.ProjectManagerView;
+import io.github.jkvely.view.ProjectManagerView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Interface extends Application {
+public class WelcomeInterface extends Application {
     
     @Override
     public void start(Stage primaryStage) {

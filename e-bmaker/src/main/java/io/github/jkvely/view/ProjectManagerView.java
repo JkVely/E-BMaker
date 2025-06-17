@@ -1,4 +1,4 @@
-package io.github.jkvely.WelcomeInterface;
+package io.github.jkvely.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
