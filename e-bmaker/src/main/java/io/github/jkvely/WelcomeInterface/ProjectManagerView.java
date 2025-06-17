@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import io.github.jkvely.viewmodel.ProjectManagerViewModel;
 
 public class ProjectManagerView {
     

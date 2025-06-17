@@ -242,7 +242,7 @@ public class MainMenuController {
 
     private void updateWindowTitle() {
         String bookTitle = (currentBook != null && currentBook.getTitle() != null && !currentBook.getTitle().isEmpty()) ? currentBook.getTitle() : "Sin título";
-        javafx.stage.Stage stage = io.github.jkvely.MainApp.getPrimaryStage();
+        javafx.stage.Stage stage = io.github.jkvely.Editor.getPrimaryStage();
         if (stage != null) {
             stage.setTitle("E-BMaker | " + bookTitle + " (Editando)");
         }

@@ -66,7 +66,7 @@ public class CoverPanelController {
 
     private void updateWindowTitle() {
         String bookTitle = (book != null && book.getTitle() != null && !book.getTitle().isEmpty()) ? book.getTitle() : "Sin título";
-        javafx.stage.Stage stage = io.github.jkvely.MainApp.getPrimaryStage();
+        javafx.stage.Stage stage = io.github.jkvely.Editor.getPrimaryStage();
         if (stage != null) {
             stage.setTitle("E-BMaker | " + bookTitle + " (Editando)");
         }

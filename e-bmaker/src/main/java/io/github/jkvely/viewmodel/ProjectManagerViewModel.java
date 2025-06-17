@@ -1,9 +1,10 @@
-package io.github.jkvely.WelcomeInterface;
+package io.github.jkvely.viewmodel;
 
 import java.io.IOException;
 
 import javax.print.DocFlavor.URL;
 
+import io.github.jkvely.model.ProjectModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
