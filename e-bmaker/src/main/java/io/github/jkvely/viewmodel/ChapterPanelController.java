@@ -1,4 +1,4 @@
-package io.github.jkvely.controller;
+package io.github.jkvely.viewmodel;
 
 import io.github.jkvely.model.Classes.EpubChapter;
 import io.github.jkvely.util.MarkdownToHtmlConverter;

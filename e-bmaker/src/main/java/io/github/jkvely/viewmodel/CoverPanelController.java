@@ -1,4 +1,4 @@
-package io.github.jkvely.controller;
+package io.github.jkvely.viewmodel;
 
 import java.io.File;
 
