@@ -1,6 +1,6 @@
 package io.github.jkvely.controller;
 
-import io.github.jkvely.model.EpubChapter;
+import io.github.jkvely.model.Classes.EpubChapter;
 import io.github.jkvely.util.MarkdownToHtmlConverter;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;

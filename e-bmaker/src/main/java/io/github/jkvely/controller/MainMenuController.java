@@ -1,7 +1,7 @@
 package io.github.jkvely.controller;
 
-import io.github.jkvely.model.EpubBook;
-import io.github.jkvely.model.EpubChapter;
+import io.github.jkvely.model.Classes.EpubBook;
+import io.github.jkvely.model.Classes.EpubChapter;
 import io.github.jkvely.viewmodel.MainMenuViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

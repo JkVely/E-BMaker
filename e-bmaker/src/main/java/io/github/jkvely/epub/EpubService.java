@@ -1,7 +1,8 @@
 package io.github.jkvely.epub;
 
-import io.github.jkvely.model.EpubBook;
 import java.io.File;
+
+import io.github.jkvely.model.Classes.EpubBook;
 
 /**
  * EpubService provides methods to load and save EPUB files.
