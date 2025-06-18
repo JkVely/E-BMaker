@@ -70,12 +70,8 @@ public class InterfaceViewModel {
 
     
     public void handleOpenProject() {
-        // Actualizar el modelo
-        model.setLastAction("Abrir Proyecto");
         
-        // Mostrar mensaje (simulación sin backend)
-        showInfoAlert("Abrir Proyecto", "Funcionalidad para abrir un proyecto existente.\n\nEsta acción abriría un explorador de archivos para seleccionar un proyecto.");
-    }
+        }
     
     private void showInfoAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
