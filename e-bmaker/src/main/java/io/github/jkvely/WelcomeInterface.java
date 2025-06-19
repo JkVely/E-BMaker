@@ -24,7 +24,7 @@ public class WelcomeInterface extends Application {
             primaryStage.show();
             
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error al iniciar la aplicación: " + e.getMessage());
         }
     }
     
