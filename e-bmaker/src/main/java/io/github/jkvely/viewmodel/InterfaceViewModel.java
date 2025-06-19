@@ -2,8 +2,7 @@ package io.github.jkvely.viewmodel;
 
 import java.io.IOException;
 
-import javax.print.DocFlavor.URL;
-
+import io.github.jkvely.OpenLogic.Opener;
 import io.github.jkvely.model.InterfaceModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+
 
 public class InterfaceViewModel {
     
@@ -69,9 +69,21 @@ public class InterfaceViewModel {
     }
 
     
-    public void handleOpenProject() {
-        
+    public void handleOpenProject(){
+        model.setLastAction("Crear Proyecto");
+
+        Stage currentStage = (Stage) openProjectButton.getScene().getWindow();
+        currentStage.close();
+
+        try {
+            Opener.getRuta();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showInfoAlert("Error", "No se pudo cargar la interfaz del otro proyecto.");
         }
+    }
     
     private void showInfoAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
