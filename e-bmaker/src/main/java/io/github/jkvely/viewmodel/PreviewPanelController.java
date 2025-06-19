@@ -16,6 +16,7 @@ public class PreviewPanelController {
     @FXML
     public void initialize() {
         // Inicialización del controlador
+        previewWebView.getStyleClass().add("eva-preview-web");
     }
     
     /**
