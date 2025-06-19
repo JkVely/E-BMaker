@@ -1,6 +1,6 @@
-package io.github.jkvely.controller;
+package io.github.jkvely.viewmodel;
 
-import io.github.jkvely.model.EpubChapter;
+import io.github.jkvely.model.Classes.EpubChapter;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;

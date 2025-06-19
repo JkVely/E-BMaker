@@ -8,32 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- * Clase principal de la aplicación E-BMaker.
- * 
- * E-BMaker es un editor de libros EPUB de código abierto diseñado para ser
- * intuitivo y accesible para usuarios no técnicos. La aplicación permite
- * crear, editar y exportar libros en formato EPUB de manera sencilla.
- * 
- * CARACTERÍSTICAS PRINCIPALES:
- * - Editor de texto enriquecido con vista previa en tiempo real
- * - Gestión visual de capítulos y estructura del libro
- * - Dos temas inspirados en Evangelion (EVA-00 claro y EVA-01 oscuro)
- * - Interfaz intuitiva diseñada para escritores no programadores
- * - Exportación directa a formato EPUB estándar
- * 
- * TECNOLOGÍAS UTILIZADAS:
- * - JavaFX para la interfaz gráfica de usuario
- * - Patrón MVVM para separación de responsabilidades
- * - CSS personalizado para temas visuales
- * - Arquitectura modular para fácil mantenimiento
- * 
- * @author Equipo E-BMaker
- * @version 1.0
- * @since JavaFX 8
- */
-public class MainApp extends Application {
 
+public class Editor extends Application {
     /** Referencia estática a la ventana principal para acceso global */
     private static Stage primaryStage;
 

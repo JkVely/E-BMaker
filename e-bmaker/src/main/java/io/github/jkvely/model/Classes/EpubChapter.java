@@ -1,4 +1,4 @@
-package io.github.jkvely.model;
+package io.github.jkvely.model.Classes;
 
 import java.util.List;
 

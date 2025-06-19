@@ -1,8 +1,8 @@
-package io.github.jkvely.controller;
+package io.github.jkvely.viewmodel;
 
 import java.io.File;
 
-import io.github.jkvely.model.EpubBook;
+import io.github.jkvely.model.Classes.EpubBook;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -19,7 +19,7 @@ public class CoverPanelController {
     @FXML private HBox root;
 
     private EpubBook book;
-    private io.github.jkvely.model.EpubCover epubCover;
+    private io.github.jkvely.model.Classes.EpubCover epubCover;
 
     @FXML
     public void initialize() {
@@ -47,16 +47,16 @@ public class CoverPanelController {
     private void saveCoverInfo() {
         String title = bookTitleField.getText();
         java.io.File file = (java.io.File) coverImageView.getUserData();
-        io.github.jkvely.model.Image img = null;
+        io.github.jkvely.model.Classes.Image img = null;
         if (file != null && file.exists()) {
             try {
                 byte[] data = java.nio.file.Files.readAllBytes(file.toPath());
-                img = new io.github.jkvely.model.Image(file.getName(), "image/jpeg", data, "cover");
+                img = new io.github.jkvely.model.Classes.Image(file.getName(), "image/jpeg", data, "cover");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
-        epubCover = new io.github.jkvely.model.EpubCover(title, java.util.Collections.emptyList(), img);
+        epubCover = new io.github.jkvely.model.Classes.EpubCover(title, java.util.Collections.emptyList(), img);
         // Sincroniza la info del libro con la de la portada
         if (book != null) {
             book.setTitle(title);
@@ -66,7 +66,7 @@ public class CoverPanelController {
 
     private void updateWindowTitle() {
         String bookTitle = (book != null && book.getTitle() != null && !book.getTitle().isEmpty()) ? book.getTitle() : "Sin título";
-        javafx.stage.Stage stage = io.github.jkvely.MainApp.getPrimaryStage();
+        javafx.stage.Stage stage = io.github.jkvely.Editor.getPrimaryStage();
         if (stage != null) {
             stage.setTitle("E-BMaker | " + bookTitle + " (Editando)");
         }

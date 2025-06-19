@@ -1,7 +1,7 @@
-package io.github.jkvely.controller;
+package io.github.jkvely.viewmodel;
 
-import io.github.jkvely.model.EpubBook;
-import io.github.jkvely.model.EpubChapter;
+import io.github.jkvely.model.Classes.EpubBook;
+import io.github.jkvely.model.Classes.EpubChapter;
 import io.github.jkvely.viewmodel.MainMenuViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -250,7 +250,7 @@ public class MainMenuController {
         bookStructureItems.add("➕ Nuevo capítulo");
     }    private void updateWindowTitle() {
         String bookTitle = (currentBook != null && currentBook.getTitle() != null && !currentBook.getTitle().isEmpty()) ? currentBook.getTitle() : "Sin título";
-        javafx.stage.Stage stage = io.github.jkvely.MainApp.getPrimaryStage();
+        javafx.stage.Stage stage = io.github.jkvely.Editor.getPrimaryStage();
         if (stage != null) {
             stage.setTitle("E-BMaker | " + bookTitle + " (Editando)");
         }
