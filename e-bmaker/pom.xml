@@ -31,12 +31,18 @@
                 <role>Project Lead</role>
             </roles>
         </developer>
-        <!-- TODO: Add the other Names-->
+        <developer>
+            <id>Giosreina</id>
+            <name>Giovanny Sierra Reina </name>
+            <roles>
+                <role>Contributor</role>
+            </roles>
+        </developer>
     </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>io.github.jkvely.MainApp</mainClass>
+        <mainClass>io.github.jkvely.WelcomeInterface</mainClass>
         <javafx.version>21.0.2</javafx.version>
         <java.version>21</java.version>
         <ikonli.version>12.4.0</ikonli.version>

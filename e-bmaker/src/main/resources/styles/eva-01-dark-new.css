@@ -1,0 +1,706 @@
+/**
+ * TEMA EVA-01 (TEMA OSCURO)
+ * Editor de EPUB E-BMaker
+ * 
+ * Inspirado en la Unidad Evangelion 01 de Shinji Ikari, este tema utiliza
+ * una paleta de colores oscura con morados profundos y verdes neón,
+ * creando una experiencia visual futurista e inmersiva.
+ * 
+ * PALETA DE COLORES EVA-01:
+ * ╭─────────────────────────────────────────────────────────────╮
+ * │ Colores Primarios:                                          │
+ * │  • Negro base: #181820 (Fondo principal)                   │
+ * │  • Gris oscuro: #232336 (Fondos elevados)                  │
+ * │  • Morado: #3a3e6e (Color primario)                       │
+ * │  • Morado claro: #965fd4 (Color de acento)                │
+ * │                                                             │
+ * │ Neones:                                                     │
+ * │  • Verde neón: #7ac943 (Éxito y elementos destacados)     │
+ * │  • Amarillo neón: #fcee21 (Advertencias y elementos activos) │
+ * │  • Rosa neón: #ff6b9d (Errores y elementos de peligro)    │
+ * │                                                             │
+ * │ Textos:                                                     │
+ * │  • Blanco: #e0e0e0 (Texto principal)                      │
+ * │  • Gris claro: #adb5bd (Texto secundario)                 │
+ * │  • Gris medio: #6c757d (Texto deshabilitado)              │
+ * │                                                             │
+ * │ Fondos:                                                     │
+ * │  • Negro profundo: #0d0d15 (Fondo base)                   │
+ * │  • Gris oscuro: #1a1a28 (Fondos secundarios)              │
+ * │  • Gris medio: #25253a (Fondos elevados)                  │
+ * ╰─────────────────────────────────────────────────────────────╯
+ * 
+ * FILOSOFÍA DE DISEÑO:
+ * Este tema busca crear una experiencia inmersiva para sesiones nocturnas
+ * de escritura, reduciendo la fatiga ocular con colores oscuros mientras
+ * mantiene elementos vibrantes que guían la atención del usuario.
+ * 
+ * ACCESIBILIDAD:
+ * - Contraste optimizado para pantallas en entornos oscuros
+ * - Colores neón utilizados estratégicamente para no causar fatiga
+ * - Elementos interactivos claramente diferenciados
+ * - Enfoque visual prominente para navegación por teclado
+ */
+
+/* ========================================
+ * CLASE RAÍZ DEL TEMA OSCURO
+ * ======================================== */
+.eva-01 {
+    /* ===== COLORES DE FONDO ===== */
+    -fx-bg-primary: #181820;
+    -fx-bg-secondary: #232336;
+    -fx-bg-tertiary: #2c2d47;
+    -fx-bg-elevated: #25253a;
+    -fx-bg-hover: #2d2e48;
+    -fx-bg-active: #3a3e6e;
+    
+    /* ===== COLORES DE TEXTO ===== */
+    -fx-text-primary: #e0e0e0;
+    -fx-text-secondary: #adb5bd;
+    -fx-text-muted: #6c757d;
+    -fx-text-inverse: #181820;
+    -fx-text-disabled: #495057;
+    
+    /* ===== COLORES DE MARCA (EVA-01) ===== */
+    -fx-eva-primary: #3a3e6e;
+    -fx-eva-primary-hover: #4a4e7e;
+    -fx-eva-primary-light: rgba(58, 62, 110, 0.25);
+    -fx-eva-primary-dark: #2a2e5e;
+    
+    -fx-eva-accent: #965fd4;
+    -fx-eva-accent-hover: #a66ee4;
+    -fx-eva-accent-light: rgba(150, 95, 212, 0.25);
+    -fx-eva-accent-dark: #7d4bc4;
+    
+    /* ===== COLORES NEÓN (CARACTERÍSTICOS DE EVA-01) ===== */
+    -fx-eva-neon-green: #7ac943;
+    -fx-eva-neon-green-light: rgba(122, 201, 67, 0.25);
+    -fx-eva-neon-yellow: #fcee21;
+    -fx-eva-neon-yellow-light: rgba(252, 238, 33, 0.25);
+    -fx-eva-neon-pink: #ff6b9d;
+    -fx-eva-neon-pink-light: rgba(255, 107, 157, 0.25);
+    
+    /* ===== COLORES DE ESTADO ===== */
+    -fx-eva-success: #7ac943;
+    -fx-eva-success-light: rgba(122, 201, 67, 0.2);
+    -fx-eva-warning: #fcee21;
+    -fx-eva-warning-light: rgba(252, 238, 33, 0.2);
+    -fx-eva-error: #ff6b9d;
+    -fx-eva-error-light: rgba(255, 107, 157, 0.2);
+    -fx-eva-info: #965fd4;
+    -fx-eva-info-light: rgba(150, 95, 212, 0.2);
+    
+    /* ===== COLORES DE BORDE ===== */
+    -fx-border-primary: #3a3e52;
+    -fx-border-secondary: #2c2d47;
+    -fx-border-focus: #965fd4;
+    -fx-border-error: #ff6b9d;
+    -fx-border-success: #7ac943;
+}
+
+/* ========================================
+ * COMPONENTES BASE
+ * ======================================== */
+
+/* ----- CONTENEDOR PRINCIPAL ----- */
+.eva-01 .root {
+    -fx-background-color: -fx-bg-primary;
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-family: "Segoe UI", "Inter", "Roboto", "Arial", sans-serif;
+    -fx-font-size: 14px;
+}
+
+/* ----- PANELES Y CONTENEDORES ----- */
+.eva-01 .border-pane,
+.eva-01 .vbox,
+.eva-01 .hbox,
+.eva-01 .stack-pane {
+    -fx-background-color: -fx-bg-primary;
+}
+
+/* Asegurar que todos los contenedores principales tengan el fondo correcto */
+.eva-01 BorderPane,
+.eva-01 VBox,
+.eva-01 HBox,
+.eva-01 StackPane,
+.eva-01 Pane {
+    -fx-background-color: -fx-bg-primary;
+}
+
+.eva-01 .content-panel {
+    -fx-background-color: -fx-bg-primary;
+    -fx-border-color: -fx-border-primary;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 16px;
+}
+
+.eva-01 .elevated-panel {
+    -fx-background-color: -fx-bg-elevated;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 8, 0.5, 0, 4);
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-border-color: -fx-border-primary;
+    -fx-border-width: 1px;
+}
+
+/* ========================================
+ * BARRA DE MENÚ Y HERRAMIENTAS
+ * ======================================== */
+
+/* ----- BARRA DE MENÚ ----- */
+.eva-01 .menu-bar {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-border-color: transparent transparent -fx-border-primary transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 4px 8px;
+}
+
+.eva-01 .menu-bar .menu {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-primary;
+    -fx-padding: 8px 12px;
+    -fx-background-radius: 4px;
+}
+
+.eva-01 .menu-bar .menu:hover {
+    -fx-background-color: -fx-bg-hover;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 2, 0.3, 0, 0);
+}
+
+.eva-01 .menu-bar .menu:showing {
+    -fx-background-color: -fx-eva-accent-light;
+    -fx-text-fill: -fx-eva-accent;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 4, 0.5, 0, 0);
+}
+
+.eva-01 .menu-bar .menu .label {
+    -fx-text-fill: inherit;
+    -fx-font-size: 14px;
+}
+
+/* ----- MENÚS CONTEXTUALES ----- */
+.eva-01 .context-menu {
+    -fx-background-color: -fx-bg-elevated;
+    -fx-border-color: -fx-border-primary;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 12, 0.7, 0, 6);
+    -fx-padding: 4px 0;
+}
+
+.eva-01 .context-menu .menu-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-primary;
+    -fx-padding: 8px 16px;
+}
+
+.eva-01 .context-menu .menu-item:hover {
+    -fx-background-color: -fx-eva-accent-light;
+    -fx-text-fill: -fx-eva-accent;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 2, 0.5, 0, 0);
+}
+
+/* ----- BARRA DE HERRAMIENTAS ----- */
+.eva-01 .tool-bar {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-border-color: transparent transparent -fx-border-primary transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 8px 16px;
+    -fx-spacing: 8px;
+}
+
+/* ========================================
+ * BOTONES Y CONTROLES
+ * ======================================== */
+
+/* ----- BOTONES PRINCIPALES ----- */
+.eva-01 .button {
+    -fx-background-color: -fx-bg-elevated;
+    -fx-text-fill: -fx-text-primary;
+    -fx-border-color: -fx-border-primary;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0.5, 0, 2);
+}
+
+.eva-01 .button:hover {
+    -fx-background-color: -fx-bg-hover;
+    -fx-border-color: -fx-eva-accent;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 4, 0.6, 0, 0);
+}
+
+.eva-01 .button:pressed {
+    -fx-background-color: -fx-bg-active;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 2, 0.5, 0, 1);
+}
+
+/* ----- BOTONES PRIMARIOS ----- */
+.eva-01 .button.primary {
+    -fx-background-color: -fx-eva-primary;
+    -fx-text-fill: -fx-text-primary;
+    -fx-border-color: -fx-eva-primary;
+    -fx-effect: dropshadow(gaussian, -fx-eva-primary, 6, 0.5, 0, 0);
+}
+
+.eva-01 .button.primary:hover {
+    -fx-background-color: -fx-eva-primary-hover;
+    -fx-border-color: -fx-eva-primary-hover;
+    -fx-effect: dropshadow(gaussian, -fx-eva-primary, 8, 0.7, 0, 0);
+}
+
+/* ----- BOTONES DE ACENTO (NEÓN) ----- */
+.eva-01 .button.accent {
+    -fx-background-color: -fx-eva-accent;
+    -fx-text-fill: -fx-text-inverse;
+    -fx-border-color: -fx-eva-accent;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 8, 0.6, 0, 0);
+}
+
+.eva-01 .button.accent:hover {
+    -fx-background-color: -fx-eva-accent-hover;
+    -fx-border-color: -fx-eva-accent-hover;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 12, 0.8, 0, 0);
+}
+
+/* ----- BOTONES NEÓN VERDE ----- */
+.eva-01 .button.neon-green {
+    -fx-background-color: -fx-eva-neon-green;
+    -fx-text-fill: -fx-text-inverse;
+    -fx-border-color: -fx-eva-neon-green;
+    -fx-effect: dropshadow(gaussian, -fx-eva-neon-green, 8, 0.6, 0, 0);
+}
+
+.eva-01 .button.neon-green:hover {
+    -fx-effect: dropshadow(gaussian, -fx-eva-neon-green, 12, 0.8, 0, 0);
+}
+
+/* ----- BOTONES DE ALTERNANCIA (TOGGLE) ----- */
+.eva-01 .toggle-button {
+    -fx-background-color: -fx-bg-elevated;
+    -fx-text-fill: -fx-text-primary;
+    -fx-border-color: -fx-border-primary;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0.5, 0, 2);
+}
+
+.eva-01 .toggle-button:hover {
+    -fx-background-color: -fx-bg-hover;
+    -fx-border-color: -fx-eva-accent;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 4, 0.6, 0, 0);
+}
+
+.eva-01 .toggle-button:selected {
+    -fx-background-color: -fx-eva-accent;
+    -fx-text-fill: -fx-text-inverse;
+    -fx-border-color: -fx-eva-accent;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 8, 0.7, 0, 0);
+}
+
+/* ----- INTERRUPTOR DE TEMA ----- */
+.eva-01 .eva-theme-switch {
+    -fx-background-color: -fx-bg-tertiary;
+    -fx-border-color: -fx-border-secondary;
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-padding: 4px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 4, 0.5, 0, 2);
+}
+
+.eva-01 .eva-theme-switch:selected {
+    -fx-background-color: -fx-eva-accent-light;
+    -fx-border-color: -fx-eva-accent;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 6, 0.6, 0, 0);
+}
+
+.eva-01 .eva-theme-switch-icon {
+    -fx-fit-width: 24px;
+    -fx-fit-height: 24px;
+    -fx-preserve-ratio: true;
+}
+
+/* ========================================
+ * CAMPOS DE ENTRADA
+ * ======================================== */
+
+/* ----- CAMPOS DE TEXTO ----- */
+.eva-01 .text-field {
+    -fx-background-color: -fx-bg-elevated;
+    -fx-text-fill: -fx-text-primary;
+    -fx-border-color: -fx-border-primary;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px 12px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", "Inter", "Roboto", "Arial", sans-serif;
+}
+
+.eva-01 .text-field:focused {
+    -fx-border-color: -fx-eva-accent;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 6, 0.8, 0, 0);
+}
+
+.eva-01 .text-field:disabled {
+    -fx-background-color: -fx-bg-tertiary;
+    -fx-text-fill: -fx-text-disabled;
+    -fx-border-color: -fx-border-secondary;
+}
+
+/* ----- ÁREAS DE TEXTO ----- */
+.eva-01 .text-area {
+    -fx-background-color: -fx-bg-elevated;
+    -fx-text-fill: -fx-text-primary;
+    -fx-border-color: -fx-border-primary;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 12px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", "Inter", "Roboto", "Arial", sans-serif;
+}
+
+.eva-01 .text-area:focused {
+    -fx-border-color: -fx-eva-accent;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 6, 0.8, 0, 0);
+}
+
+.eva-01 .text-area .content {
+    -fx-background-color: transparent;
+}
+
+.eva-01 .text-area .scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* ========================================
+ * LISTAS Y NAVEGACIÓN
+ * ======================================== */
+
+/* ----- LISTAS PRINCIPALES ----- */
+.eva-01 .list-view {
+    -fx-background-color: -fx-bg-primary;
+    -fx-border-color: -fx-border-primary;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.eva-01 .list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-primary;
+    -fx-padding: 12px 16px;
+    -fx-border-color: transparent transparent -fx-border-secondary transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-font-size: 14px;
+}
+
+.eva-01 .list-view .list-cell:hover {
+    -fx-background-color: -fx-bg-hover;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 2, 0.3, 0, 0);
+}
+
+.eva-01 .list-view .list-cell:selected {
+    -fx-background-color: -fx-eva-accent-light;
+    -fx-text-fill: -fx-text-primary;
+    -fx-border-color: -fx-eva-accent;
+    -fx-border-width: 1px;
+    -fx-effect: null;
+}
+
+.eva-01 .list-view .list-cell:last-child {
+    -fx-border-width: 0;
+}
+
+/* ----- CELDA ESPECIAL PARA AGREGAR CAPÍTULOS ----- */
+.eva-01 .list-cell.add-chapter-cell {
+    -fx-text-fill: -fx-eva-neon-green;
+    -fx-font-weight: 600;
+    -fx-background-color: -fx-eva-neon-green-light;
+    -fx-border-color: transparent;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, -fx-eva-neon-green, 4, 0.5, 0, 0);
+}
+
+.eva-01 .list-cell.add-chapter-cell:hover {
+    -fx-background-color: -fx-eva-neon-green;
+    -fx-text-fill: -fx-text-inverse;
+    -fx-effect: dropshadow(gaussian, -fx-eva-neon-green, 8, 0.7, 0, 0);
+}
+
+/* ========================================
+ * BARRAS DE DESPLAZAMIENTO
+ * ======================================== */
+
+/* ----- BARRA DE DESPLAZAMIENTO VERTICAL ----- */
+.eva-01 .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-pref-width: 12px;
+}
+
+.eva-01 .scroll-bar:vertical .track {
+    -fx-background-color: -fx-bg-tertiary;
+    -fx-background-radius: 6px;
+    -fx-border-color: transparent;
+}
+
+.eva-01 .scroll-bar:vertical .thumb {
+    -fx-background-color: -fx-border-primary;
+    -fx-background-radius: 6px;
+    -fx-border-color: transparent;
+}
+
+.eva-01 .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: -fx-eva-accent;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 4, 0.6, 0, 0);
+}
+
+/* ----- BARRA DE DESPLAZAMIENTO HORIZONTAL ----- */
+.eva-01 .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-pref-height: 12px;
+}
+
+.eva-01 .scroll-bar:horizontal .track {
+    -fx-background-color: -fx-bg-terciario;
+    -fx-background-radius: 6px;
+    -fx-border-color: transparent;
+}
+
+.eva-01 .scroll-bar:horizontal .thumb {
+    -fx-background-color: -fx-border-primary;
+    -fx-background-radius: 6px;
+    -fx-border-color: transparent;
+}
+
+.eva-01 .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: -fx-eva-accent;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 4, 0.6, 0, 0);
+}
+
+/* ========================================
+ * COMPONENTES ESPECÍFICOS DE E-BMAKER
+ * ======================================== */
+
+/* ----- ESTRUCTURA DEL LIBRO EPUB ----- */
+.eva-01 .eva-book-structure {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-border-color: -fx-border-primary;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 8, 0.5, 0, 4);
+}
+
+.eva-01 .eva-book-structure .label {
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-padding: 0 0 12px 0;
+}
+
+/* ----- ETIQUETA DE SELECCIÓN ACTUAL ----- */
+.eva-01 .eva-selected-label {
+    -fx-background-color: -fx-eva-accent;
+    -fx-text-fill: -fx-text-inverse;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 8px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 6, 0.6, 0, 0);
+}
+
+/* ----- PANEL DE EDICIÓN DE PORTADA ----- */
+.eva-01 .eva-cover-panel {
+    -fx-background-color: -fx-bg-primary;
+    -fx-padding: 24px;
+    -fx-spacing: 16px;
+}
+
+.eva-01 .eva-cover-title {
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-size: 24px;
+    -fx-font-weight: 600;
+    -fx-padding: 0 0 16px 0;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 2, 0.3, 0, 0);
+}
+
+.eva-01 .eva-cover-label {
+    -fx-text-fill: -fx-text-secondary;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-padding: 8px 0 4px 0;
+}
+
+.eva-01 .eva-cover-image {
+    -fx-border-color: -fx-border-primary;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 12, 0.7, 0, 6);
+}
+
+/* ----- VISTA WEB (PREVIEW) ----- */
+.eva-01 .web-view {
+    -fx-background-color: -fx-bg-primary;
+    -fx-border-color: -fx-border-primary;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+/* ----- PANELES DIVIDIDOS (SPLIT PANE) ----- */
+.eva-01 .split-pane {
+    -fx-background-color: -fx-bg-primary;
+    -fx-border-color: transparent;
+}
+
+.eva-01 .split-pane .split-pane-divider {
+    -fx-background-color: -fx-border-primary;
+    -fx-padding: 0 2px 0 2px;
+    -fx-cursor: h_resize;
+}
+
+.eva-01 .split-pane .split-pane-divider:hover {
+    -fx-background-color: -fx-eva-accent;
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 4, 0.6, 0, 0);
+}
+
+.eva-01 .split-pane:horizontal .split-pane-divider {
+    -fx-cursor: v_resize;
+}
+
+/* ========================================
+ * ESTADOS Y RETROALIMENTACIÓN
+ * ======================================== */
+
+/* ----- ESTADOS DE ÉXITO (NEÓN VERDE) ----- */
+.eva-01 .success {
+    -fx-background-color: -fx-eva-success-light;
+    -fx-text-fill: -fx-eva-success;
+    -fx-border-color: -fx-eva-success;
+    -fx-effect: dropshadow(gaussian, -fx-eva-success, 4, 0.5, 0, 0);
+}
+
+/* ----- ESTADOS DE ADVERTENCIA (NEÓN AMARILLO) ----- */
+.eva-01 .warning {
+    -fx-background-color: -fx-eva-warning-light;
+    -fx-text-fill: -fx-eva-warning;
+    -fx-border-color: -fx-eva-warning;
+    -fx-effect: dropshadow(gaussian, -fx-eva-warning, 4, 0.5, 0, 0);
+}
+
+/* ----- ESTADOS DE ERROR (NEÓN ROSA) ----- */
+.eva-01 .error {
+    -fx-background-color: -fx-eva-error-light;
+    -fx-text-fill: -fx-eva-error;
+    -fx-border-color: -fx-eva-error;
+    -fx-effect: dropshadow(gaussian, -fx-eva-error, 4, 0.5, 0, 0);
+}
+
+/* ----- ESTADOS DE INFORMACIÓN (MORADO) ----- */
+.eva-01 .info {
+    -fx-background-color: -fx-eva-info-light;
+    -fx-text-fill: -fx-eva-info;
+    -fx-border-color: -fx-eva-info;
+    -fx-effect: dropshadow(gaussian, -fx-eva-info, 4, 0.5, 0, 0);
+}
+
+/* ========================================
+ * EFECTOS ESPECIALES EVA-01
+ * ======================================== */
+
+/* ----- EFECTO RESPLANDOR NEÓN ----- */
+.eva-01 .neon-glow {
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 8, 0.8, 0, 0);
+}
+
+.eva-01 .neon-glow-green {
+    -fx-effect: dropshadow(gaussian, -fx-eva-neon-green, 8, 0.8, 0, 0);
+}
+
+.eva-01 .neon-glow-yellow {
+    -fx-effect: dropshadow(gaussian, -fx-eva-neon-yellow, 8, 0.8, 0, 0);
+}
+
+/* ----- EFECTO PULSACIÓN ----- */
+.eva-01 .pulse-effect {
+    -fx-effect: dropshadow(gaussian, -fx-eva-accent, 6, 0.6, 0, 0);
+}
+
+/* ========================================
+ * UTILIDADES Y HELPERS
+ * ======================================== */
+
+/* ----- ESPACIADOS ----- */
+.eva-01 .spacing-xs { -fx-spacing: 4px; }
+.eva-01 .spacing-sm { -fx-spacing: 8px; }
+.eva-01 .spacing-base { -fx-spacing: 16px; }
+.eva-01 .spacing-lg { -fx-spacing: 24px; }
+.eva-01 .spacing-xl { -fx-spacing: 32px; }
+
+/* ----- PADDING ----- */
+.eva-01 .padding-xs { -fx-padding: 4px; }
+.eva-01 .padding-sm { -fx-padding: 8px; }
+.eva-01 .padding-base { -fx-padding: 16px; }
+.eva-01 .padding-lg { -fx-padding: 24px; }
+.eva-01 .padding-xl { -fx-padding: 32px; }
+
+/* ----- VISIBILIDAD ----- */
+.eva-01 .hidden {
+    -fx-opacity: 0;
+    -fx-mouse-transparent: true;
+}
+
+.eva-01 .invisible {
+    -fx-visibility: hidden;
+}
+
+/* ----- ANIMACIONES ----- */
+.eva-01 .fade-transition {
+    -fx-opacity: 1;
+}
+
+.eva-01 .fade-transition:hover {
+    -fx-opacity: 0.9;
+}
+
+/* ========================================
+ * REGLAS ESPECÍFICAS PARA EL ÁREA DEL EDITOR
+ * ======================================== */
+.eva-editor-area, .eva-01 .eva-editor-area, .eva-01 .text-area {
+    -fx-background-color: #232336;
+    -fx-control-inner-background: #232336;
+    -fx-text-fill: #e0e0e0;
+    -fx-highlight-fill: #965fd4;
+    -fx-highlight-text-fill: #fff;
+    -fx-prompt-text-fill: #6c757d;
+    -fx-border-color: #965fd4;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}

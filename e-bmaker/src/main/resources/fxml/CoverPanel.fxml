@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.github.jkvely.controller.CoverPanelController"
+      fx:controller="io.github.jkvely.viewmodel.CoverPanelController"
       fx:id="root" alignment="CENTER" spacing="32" HBox.hgrow="ALWAYS" minWidth="0" minHeight="0">
     <VBox alignment="CENTER_LEFT" spacing="16" styleClass="cover-panel" VBox.vgrow="ALWAYS" minWidth="0" minHeight="0">
         <Label text="Editar portada" styleClass="eva-cover-title" />

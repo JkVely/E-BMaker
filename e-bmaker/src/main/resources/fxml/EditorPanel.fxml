@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.*?>
 <VBox alignment="TOP_CENTER" spacing="8" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.github.jkvely.controller.EditorPanelController" VBox.vgrow="ALWAYS" minWidth="0" minHeight="0">
-    <TextField fx:id="chapterTitleField" promptText="Título del capítulo" />
+      fx:controller="io.github.jkvely.viewmodel.EditorPanelController" VBox.vgrow="ALWAYS" minWidth="0" minHeight="0" styleClass="eva-editor-panel">
+    <TextField fx:id="chapterTitleField" promptText="Título del capítulo" styleClass="eva-chapter-title-field" />
+    <HBox spacing="4" alignment="CENTER_LEFT" styleClass="eva-toolbar eva-editor-toolbar">
+        <Button fx:id="boldBtn" styleClass="eva-toolbar-btn">
+            <tooltip><Tooltip text="Negrilla (Ctrl+B)"/></tooltip>
+            <graphic><Label text="𝐁" styleClass="eva-toolbar-icon"/></graphic>
+        </Button>
+        <Button fx:id="italicBtn" styleClass="eva-toolbar-btn">
+            <tooltip><Tooltip text="Itálica (Ctrl+I)"/></tooltip>
+            <graphic><Label text="𝑰" styleClass="eva-toolbar-icon"/></graphic>
+        </Button>
+        <Button fx:id="quoteBtn" styleClass="eva-toolbar-btn">
+            <tooltip><Tooltip text="Cita/Diálogo (Ctrl+Q)"/></tooltip>
+            <graphic><Label text="❝" styleClass="eva-toolbar-icon"/></graphic>
+        </Button>
+        <Button fx:id="imageBtn" styleClass="eva-toolbar-btn">
+            <tooltip><Tooltip text="Insertar imagen (Ctrl+Shift+I)"/></tooltip>
+            <graphic><Label text="🖼" styleClass="eva-toolbar-icon"/></graphic>
+        </Button>
+        <Separator orientation="VERTICAL" />
+        <Button fx:id="ulBtn" styleClass="eva-toolbar-btn">
+            <tooltip><Tooltip text="Lista (Ctrl+L)"/></tooltip>
+            <graphic><Label text="• List" styleClass="eva-toolbar-icon"/></graphic>
+        </Button>
+        <Button fx:id="olBtn" styleClass="eva-toolbar-btn">
+            <tooltip><Tooltip text="Lista numerada (Ctrl+Shift+L)"/></tooltip>
+            <graphic><Label text="1. List" styleClass="eva-toolbar-icon"/></graphic>
+        </Button>
+        <Pane HBox.hgrow="ALWAYS" />
+    </HBox>
     <TextArea fx:id="editorArea" promptText="Escribe tu capítulo aquí..." VBox.vgrow="ALWAYS" minHeight="0" />
 </VBox>

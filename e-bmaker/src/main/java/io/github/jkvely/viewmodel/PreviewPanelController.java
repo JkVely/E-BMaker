@@ -1,6 +1,6 @@
-package io.github.jkvely.controller;
+package io.github.jkvely.viewmodel;
 
-import io.github.jkvely.model.EpubChapter;
+import io.github.jkvely.model.Classes.EpubChapter;
 import io.github.jkvely.util.MarkdownToHtmlConverter;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebView;
@@ -16,6 +16,7 @@ public class PreviewPanelController {
     @FXML
     public void initialize() {
         // Inicialización del controlador
+        previewWebView.getStyleClass().add("eva-preview-web");
     }
     
     /**
