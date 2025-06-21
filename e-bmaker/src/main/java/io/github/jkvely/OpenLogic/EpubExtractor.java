@@ -10,6 +10,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 public class EpubExtractor {
     public static Map<String, List<String>> FindHtmlAndXhtml(String fileDirectory) {
@@ -31,7 +33,7 @@ public class EpubExtractor {
         }
         return HtmlAndXhtmlContent;
     }
-    public static Map<String, byte[]> extractImages(String epubFile) throws IOException {
+    public static void extractImages(String epubFile) throws IOException {
         Map<String, byte[]> imageMap = new HashMap<>();
 
         try (ZipInputStream zis = new ZipInputStream(new FileInputStream(epubFile))) {
@@ -48,8 +50,21 @@ public class EpubExtractor {
                     imageMap.put(new File(entry.getName()).getName(), baos.toByteArray());
                 }
             }
+            File carpetaDeImagenes = new File("Images");
+            if (!carpetaDeImagenes.exists()) {
+                carpetaDeImagenes.mkdir();
+            }
+            Map<String, BufferedImage> images = BytesToImageConverter.bytesToImage(imageMap);
+            for (Map.Entry<String, BufferedImage> imageEntry : images.entrySet()) {
+                File archivoSalida = new File(carpetaDeImagenes, imageEntry.getKey());
+                try {
+                    ImageIO.write(imageEntry.getValue(), "png", archivoSalida);
+                } catch (IOException e) {
+                    System.err.println("Error al guardar la imagen: " + imageEntry.getKey());
+                    e.printStackTrace();
+                }
+            }
         }
-        return imageMap;
     }
     public static List<String> ReadFileFromZip(ZipFile file, ZipEntry entry) {
         List<String> content = new ArrayList<>();
