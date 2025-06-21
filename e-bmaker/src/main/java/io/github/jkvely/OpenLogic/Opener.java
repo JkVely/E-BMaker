@@ -1,32 +1,30 @@
 package io.github.jkvely.OpenLogic;
 import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Opener {
     public static String getRuta() {
-        String rutaArchivo = null;
+        String rutaArchivo = "";
 
         if (GraphicsEnvironment.isHeadless()) {
             try {
                 ProcessBuilder pb = new ProcessBuilder("zenity", "--file-selection", "--title=Selecciona un archivo");
                 Process proceso = pb.start();
-
-                // Leer la salida del proceso
                 BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
-                rutaArchivo = reader.readLine();  // zenity devuelve la ruta seleccionada
+                rutaArchivo = reader.readLine();
                 reader.close();
 
                 if (rutaArchivo == null || rutaArchivo.isEmpty()) {
                     System.out.println("No se seleccionó ningún archivo.");
+                    return null;
                 }
-
-            } catch (Exception e) {
-                System.err.println("Error al ejecutar zenity o no está instalado.");
-                e.printStackTrace();
+            } catch (IOException e) {
+                System.err.println("Error al ejecutar zenity.");
+                return null;
             }
         } else {
-            // Modo gráfico tradicional con Swing
             javax.swing.JFileChooser selector = new javax.swing.JFileChooser();
             int resultado = selector.showOpenDialog(null);
 
@@ -34,10 +32,17 @@ public class Opener {
                 rutaArchivo = selector.getSelectedFile().getAbsolutePath();
             } else {
                 System.out.println("No se seleccionó ningún archivo.");
+                return null;
             }
         }
 
-        // Mostrar la ruta seleccionada
+        try {
+            EpubExtractor.FindHtmlAndXhtml(rutaArchivo);
+            EpubExtractor.extractImages(rutaArchivo);
+        } catch (IOException e) {
+            System.err.println("Error al extraer contenido del archivo.");
+        }
+
         return rutaArchivo;
     }
 }

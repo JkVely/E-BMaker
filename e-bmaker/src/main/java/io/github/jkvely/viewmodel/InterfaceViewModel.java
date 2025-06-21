@@ -16,7 +16,7 @@ public class InterfaceViewModel {
     
     private Button createProjectButton;
     private Button openProjectButton;
-    private InterfaceModel model;
+    private final InterfaceModel model;
     
     public InterfaceViewModel() {
         model = new InterfaceModel();
@@ -42,15 +42,34 @@ public class InterfaceViewModel {
     // Métodos para manejar eventos
     public void handleCreateProject() {
         model.setLastAction("Crear Proyecto");
+        closeCurrentStage(createProjectButton);
+        loadMainMenu("E-BMaker", "No se pudo cargar el editor.");
+    }
 
-        Stage currentStage = (Stage) createProjectButton.getScene().getWindow();
+    public void handleOpenProject() {
+        model.setLastAction("Abrir Proyecto");
+        String ruta = Opener.getRuta();
+
+        if (ruta != null && !ruta.isEmpty()) {
+            closeCurrentStage(openProjectButton);
+            loadMainMenu("E-BMaker", "No se pudo cargar el documento.");
+        } else {
+            showInfoAlert("Información", "No se seleccionó ningún archivo.");
+        }
+    }
+
+    private void closeCurrentStage(Button button) {
+        Stage currentStage = (Stage) button.getScene().getWindow();
         currentStage.close();
+    }
 
+    private void loadMainMenu(String title, String errorMessage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainMenu.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            // Cargar todos los estilos EVA
+
+            // Cargar estilos
             String[] stylesheets = {
                 "/styles/eva-main.css",
                 "/styles/eva-00-light-new.css",
@@ -62,33 +81,17 @@ public class InterfaceViewModel {
                     scene.getStylesheets().add(css.toExternalForm());
                 }
             }
+
             Stage stage = new Stage();
-            stage.setTitle("E-BMaker");
+            stage.setTitle(title);
             stage.setScene(scene);
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
-            showInfoAlert("Error", "No se pudo cargar la interfaz del otro proyecto.");
+            showInfoAlert("Error", errorMessage);
         }
     }
 
-    
-    public void handleOpenProject(){
-        model.setLastAction("Crear Proyecto");
-
-        Stage currentStage = (Stage) openProjectButton.getScene().getWindow();
-        currentStage.close();
-
-        try {
-            Opener.getRuta();
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            showInfoAlert("Error", "No se pudo cargar la interfaz del otro proyecto.");
-        }
-    }
     
     private void showInfoAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
