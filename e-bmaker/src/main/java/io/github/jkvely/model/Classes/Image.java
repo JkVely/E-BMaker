@@ -1,4 +1,4 @@
-package io.github.jkvely.model;
+package io.github.jkvely.model.Classes;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -50,13 +50,18 @@ public class InterfaceViewModel {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainMenu.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            
-            // Agrega el estilo si está disponible
-            java.net.URL css = getClass().getResource("/styles/eva.css");
-            if (css != null) {
-                scene.getStylesheets().add(css.toExternalForm());
+            // Cargar todos los estilos EVA
+            String[] stylesheets = {
+                "/styles/eva-main.css",
+                "/styles/eva-00-light-new.css",
+                "/styles/eva-01-dark-new.css"
+            };
+            for (String stylesheet : stylesheets) {
+                java.net.URL css = getClass().getResource(stylesheet);
+                if (css != null) {
+                    scene.getStylesheets().add(css.toExternalForm());
+                }
             }
-
             Stage stage = new Stage();
             stage.setTitle("E-BMaker");
             stage.setScene(scene);

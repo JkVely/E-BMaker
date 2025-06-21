@@ -1,7 +1,7 @@
-package io.github.jkvely.controller;
+package io.github.jkvely.viewmodel;
 
-import io.github.jkvely.model.EpubBook;
-import io.github.jkvely.model.EpubChapter;
+import io.github.jkvely.model.Classes.EpubBook;
+import io.github.jkvely.model.Classes.EpubChapter;
 import io.github.jkvely.viewmodel.MainMenuViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,45 +38,49 @@ public class MainMenuController {
 
     private EpubBook currentBook;
     private ObservableList<String> bookStructureItems = FXCollections.observableArrayList();
-    private int currentChapterIndex = 1;
-
-    /**
+    private int currentChapterIndex = 1;    /**
      * Inicializa el controlador y configura los listeners para los botones de vista.
      * Realiza el enlace entre los botones y el ViewModel, y actualiza la vista central
      * según el modo seleccionado.
      */
     @FXML
     public void initialize() {
-        // Botones de modo de vista
-        editorBtn.setOnAction(e -> viewModel.setViewMode(MainMenuViewModel.CentralViewMode.EDITOR));
-        previewBtn.setOnAction(e -> viewModel.setViewMode(MainMenuViewModel.CentralViewMode.PREVIEW));
-        splitBtn.setOnAction(e -> viewModel.setViewMode(MainMenuViewModel.CentralViewMode.SPLIT));
+        // Configurar botones de vista como radio buttons
+        setupViewButtons();
 
         // Cambia los paneles según el modo
         viewModel.viewModeProperty().addListener((obs, old, mode) -> updateCentralView(mode));
         
-        // Configuración del tema (solo usando sun/moon icons)
-        themeSwitchBtn.selectedProperty().addListener((obs, oldVal, dark) -> {
+        // Configuración del tema (intercambio entre EVA-00 y EVA-01)
+        themeSwitchBtn.selectedProperty().addListener((obs, oldVal, isDark) -> {
             if (rootPane.getScene() != null) {
-                rootPane.getScene().getRoot().getStyleClass().removeIf(s -> s.equals("dark"));
-                if (dark) rootPane.getScene().getRoot().getStyleClass().add("dark");
-                rootPane.getScene().getRoot().applyCss();
-                rootPane.getScene().getRoot().layout();
-                sunIcon.setOpacity(dark ? 0.0 : 1);
-                moonIcon.setOpacity(dark ? 1 : 0.0);
+                // Obtener el nodo raíz de la escena
+                Parent sceneRoot = rootPane.getScene().getRoot();
+                
+                // Remover clases de tema anteriores
+                sceneRoot.getStyleClass().removeIf(styleClass -> 
+                    styleClass.equals("eva-00") || styleClass.equals("eva-01"));
+                
+                // Aplicar el tema correspondiente
+                if (isDark) {
+                    sceneRoot.getStyleClass().add("eva-01");
+                    System.out.println("🌙 Tema cambiado a EVA-01 (Oscuro)");
+                } else {
+                    sceneRoot.getStyleClass().add("eva-00");
+                    System.out.println("☀️ Tema cambiado a EVA-00 (Claro)");
+                }
+                
+                // Forzar actualización visual
+                sceneRoot.applyCss();
+                sceneRoot.layout();
+                
+                // Actualizar iconos del interruptor con animación sutil
+                updateThemeIcons(isDark);
             }
         });
-        // Configuración inicial de opacidad para sol/luna
-        sunIcon.setOpacity(1);
-        moonIcon.setOpacity(0.2);
-        // Asignar imágenes de sol y luna desde recursos
-        sunIcon.setImage(new Image(getClass().getResource("/styles/eva00-face.png").toExternalForm()));
-        moonIcon.setImage(new Image(getClass().getResource("/styles/eva01-face.png").toExternalForm()));
-
-        sunIcon.setFitWidth(40);
-        sunIcon.setFitHeight(40);
-        moonIcon.setFitWidth(40);
-        moonIcon.setFitHeight(40);
+        
+        // Configuración inicial de iconos de tema
+        setupThemeIcons();
 
         // Estructura base EPUB: portada y capítulo 1
         currentBook = new EpubBook();
@@ -162,8 +166,7 @@ public class MainMenuController {
             e.printStackTrace();
         }
     }
-    
-    /**
+      /**
      * Muestra el editor de capítulos
      * @param idx índice del capítulo a mostrar
      */
@@ -175,6 +178,13 @@ public class MainMenuController {
             ChapterPanelController ctrl = loader.getController();
             EpubChapter chapter = currentBook.getChapters().get(idx-1);
             ctrl.setChapter(chapter);
+            
+            // Configurar callback para actualizar la estructura cuando cambie el título
+            ctrl.setOnTitleChanged(() -> {
+                updateBookStructureList();
+                selectedStructureLabel.setText("Seleccionado: " + chapter.getTitle());
+            });
+            
             mainContentPane.getChildren().setAll(chapterPanel);
             selectedStructureLabel.setText("Seleccionado: " + chapter.getTitle());
             updateWindowTitle();
@@ -238,13 +248,111 @@ public class MainMenuController {
         }
         // Item especial al final para crear un nuevo capítulo
         bookStructureItems.add("➕ Nuevo capítulo");
-    }
-
-    private void updateWindowTitle() {
+    }    private void updateWindowTitle() {
         String bookTitle = (currentBook != null && currentBook.getTitle() != null && !currentBook.getTitle().isEmpty()) ? currentBook.getTitle() : "Sin título";
         javafx.stage.Stage stage = io.github.jkvely.Editor.getPrimaryStage();
         if (stage != null) {
             stage.setTitle("E-BMaker | " + bookTitle + " (Editando)");
         }
+    }
+    
+    /**
+     * Configura los iconos iniciales del interruptor de tema.
+     * Carga las imágenes de EVA-00 y EVA-01 y establece sus propiedades visuales.
+     */
+    private void setupThemeIcons() {
+        try {
+            // Cargar imágenes de los EVA desde recursos
+            Image eva00Image = new Image(getClass().getResource("/styles/eva00-face.png").toExternalForm());
+            Image eva01Image = new Image(getClass().getResource("/styles/eva01-face.png").toExternalForm());
+            
+            // Configurar imagen de EVA-00 (tema claro)
+            sunIcon.setImage(eva00Image);
+            sunIcon.setFitWidth(32);
+            sunIcon.setFitHeight(32);
+            sunIcon.setPreserveRatio(true);
+            sunIcon.setSmooth(true);
+            
+            // Configurar imagen de EVA-01 (tema oscuro)
+            moonIcon.setImage(eva01Image);
+            moonIcon.setFitWidth(32);
+            moonIcon.setFitHeight(32);
+            moonIcon.setPreserveRatio(true);
+            moonIcon.setSmooth(true);
+            
+            // Estado inicial: mostrar EVA-00, ocultar EVA-01
+            sunIcon.setOpacity(1.0);
+            moonIcon.setOpacity(0.3);
+            
+            System.out.println("🎨 Iconos de tema configurados correctamente");
+            
+        } catch (Exception e) {
+            System.err.println("⚠️ Error al cargar iconos de tema: " + e.getMessage());
+            // Configuración de respaldo con iconos de texto
+            sunIcon.setImage(null);
+            moonIcon.setImage(null);
+        }
+    }
+    
+    /**
+     * Actualiza la visibilidad de los iconos del tema con una transición suave.
+     * 
+     * @param isDark true si el tema oscuro está activo, false para tema claro
+     */
+    private void updateThemeIcons(boolean isDark) {
+        if (isDark) {
+            // Tema oscuro activo: mostrar EVA-01, ocultar EVA-00
+            sunIcon.setOpacity(0.3);
+            moonIcon.setOpacity(1.0);
+        } else {
+            // Tema claro activo: mostrar EVA-00, ocultar EVA-01
+            sunIcon.setOpacity(1.0);
+            moonIcon.setOpacity(0.3);
+        }
+    }
+    
+    /**
+     * Configura los botones de vista para funcionar como radio buttons.
+     * Solo uno puede estar activo a la vez.
+     */
+    private void setupViewButtons() {
+        // Configurar Editor button
+        editorBtn.setOnAction(e -> {
+            if (!editorBtn.isSelected()) {
+                editorBtn.setSelected(true);
+            }
+            previewBtn.setSelected(false);
+            splitBtn.setSelected(false);
+            viewModel.setViewMode(MainMenuViewModel.CentralViewMode.EDITOR);
+            System.out.println("✏️ Vista cambiada a Editor");
+        });
+        
+        // Configurar Preview button
+        previewBtn.setOnAction(e -> {
+            if (!previewBtn.isSelected()) {
+                previewBtn.setSelected(true);
+            }
+            editorBtn.setSelected(false);
+            splitBtn.setSelected(false);
+            viewModel.setViewMode(MainMenuViewModel.CentralViewMode.PREVIEW);
+            System.out.println("👁️ Vista cambiada a Vista Previa");
+        });
+        
+        // Configurar Split button
+        splitBtn.setOnAction(e -> {
+            if (!splitBtn.isSelected()) {
+                splitBtn.setSelected(true);
+            }
+            editorBtn.setSelected(false);
+            previewBtn.setSelected(false);
+            viewModel.setViewMode(MainMenuViewModel.CentralViewMode.SPLIT);
+            System.out.println("≡ Vista cambiada a Mitad-Mit");
+        });
+        
+        // Establecer Editor como vista por defecto
+        editorBtn.setSelected(true);
+        previewBtn.setSelected(false);
+        splitBtn.setSelected(false);
+        viewModel.setViewMode(MainMenuViewModel.CentralViewMode.EDITOR);
     }
 }

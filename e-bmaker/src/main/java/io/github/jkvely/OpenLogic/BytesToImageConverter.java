@@ -20,7 +20,7 @@ public class BytesToImageConverter {
                 }
             } catch (IOException e) {
                 System.err.println("Error reading image bytes for: " + entry.getKey());
-                e.printStackTrace();
+                System.out.println("Exception message: " + e.getMessage());
             
             }
         }

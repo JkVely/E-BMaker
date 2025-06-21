@@ -1,0 +1,126 @@
+/**
+ * VARIABLES GLOBALES - E-BMAKER
+ * Editor de EPUB de código abierto
+ * 
+ * Este archivo contiene todas las variables CSS globales utilizadas
+ * en toda la aplicación. Define tipografías, espaciados, radios de borde
+ * y otras propiedades que se reutilizan en múltiples componentes.
+ * 
+ * NOTA IMPORTANTE:
+ * JavaFX CSS no soporta variables CSS nativas (--variable).
+ * Este archivo utiliza el sistema de definición de propiedades de JavaFX.
+ */
+
+/* ========================================
+ * TIPOGRAFÍAS Y TAMAÑOS DE FUENTE
+ * ======================================== */
+.root {
+    /* Familias de fuente principales */
+    -eva-font-primary: 'Segoe UI', 'Inter', 'Roboto', 'Arial', sans-serif;
+    -eva-font-heading: 'Segoe UI Semibold', 'Inter', sans-serif;
+    -eva-font-monospace: 'Consolas', 'Monaco', 'Courier New', monospace;
+    
+    /* Tamaños de fuente (escalables) */
+    -eva-font-xs: 10px;
+    -eva-font-sm: 12px;
+    -eva-font-base: 14px;
+    -eva-font-lg: 16px;
+    -eva-font-xl: 18px;
+    -eva-font-xxl: 24px;
+    -eva-font-title: 28px;
+    
+    /* Pesos de fuente */
+    -eva-font-light: 300;
+    -eva-font-normal: 400;
+    -eva-font-medium: 500;
+    -eva-font-semibold: 600;
+    -eva-font-bold: 700;
+}
+
+/* ========================================
+ * ESPACIADOS Y DIMENSIONES
+ * ======================================== */
+.root {
+    /* Espaciados base (múltiplos de 4px para consistencia) */
+    -eva-space-xs: 4px;
+    -eva-space-sm: 8px;
+    -eva-space-base: 16px;
+    -eva-space-lg: 24px;
+    -eva-space-xl: 32px;
+    -eva-space-xxl: 48px;
+    -eva-space-xxxl: 64px;
+    
+    /* Alturas de componentes */
+    -eva-height-input: 36px;
+    -eva-height-button: 32px;
+    -eva-height-button-large: 40px;
+    -eva-height-toolbar: 48px;
+    -eva-height-header: 56px;
+    
+    /* Anchos mínimos */
+    -eva-width-sidebar: 280px;
+    -eva-width-button-min: 80px;
+}
+
+/* ========================================
+ * BORDES Y RADIOS
+ * ======================================== */
+.root {
+    /* Radios de borde (progresivos) */
+    -eva-radius-none: 0px;
+    -eva-radius-sm: 4px;
+    -eva-radius-base: 6px;
+    -eva-radius-lg: 8px;
+    -eva-radius-xl: 12px;
+    -eva-radius-round: 50%;
+    
+    /* Anchos de borde */
+    -eva-border-thin: 1px;
+    -eva-border-base: 2px;
+    -eva-border-thick: 3px;
+}
+
+/* ========================================
+ * SOMBRAS Y EFECTOS
+ * ======================================== */
+.root {
+    /* Sombras progresivas para profundidad */
+    -eva-shadow-none: none;
+    -eva-shadow-sm: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0.5, 0, 1);
+    -eva-shadow-base: dropshadow(gaussian, rgba(0,0,0,0.15), 4, 0.5, 0, 2);
+    -eva-shadow-lg: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.5, 0, 4);
+    -eva-shadow-xl: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0.5, 0, 6);
+    
+    /* Efectos de enfoque */
+    -eva-focus-ring: dropshadow(gaussian, rgba(41, 134, 204, 0.5), 4, 0.8, 0, 0);
+}
+
+/* ========================================
+ * TRANSICIONES Y ANIMACIONES
+ * ======================================== */
+.root {
+    /* Duraciones de transición estándar */
+    -eva-transition-fast: 0.15s;
+    -eva-transition-base: 0.25s;
+    -eva-transition-slow: 0.4s;
+    
+    /* Curvas de animación */
+    -eva-ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    -eva-ease-in: cubic-bezier(0.55, 0.06, 0.68, 0.19);
+    -eva-ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+/* ========================================
+ * Z-INDEX (CAPAS)
+ * ======================================== */
+.root {
+    /* Niveles de apilamiento para componentes */
+    -eva-z-background: -1;
+    -eva-z-base: 0;
+    -eva-z-content: 1;
+    -eva-z-elevated: 10;
+    -eva-z-overlay: 100;
+    -eva-z-modal: 1000;
+    -eva-z-tooltip: 1100;
+    -eva-z-notification: 1200;
+}
