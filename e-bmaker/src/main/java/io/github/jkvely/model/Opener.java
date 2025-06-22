@@ -1,4 +1,4 @@
-package io.github.jkvely.util;
+package io.github.jkvely.model;
 import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
 import java.io.IOException;

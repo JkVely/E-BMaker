@@ -1,4 +1,4 @@
-package io.github.jkvely.util;
+package io.github.jkvely.model;
 
 import java.util.List;
 import java.util.HashMap;
@@ -12,12 +12,22 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import io.github.jkvely.util.BytesToImageConverter;
+import io.github.jkvely.util.HtmlToMarkdownConverter;
+import io.github.jkvely.viewmodel.ChapterPanelController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import io.github.jkvely.model.Classes.EpubChapter;
 
 public class EpubExtractor {
     public static void FindHtmlAndXhtml(String fileDirectory) {
         Map<String, List<String>> HtmlAndXhtmlContent = new HashMap<>();
-
+        
         try {
+            FXMLLoader loader = new FXMLLoader(ChapterPanelController.class.getResource("/fxml/ChapterPanel.fxml"));
+            Parent root = loader.load();  // Carga y construye la escena
+            ChapterPanelController controller = loader.getController();
+            
             ZipFile file = new ZipFile(fileDirectory);
             java.util.Enumeration<? extends ZipEntry> entries = file.entries();
             while (entries.hasMoreElements()) {
@@ -28,15 +38,17 @@ public class EpubExtractor {
                     HtmlAndXhtmlContent.put(name, content);
                 }
             }
+            for(Map.Entry<String, List<String>> entry : HtmlAndXhtmlContent.entrySet()) {
+                List<String> content = entry.getValue();
+                List<String> markdown = HtmlToMarkdownConverter.convert(content);
+                EpubChapter chapter = EpubChapter.builder()
+                        .title(entry.getKey())
+                        .content(String.join("\n", markdown))
+                        .build();
+                controller.setChapter(chapter);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        for(Map.Entry<String, List<String>> entry : HtmlAndXhtmlContent.entrySet()) {
-            List<String> content = entry.getValue();
-            List<String> markdown = HtmlToMarkdownConverter.convert(content);
-            for (String line : markdown) {
-                System.out.println(line);
-            }
         }
     }
     public static void extractImages(String epubFile) throws IOException {

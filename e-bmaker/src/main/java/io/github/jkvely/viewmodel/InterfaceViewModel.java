@@ -3,7 +3,7 @@ package io.github.jkvely.viewmodel;
 import java.io.IOException;
 
 import io.github.jkvely.model.InterfaceModel;
-import io.github.jkvely.util.Opener;
+import io.github.jkvely.model.Opener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
