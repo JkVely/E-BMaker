@@ -1,4 +1,4 @@
-package io.github.jkvely.OpenLogic;
+package io.github.jkvely.util;
 
 import java.util.List;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class EpubExtractor {
-    public static Map<String, List<String>> FindHtmlAndXhtml(String fileDirectory) {
+    public static void FindHtmlAndXhtml(String fileDirectory) {
         Map<String, List<String>> HtmlAndXhtmlContent = new HashMap<>();
 
         try {
@@ -31,7 +31,13 @@ public class EpubExtractor {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return HtmlAndXhtmlContent;
+        for(Map.Entry<String, List<String>> entry : HtmlAndXhtmlContent.entrySet()) {
+            List<String> content = entry.getValue();
+            List<String> markdown = HtmlToMarkdownConverter.convert(content);
+            for (String line : markdown) {
+                System.out.println(line);
+            }
+        }
     }
     public static void extractImages(String epubFile) throws IOException {
         Map<String, byte[]> imageMap = new HashMap<>();

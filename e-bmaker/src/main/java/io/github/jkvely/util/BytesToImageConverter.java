@@ -1,4 +1,4 @@
-package io.github.jkvely.OpenLogic;
+package io.github.jkvely.util;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;

@@ -1,4 +1,4 @@
-package io.github.jkvely.OpenLogic;
+package io.github.jkvely.util;
 import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
 import java.io.IOException;

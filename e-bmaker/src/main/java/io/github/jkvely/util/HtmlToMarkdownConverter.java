@@ -1,4 +1,4 @@
-package io.github.jkvely.OpenLogic;
+package io.github.jkvely.util;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -22,7 +22,30 @@ public class HtmlToMarkdownConverter {
             linemarkdown = linemarkdown.replaceAll("<ul>$1</ul>\n","((<li>.+?</li>\n?)+)");
             // Saltos de línea
             linemarkdown = linemarkdown.replaceAll("<br/>", "\n");
+
+            linemarkdown = linemarkdown.replaceAll("<p>", " ");
+            linemarkdown = linemarkdown.replaceAll("</p>", " ");
+
+            linemarkdown = linemarkdown.replaceAll("<section>", " ");
+            linemarkdown = linemarkdown.replaceAll("</section>", " ");
+
+            linemarkdown = linemarkdown.replaceAll("<body>", " ");
+            linemarkdown = linemarkdown.replaceAll("</body>", " ");
+
+            linemarkdown = linemarkdown.replaceAll("<html>", " ");
+            linemarkdown = linemarkdown.replaceAll("</html>", " ");
+
+            linemarkdown = linemarkdown.replaceAll("<div>", " ");
+            linemarkdown = linemarkdown.replaceAll("</div>", " ");
+
+            linemarkdown = linemarkdown.replaceAll("<head>", " ");
+            linemarkdown = linemarkdown.replaceAll("</head>", " ");
+
+            linemarkdown = linemarkdown.replaceAll("<footer>", " ");
+            linemarkdown = linemarkdown.replaceAll("</footer>", " ");
+            
             markdown.add(linemarkdown);
+
         }
         return markdown;
     }
