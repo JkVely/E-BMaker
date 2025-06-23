@@ -14,9 +14,8 @@
         <Button fx:id="italicBtn" styleClass="eva-toolbar-btn">
             <tooltip><Tooltip text="Itálica (Ctrl+I)"/></tooltip>
             <graphic><Label text="𝑰" styleClass="eva-toolbar-icon"/></graphic>
-        </Button>
-        <Button fx:id="quoteBtn" styleClass="eva-toolbar-btn">
-            <tooltip><Tooltip text="Cita/Diálogo (Ctrl+Q)"/></tooltip>
+        </Button>        <Button fx:id="quoteBtn" styleClass="eva-toolbar-btn">
+            <tooltip><Tooltip text="Diálogo literario (Ctrl+Q)"/></tooltip>
             <graphic><Label text="❝" styleClass="eva-toolbar-icon"/></graphic>
         </Button>
         <Button fx:id="imageBtn" styleClass="eva-toolbar-btn">
@@ -26,15 +25,10 @@
         <Separator orientation="VERTICAL" />
         <Button fx:id="ulBtn" styleClass="eva-toolbar-btn">
             <tooltip><Tooltip text="Lista (Ctrl+L)"/></tooltip>
-            <graphic><Label text="• List" styleClass="eva-toolbar-icon"/></graphic>
-        </Button>
+            <graphic><Label text="• List" styleClass="eva-toolbar-icon"/></graphic>        </Button>
         <Button fx:id="olBtn" styleClass="eva-toolbar-btn">
             <tooltip><Tooltip text="Lista numerada (Ctrl+Shift+L)"/></tooltip>
             <graphic><Label text="1. List" styleClass="eva-toolbar-icon"/></graphic>
-        </Button>
-        <Button fx:id="dialogueBtn" styleClass="eva-toolbar-btn">
-            <tooltip><Tooltip text="Diálogo literario y acotación"/></tooltip>
-            <graphic><Label text="—" styleClass="eva-toolbar-icon"/></graphic>
         </Button>
         <Pane HBox.hgrow="ALWAYS" />
     </HBox>

@@ -14,9 +14,8 @@
         <Button fx:id="italicBtn" styleClass="eva-toolbar-btn">
             <tooltip><Tooltip text="Itálica (Ctrl+I)"/></tooltip>
             <graphic><Label text="𝑰" styleClass="eva-toolbar-icon"/></graphic>
-        </Button>
-        <Button fx:id="quoteBtn" styleClass="eva-toolbar-btn">
-            <tooltip><Tooltip text="Cita/Diálogo (Ctrl+Q)"/></tooltip>
+        </Button>        <Button fx:id="quoteBtn" styleClass="eva-toolbar-btn">
+            <tooltip><Tooltip text="Diálogo literario (Ctrl+Q)"/></tooltip>
             <graphic><Label text="❝" styleClass="eva-toolbar-icon"/></graphic>
         </Button>
         <Button fx:id="imageBtn" styleClass="eva-toolbar-btn">
