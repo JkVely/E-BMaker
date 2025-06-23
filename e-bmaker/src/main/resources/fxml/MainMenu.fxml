@@ -9,20 +9,22 @@
     <!-- Top Menu Bar -->
     <top>
         <VBox>
-            <MenuBar styleClass="eva-menu-bar">
-                <menus>
+            <MenuBar styleClass="eva-menu-bar">                <menus>
                     <Menu text="Archivo">
-                        <MenuItem text="Nuevo" />
-                        <MenuItem text="Abrir" />
-                        <MenuItem text="Guardar" />
-                        <MenuItem text="Salir" />
+                        <MenuItem fx:id="newFileMenuItem" text="Nuevo" />
+                        <MenuItem fx:id="openFileMenuItem" text="Abrir" />
+                        <SeparatorMenuItem />
+                        <MenuItem fx:id="saveFileMenuItem" text="Guardar como EPUB" />
+                        <MenuItem fx:id="exportFileMenuItem" text="Exportar EPUB..." />
+                        <SeparatorMenuItem />
+                        <MenuItem fx:id="exitMenuItem" text="Salir" />
                     </Menu>
                     <Menu text="Editar">
-                        <MenuItem text="Deshacer" />
-                        <MenuItem text="Rehacer" />
+                        <MenuItem fx:id="undoMenuItem" text="Deshacer" />
+                        <MenuItem fx:id="redoMenuItem" text="Rehacer" />
                     </Menu>
                     <Menu text="Ver">
-                        <MenuItem text="Preferencias" />
+                        <MenuItem fx:id="preferencesMenuItem" text="Preferencias" />
                     </Menu>
                 </menus>
             </MenuBar>

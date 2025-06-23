@@ -1,21 +1,32 @@
 package io.github.jkvely.viewmodel;
 
+import io.github.jkvely.epub.EpubService;
+import io.github.jkvely.epub.EpubWriter;
 import io.github.jkvely.model.Classes.EpubBook;
 import io.github.jkvely.model.Classes.EpubChapter;
-import io.github.jkvely.viewmodel.MainMenuViewModel;
+import io.github.jkvely.model.Classes.EpubCover;
+import io.github.jkvely.util.ProjectFolderUtils;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Controlador para el menú principal de la aplicación.
@@ -24,9 +35,7 @@ import javafx.scene.layout.StackPane;
  */
 public class MainMenuController {
     /** ViewModel asociado a este controlador. */
-    private final MainMenuViewModel viewModel = new MainMenuViewModel();
-
-    @FXML private ToggleButton editorBtn, previewBtn, splitBtn;
+    private final MainMenuViewModel viewModel = new MainMenuViewModel();    @FXML private ToggleButton editorBtn, previewBtn, splitBtn;
     @FXML private BorderPane rootPane;
     @FXML private ListView<String> epubBookContentsList;
     @FXML private Label selectedStructureLabel;
@@ -35,6 +44,16 @@ public class MainMenuController {
     @FXML private ImageView moonIcon;
     @FXML private ToggleButton themeSwitchBtn;
     @FXML private StackPane mainContentPane;
+    
+    // Menu items
+    @FXML private MenuItem newFileMenuItem;
+    @FXML private MenuItem openFileMenuItem;
+    @FXML private MenuItem saveFileMenuItem;
+    @FXML private MenuItem exportFileMenuItem;
+    @FXML private MenuItem exitMenuItem;
+    @FXML private MenuItem undoMenuItem;
+    @FXML private MenuItem redoMenuItem;
+    @FXML private MenuItem preferencesMenuItem;
 
     private EpubBook currentBook;
     private ObservableList<String> bookStructureItems = FXCollections.observableArrayList();
@@ -42,9 +61,11 @@ public class MainMenuController {
      * Inicializa el controlador y configura los listeners para los botones de vista.
      * Realiza el enlace entre los botones y el ViewModel, y actualiza la vista central
      * según el modo seleccionado.
-     */
-    @FXML
+     */    @FXML
     public void initialize() {
+        // Configurar menu items
+        setupMenuItems();
+        
         // Configurar botones de vista como radio buttons
         setupViewButtons();
 
@@ -78,13 +99,13 @@ public class MainMenuController {
                 updateThemeIcons(isDark);
             }
         });
+          // Configuración inicial de iconos de tema
+        setupThemeIcons();        
         
-        // Configuración inicial de iconos de tema
-        setupThemeIcons();
-
         // Estructura base EPUB: portada y capítulo 1
         currentBook = new EpubBook();
-        currentBook.getCover().setTitle("Nuevo libro");
+        currentBook.setCover(new EpubCover("Nuevo libro", new ArrayList<>(), null));
+        currentBook.setProjectPath(currentProjectPath); // Set project path if available
         EpubChapter cap1 = new EpubChapter(1, "Capítulo 1", "", null);
         currentBook.addChapter(cap1);
         
@@ -136,8 +157,41 @@ public class MainMenuController {
         // Reemplaza acción de botón con método reutilizable
         addChapterBtn.setOnAction(e -> createNewChapter());
         updateWindowTitle();
+        
+        // Configurar menu items
+        setupMenuItems();
     }
-
+    
+    /**
+     * Configura los menu items con sus manejadores de eventos.
+     */
+    private void setupMenuItems() {
+        if (newFileMenuItem != null) {
+            newFileMenuItem.setOnAction(e -> handleNewFile());
+        }
+        if (openFileMenuItem != null) {
+            openFileMenuItem.setOnAction(e -> handleOpenFile());
+        }
+        if (saveFileMenuItem != null) {
+            saveFileMenuItem.setOnAction(e -> handleSaveFile());
+        }
+        if (exportFileMenuItem != null) {
+            exportFileMenuItem.setOnAction(e -> handleExportEpub());
+        }
+        if (exitMenuItem != null) {
+            exitMenuItem.setOnAction(e -> handleExit());
+        }
+        if (undoMenuItem != null) {
+            undoMenuItem.setOnAction(e -> handleUndo());
+        }
+        if (redoMenuItem != null) {
+            redoMenuItem.setOnAction(e -> handleRedo());
+        }
+        if (preferencesMenuItem != null) {
+            preferencesMenuItem.setOnAction(e -> handlePreferences());
+        }
+    }
+    
     /**
      * Crea un nuevo capítulo y refresca la lista, seleccionando directamente.
      */
@@ -244,12 +298,13 @@ public class MainMenuController {
         bookStructureItems.clear();
         bookStructureItems.add("Portada");
         for (EpubChapter chapter : currentBook.getChapters()) {
-            bookStructureItems.add(chapter.getTitle());
-        }
+            bookStructureItems.add(chapter.getTitle());        }
         // Item especial al final para crear un nuevo capítulo
         bookStructureItems.add("➕ Nuevo capítulo");
-    }    private void updateWindowTitle() {
-        String bookTitle = (currentBook != null && currentBook.getCover().getTitle() != null && !currentBook.getCover().getTitle().isEmpty()) ? currentBook.getCover().getTitle() : "Sin título";
+    }
+    
+    private void updateWindowTitle() {
+        String bookTitle = (currentBook != null && currentBook.getCover() != null && currentBook.getCover().getTitle() != null && !currentBook.getCover().getTitle().isEmpty()) ? currentBook.getCover().getTitle() : "Sin título";
         javafx.stage.Stage stage = io.github.jkvely.Editor.getPrimaryStage();
         if (stage != null) {
             stage.setTitle("E-BMaker | " + bookTitle + " (Editando)");
@@ -354,5 +409,261 @@ public class MainMenuController {
         previewBtn.setSelected(false);
         splitBtn.setSelected(false);
         viewModel.setViewMode(MainMenuViewModel.CentralViewMode.EDITOR);
+    }
+      /**
+     * Maneja la creación de un nuevo archivo.
+     */
+    @FXML
+    private void handleNewFile() {
+        try {
+            // Create a new project folder if none exists
+            if (currentProjectPath == null || currentProjectPath.trim().isEmpty()) {
+                currentProjectPath = ProjectFolderUtils.createProjectFolder(null, null);
+                showAlert(Alert.AlertType.INFORMATION, "Proyecto Creado", 
+                    "Se ha creado un nuevo proyecto en:\n" + currentProjectPath);
+            }
+            
+            // Reinicializar el libro con portada y un capítulo vacío
+            currentBook = new EpubBook();
+            if (currentBook.getCover() == null) {
+                currentBook.setCover(new EpubCover("Nuevo libro", new ArrayList<>(), null));
+            }
+            currentBook.setProjectPath(currentProjectPath); // Set project path
+            EpubChapter cap1 = new EpubChapter(1, "Capítulo 1", "", null);
+            currentBook.addChapter(cap1);
+            
+            // Actualizar UI
+            updateBookStructureList();
+            epubBookContentsList.getSelectionModel().select(0);
+            showCoverEditor();
+            updateWindowTitle();
+            
+            showAlert(Alert.AlertType.INFORMATION, "Nuevo archivo", "Se ha creado un nuevo libro.");
+            
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", 
+                "No se pudo crear la carpeta del proyecto: " + e.getMessage());
+            
+            // Continue without project folder if creation fails
+            currentBook = new EpubBook();
+            if (currentBook.getCover() == null) {
+                currentBook.setCover(new EpubCover("Nuevo libro", new ArrayList<>(), null));
+            }
+            EpubChapter cap1 = new EpubChapter(1, "Capítulo 1", "", null);
+            currentBook.addChapter(cap1);
+            
+            updateBookStructureList();
+            epubBookContentsList.getSelectionModel().select(0);
+            showCoverEditor();
+            updateWindowTitle();
+            
+            showAlert(Alert.AlertType.INFORMATION, "Nuevo archivo", "Se ha creado un nuevo libro sin carpeta de proyecto.");
+        }
+    }
+    
+    /**
+     * Maneja la apertura de un archivo EPUB existente.
+     */
+    @FXML
+    private void handleOpenFile() {
+        EpubBook loadedBook = EpubService.loadEpub();
+        if (loadedBook != null) {
+            currentBook = loadedBook;
+            updateBookStructureList();
+            epubBookContentsList.getSelectionModel().select(0);
+            showCoverEditor();
+            updateWindowTitle();
+            showAlert(Alert.AlertType.INFORMATION, "Archivo abierto", "El libro se ha cargado correctamente.");
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Error al abrir", "No se pudo cargar el archivo seleccionado.");
+        }
+    }
+    
+    /**
+     * Maneja el guardado del archivo actual.
+     */
+    @FXML
+    private void handleSaveFile() {
+        if (currentBook == null) {
+            showAlert(Alert.AlertType.WARNING, "Error", "No hay un libro para guardar.");
+            return;
+        }
+        
+        // Por ahora, usar exportar como funcionalidad de guardado
+        handleExportEpub();
+    }
+    
+    /**
+     * Maneja la exportación del libro actual a formato EPUB.
+     */
+    @FXML
+    private void handleExportEpub() {
+        if (currentBook == null) {
+            showAlert(Alert.AlertType.WARNING, "Error", "No hay un libro para exportar.");
+            return;
+        }
+          // Configurar FileChooser para seleccionar donde guardar el EPUB
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Exportar libro como EPUB");
+        fileChooser.getExtensionFilters().add(
+            new FileChooser.ExtensionFilter("Archivos EPUB", "*.epub")
+        );
+        
+        // Set initial directory to project's Exports folder if available
+        if (currentBook.getProjectPath() != null && !currentBook.getProjectPath().trim().isEmpty()) {
+            String exportsPath = ProjectFolderUtils.getExportsPath(currentBook.getProjectPath());
+            File exportsDir = new File(exportsPath);
+            if (exportsDir.exists() && exportsDir.isDirectory()) {
+                fileChooser.setInitialDirectory(exportsDir);
+            }
+        }
+        
+        // Sugerir nombre de archivo basado en el título del libro
+        String suggestedName = "libro.epub";
+        if (currentBook.getCover() != null && currentBook.getCover().getTitle() != null) {
+            suggestedName = sanitizeFileName(currentBook.getCover().getTitle()) + ".epub";
+        }
+        fileChooser.setInitialFileName(suggestedName);
+        
+        // Mostrar dialog de guardado
+        File outputFile = fileChooser.showSaveDialog(rootPane.getScene().getWindow());
+        if (outputFile != null) {
+            // Realizar exportación en hilo separado para no bloquear UI
+            Task<Void> exportTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        // Asegurar que el libro tiene la estructura mínima necesaria
+                        validateAndPrepareBook();
+                        
+                        // Exportar usando EpubWriter
+                        EpubWriter.exportEpub(currentBook, outputFile);
+                        
+                        Platform.runLater(() -> {
+                            showAlert(Alert.AlertType.INFORMATION, "Exportación exitosa", 
+                                "El libro se ha exportado correctamente a:\n" + outputFile.getAbsolutePath());
+                        });
+                        
+                    } catch (Exception e) {
+                        Platform.runLater(() -> {
+                            showAlert(Alert.AlertType.ERROR, "Error de exportación", 
+                                "No se pudo exportar el libro:\n" + e.getMessage());
+                        });
+                        throw e;
+                    }
+                    return null;
+                }
+            };
+            
+            // Ejecutar tarea de exportación
+            Thread exportThread = new Thread(exportTask);
+            exportThread.setDaemon(true);
+            exportThread.start();
+        }
+    }
+    
+    /**
+     * Valida y prepara el libro para exportación, asegurando estructura mínima.
+     */
+    private void validateAndPrepareBook() {
+        // Asegurar que hay una portada
+        if (currentBook.getCover() == null) {
+            currentBook.setCover(new EpubCover("Libro sin título", new ArrayList<>(), null));
+        }
+        if (currentBook.getCover().getTitle() == null || currentBook.getCover().getTitle().trim().isEmpty()) {
+            currentBook.getCover().setTitle("Libro sin título");
+        }
+        if (currentBook.getCover().getAuthors() == null || currentBook.getCover().getAuthors().isEmpty()) {
+            currentBook.getCover().setAuthors(new ArrayList<>());
+            currentBook.getCover().getAuthors().add("Autor desconocido");
+        }
+        
+        // Asegurar que hay al menos un capítulo
+        if (currentBook.getChapters() == null || currentBook.getChapters().isEmpty()) {
+            EpubChapter emptyChapter = new EpubChapter(1, "Capítulo 1", "Contenido vacío", null);
+            currentBook.addChapter(emptyChapter);
+        }
+        
+        // Asegurar identificador único
+        if (currentBook.getIdentifier() == null || currentBook.getIdentifier().trim().isEmpty()) {
+            currentBook.setIdentifier("urn:uuid:" + java.util.UUID.randomUUID().toString());
+        }
+        
+        // Asegurar idioma
+        if (currentBook.getLanguage() == null || currentBook.getLanguage().trim().isEmpty()) {
+            currentBook.setLanguage("es");
+        }
+    }
+    
+    /**
+     * Maneja la salida de la aplicación.
+     */
+    @FXML
+    private void handleExit() {
+        Platform.exit();
+    }
+    
+    /**
+     * Maneja la funcionalidad de deshacer.
+     */
+    @FXML
+    private void handleUndo() {
+        // TODO: Implementar funcionalidad de deshacer a nivel global
+        showAlert(Alert.AlertType.INFORMATION, "Deshacer", "Funcionalidad en desarrollo.");
+    }
+    
+    /**
+     * Maneja la funcionalidad de rehacer.
+     */
+    @FXML
+    private void handleRedo() {
+        // TODO: Implementar funcionalidad de rehacer a nivel global
+        showAlert(Alert.AlertType.INFORMATION, "Rehacer", "Funcionalidad en desarrollo.");
+    }
+    
+    /**
+     * Maneja las preferencias de la aplicación.
+     */
+    @FXML
+    private void handlePreferences() {
+        showAlert(Alert.AlertType.INFORMATION, "Preferencias", "Panel de preferencias en desarrollo.");
+    }
+    
+    /**
+     * Limpia un nombre de archivo eliminando caracteres no válidos.
+     */
+    private String sanitizeFileName(String fileName) {
+        if (fileName == null) return "libro";
+        return fileName.replaceAll("[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ._-]", "_").trim();
+    }
+    
+    /**
+     * Muestra un alert con el tipo, título y mensaje especificados.
+     */
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    // Project context for folder management
+    private static String currentProjectPath = null;
+    
+    /**
+     * Sets the current project path for the application session.
+     * @param projectPath the path to the project folder
+     */
+    public static void setCurrentProjectPath(String projectPath) {
+        currentProjectPath = projectPath;
+    }
+    
+    /**
+     * Gets the current project path.
+     * @return the current project path or null if none set
+     */
+    public static String getCurrentProjectPath() {
+        return currentProjectPath;
     }
 }
