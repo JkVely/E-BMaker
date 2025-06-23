@@ -3,8 +3,8 @@ package io.github.jkvely.util;
 public class MarkdownToHtmlConverter {
     /**
      * Convierte texto Markdown básico a HTML.
-     * Soporta: **negrita**, _cursiva_, ***negrita+cursiva***, imágenes, diálogos <...> o > ... y listas.
-     * Diálogo con acotación: <Diálogo> acotación → — Diálogo —acotación
+     * Soporta: **negrita**, _cursiva_, ***negrita+cursiva***, imágenes, diálogos con guiones y listas.
+     * Diálogo con acotación: - diálogo - acotación - diálogo2 - → — diálogo —acotación— diálogo2
      */
     public static String convert(String markdown) {
         if (markdown == null) return "";
@@ -24,7 +24,9 @@ public class MarkdownToHtmlConverter {
         html = html.replaceAll("(?m)^## (.+)$", "<h2>$1</h2>");
         html = html.replaceAll("(?m)^### (.+)$", "<h3>$1</h3>");
         html = html.replaceAll("(?m)^- (.+)$", "<li>$1</li>");
-        html = html.replaceAll("((<li>.+?</li>\\n?)+)", "<ul>$1</ul>\n");        // Procesar diálogos: tanto <...> como '> ...' al inicio de línea
+        html = html.replaceAll("((<li>.+?</li>\\n?)+)", "<ul>$1</ul>\n");        
+        
+        // Procesar diálogos con nuevo formato de guiones
         StringBuilder dialogBuilder = new StringBuilder();
         String[] lines = html.split("\n");
         
@@ -32,9 +34,9 @@ public class MarkdownToHtmlConverter {
             String line = lines[i];
             String trimmed = line.trim();
             
-            // Sintaxis personalizada <...>acotacion (debe estar todo en una sola línea)
-            if (trimmed.startsWith("<") && trimmed.contains(">") && trimmed.length() > 2) {
-                String processedLine = parseDialogueLine(trimmed);
+            // Nuevo formato: líneas que empiezan con - y contienen diálogos
+            if (trimmed.startsWith("- ") && containsDialoguePattern(trimmed)) {
+                String processedLine = parseDialogueLineWithDashes(trimmed);
                 if (processedLine != null) {
                     dialogBuilder.append(processedLine);
                     // No agregar \n después de elementos de bloque como <p>
@@ -45,7 +47,6 @@ public class MarkdownToHtmlConverter {
                         dialogBuilder.append("\n");
                     }
                 }
-            // NO procesar > como diálogo nunca - solo texto normal
             } else {
                 dialogBuilder.append(line);
                 // Solo agregar \n si no es la última línea
@@ -78,71 +79,71 @@ public class MarkdownToHtmlConverter {
         html = html.replaceAll("(?<!_)_([A-Za-z0-9][^_]*[A-Za-z0-9])_(?!_)", "<i>$1</i>");
         
         return html;
+    }    /**
+     * Verifica si una línea contiene un patrón de diálogo con guiones.
+     * El patrón debe ser: - texto - texto - (puede tener más segmentos)
+     */
+    private static boolean containsDialoguePattern(String line) {
+        if (line == null || !line.startsWith("- ")) return false;
+        
+        // Contar guiones que no estén al principio
+        String afterFirstDash = line.substring(2); // Remove "- "
+        int dashCount = afterFirstDash.split(" - ", -1).length - 1;
+        
+        // Debe tener al menos un guión más (para la acotación)
+        return dashCount >= 1;
     }
 
     /**
-     * Parsea una línea que contiene diálogos y acotaciones.
-     * Maneja múltiples segmentos como: <Hola> exclamo <como estas?>
-     * Resultado: — Hola —exclamo— como estas?
+     * Parsea una línea que contiene diálogos y acotaciones con formato de guiones.
+     * Formato: - diálogo - acotación - diálogo2 -
+     * Resultado: — diálogo —acotación— diálogo2
      */
-    private static String parseDialogueLine(String line) {
-        if (line == null || line.trim().isEmpty()) return null;
+    private static String parseDialogueLineWithDashes(String line) {
+        if (line == null || line.trim().isEmpty() || !line.startsWith("- ")) return null;
+        
+        // Remover el "- " inicial
+        String content = line.substring(2);
+        
+        // Dividir por " - " pero conservar los separadores
+        String[] parts = content.split(" - ");
+        
+        if (parts.length < 2) return null; // Necesita al menos diálogo y acotación
         
         StringBuilder result = new StringBuilder();
         result.append("<p style='text-indent:2em;'>&mdash; ");
         
-        int i = 0;
-        boolean foundValidDialogue = false;
+        boolean foundValidContent = false;
         
-        while (i < line.length()) {
-            if (line.charAt(i) == '<') {
-                // Buscar el cierre del diálogo
-                int closeIdx = line.indexOf('>', i + 1);
-                if (closeIdx != -1) {
-                    String dialogPart = line.substring(i + 1, closeIdx).trim();
-                    
-                    // Verificar que el diálogo tenga contenido alfanumérico
-                    if (dialogPart.matches(".*[A-Za-z0-9].*")) {
-                        foundValidDialogue = true;
-                        
-                        // Si no es el primer diálogo, agregar una raya
-                        if (result.length() > "<p style='text-indent:2em;'>&mdash; ".length()) {
-                            result.append("&mdash;");
-                        }
-                        
-                        // Agregar el diálogo procesado
-                        result.append(processMarkdownInline(dialogPart));
-                        
-                        i = closeIdx + 1;
-                        
-                        // Buscar texto de acotación hasta el siguiente < o final de línea
-                        StringBuilder acotacion = new StringBuilder();
-                        while (i < line.length() && line.charAt(i) != '<') {
-                            acotacion.append(line.charAt(i));
-                            i++;
-                        }
-                        
-                        String acotacionText = acotacion.toString().trim();
-                        if (!acotacionText.isEmpty()) {
-                            result.append(" &mdash;");
-                            result.append(processMarkdownInline(acotacionText));
-                        }
-                    } else {
-                        // No es un diálogo válido, saltar
-                        i = closeIdx + 1;
-                    }
+        for (int i = 0; i < parts.length; i++) {
+            String part = parts[i].trim();
+            
+            // Si es el último elemento y termina con -, remover el guión final
+            if (i == parts.length - 1 && part.endsWith("-")) {
+                part = part.substring(0, part.length() - 1).trim();
+            }
+            
+            if (!part.isEmpty() && part.matches(".*[A-Za-z0-9].*")) {
+                foundValidContent = true;
+                
+                if (i == 0) {
+                    // Primer diálogo
+                    result.append(processMarkdownInline(part));
+                } else if (i % 2 == 1) {
+                    // Acotaciones (índices impares)
+                    result.append(" &mdash;");
+                    result.append(processMarkdownInline(part));
                 } else {
-                    // No hay cierre, saltar este carácter
-                    i++;
+                    // Diálogos adicionales (índices pares > 0)
+                    result.append("&mdash; ");
+                    result.append(processMarkdownInline(part));
                 }
-            } else {
-                i++;
             }
         }
         
         result.append("</p>");
         
-        // Solo retornar si encontramos al menos un diálogo válido
-        return foundValidDialogue ? result.toString() : null;
+        // Solo retornar si encontramos contenido válido
+        return foundValidContent ? result.toString() : null;
     }
 }

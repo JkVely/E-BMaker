@@ -154,31 +154,29 @@ public class ChapterPanelController {
             editorArea.setText(before + imageMarkdown + after);
             editorArea.positionCaret(before.length() + imageMarkdown.length());
         }
-    }
-
-    /**
-     * Inserta sintaxis de diálogo literario con acotación: <Diálogo> acotación
+    }    /**
+     * Inserta sintaxis de diálogo literario con acotación: - diálogo - acotación -
      */
     private void insertDialogueMarkdown() {
         int start = editorArea.getSelection().getStart();
         int end = editorArea.getSelection().getEnd();
         String selected = editorArea.getSelectedText();
         
-        // Si no hay selección, poner <dialogo> acotacion
+        // Si no hay selección, insertar plantilla
         if (selected.isEmpty()) {
             String before = editorArea.getText(0, start);
             String after = editorArea.getText(end, editorArea.getLength());
-            editorArea.setText(before + "<diálogo> acotación" + after);
-            editorArea.positionCaret(before.length() + 8); // Cursor después de <diálogo>
+            editorArea.setText(before + "- diálogo - acotación -" + after);
+            editorArea.positionCaret(before.length() + 2); // Cursor después de "- "
         } else {
-            // Si hay salto de línea en la selección, solo tomar la primera línea como diálogo y el resto como acotación
+            // Si hay salto de línea en la selección, tomar la primera línea como diálogo y el resto como acotación
             String[] parts = selected.split("\\n", 2);
-            String dialogo = parts[0];
-            String acotacion = parts.length > 1 ? parts[1] : "acotación";
+            String dialogo = parts[0].trim();
+            String acotacion = parts.length > 1 ? parts[1].trim() : "acotación";
             
             String before = editorArea.getText(0, start);
             String after = editorArea.getText(end, editorArea.getLength());
-            String insert = "<" + dialogo + "> " + acotacion;
+            String insert = "- " + dialogo + " - " + acotacion + " -";
             editorArea.setText(before + insert + after);
             editorArea.positionCaret(before.length() + insert.length());
         }

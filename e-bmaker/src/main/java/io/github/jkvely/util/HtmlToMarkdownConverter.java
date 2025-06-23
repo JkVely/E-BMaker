@@ -47,9 +47,8 @@ public class HtmlToMarkdownConverter {
     public static String convertLine(String html) {
         return convert(html);
     }
-    
-    /**
-     * Convierte diálogos literarios de HTML a formato <diálogo> acotación.
+      /**
+     * Convierte diálogos literarios de HTML a formato de guiones: - diálogo - acotación - diálogo2 -
      */
     private static String convertDialogues(String html) {
         // Patrón para detectar diálogos: <p style='text-indent:2em;'>&mdash; diálogo &mdash;acotación</p>
@@ -69,56 +68,71 @@ public class HtmlToMarkdownConverter {
         matcher.appendTail(result);
         
         return result.toString();
-    }
-    
-    /**
-     * Parsea el contenido de un diálogo HTML y lo convierte al formato <diálogo> acotación.
+    }    /**
+     * Parsea el contenido de un diálogo HTML y lo convierte al formato de guiones: - diálogo - acotación - diálogo2 -
      */
     private static String parseDialogueContent(String content) {
-        // Remover tags HTML internos para obtener texto plano
-        String plainText = removeHtmlTags(content);
+        // Convertir HTML interno a texto plano pero preservar estructura
+        String cleanContent = convertInlineHtmlToMarkdown(content);
         
-        // Separar por &mdash; para identificar segmentos
-        String[] parts = plainText.split("—");
+        // Dividir por &mdash; para identificar segmentos
+        String[] parts = cleanContent.split("—");
         
-        if (parts.length < 2) {
-            // Solo diálogo sin acotación
-            return "<" + plainText.trim() + ">";
+        if (parts.length < 1) {
+            return "";
         }
         
         StringBuilder result = new StringBuilder();
+        result.append("- ");
         
-        // El primer segmento es siempre diálogo
-        if (parts.length > 0 && !parts[0].trim().isEmpty()) {
-            result.append("<").append(parts[0].trim()).append(">");
-        }
+        boolean hasContent = false;
         
-        // Los segmentos restantes pueden ser acotaciones o más diálogos
-        for (int i = 1; i < parts.length; i++) {
-            String part = parts[i].trim();
-            if (!part.isEmpty()) {
-                if (i == parts.length - 1) {
-                    // Última parte, es acotación
-                    result.append(" ").append(part);
-                } else {
-                    // Parte intermedia, puede ser acotación seguida de más diálogo
-                    // Buscar si hay patrón de diálogo al final
-                    if (part.matches(".*\\s+.+")) {
-                        String[] subParts = part.split("\\s+", 2);
-                        if (subParts.length == 2) {
-                            result.append(" ").append(subParts[0]);
-                            result.append(" <").append(subParts[1]).append(">");
-                        } else {
-                            result.append(" ").append(part);
-                        }
-                    } else {
-                        result.append(" ").append(part);
-                    }
+        for (String part : parts) {
+            String trimmedPart = part.trim();
+            
+            if (!trimmedPart.isEmpty()) {
+                if (hasContent) {
+                    result.append(" - ");
                 }
+                result.append(trimmedPart);
+                hasContent = true;
             }
         }
         
+        if (hasContent) {
+            result.append(" -");
+        } else {
+            return "";
+        }
+        
         return result.toString();
+    }
+    
+    /**
+     * Convierte HTML inline (como negrita, cursiva) a Markdown dentro del contenido del diálogo.
+     */
+    private static String convertInlineHtmlToMarkdown(String html) {
+        if (html == null) return "";
+        
+        String markdown = html;
+        
+        // Negrita+cursiva: <b><i>texto</i></b> -> ***texto***
+        markdown = markdown.replaceAll("<b><i>(.+?)</i></b>", "***$1***");
+        markdown = markdown.replaceAll("<i><b>(.+?)</b></i>", "***$1***");
+        
+        // Negrita: <b>texto</b> -> **texto**
+        markdown = markdown.replaceAll("<b>(.+?)</b>", "**$1**");
+        
+        // Cursiva: <i>texto</i> -> *texto*
+        markdown = markdown.replaceAll("<i>(.+?)</i>", "*$1*");
+        
+        // Reemplazar &mdash; por —
+        markdown = markdown.replaceAll("&mdash;", "—");
+        
+        // Remover otros tags HTML residuales
+        markdown = markdown.replaceAll("<[^>]+>", "");
+        
+        return markdown;
     }
     
     /**
@@ -152,18 +166,9 @@ public class HtmlToMarkdownConverter {
         
         // Saltos de línea
         markdown = markdown.replaceAll("<br\\s*/?>", "\n");
-        
-        // Remover otros tags HTML residuales
+          // Remover otros tags HTML residuales
         markdown = markdown.replaceAll("</?p[^>]*>", "");
         
         return markdown;
-    }
-    
-    /**
-     * Remueve todos los tags HTML de una cadena, manteniendo solo el texto.
-     */
-    private static String removeHtmlTags(String html) {
-        if (html == null) return "";
-        return html.replaceAll("<[^>]+>", "").replaceAll("&mdash;", "—");
     }
 }

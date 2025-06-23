@@ -25,7 +25,8 @@ public class EpubBook {
     @Singular
     //generos del libro
     private List<String> subjects = new ArrayList<>();
-    private String rights;    private String series;
+    private String rights;
+    private String series;
     private int seriesIndex;
     /** Project folder path where all assets are stored */
     private String projectPath;
