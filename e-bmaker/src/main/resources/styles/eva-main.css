@@ -503,6 +503,15 @@
 }
 
 /* ========================================
+ * VARIABLES GLOBALES PARA COMPATIBILIDAD
+ * ======================================== */
+.root {
+    /* Variables fallback para compatibilidad con temas */
+    -fx-eva-primary: #2986cc;  /* Fallback para tema claro */
+    -fx-eva-accent: #ffb300;   /* Fallback para tema claro */
+}
+
+/* ========================================
  * ESTILOS PARA LA BARRA DE HERRAMIENTAS DEL EDITOR
  * ======================================== */
 .eva-editor-toolbar {
@@ -519,7 +528,7 @@
     -fx-cursor: hand;
     -fx-padding: 4 8 4 8;
     -fx-font-size: 16px;
-    -fx-text-fill: -eva-color-primary;
+    -fx-text-fill: -fx-eva-primary;
     -fx-background-radius: 6px;
     -fx-border-radius: 6px;
     -fx-effect: null;
@@ -527,8 +536,8 @@
     -fx-transition: background 0.2s;
 }
 .eva-toolbar-btn:hover {
-    -fx-background-color: -eva-bg-tertiary;
-    -fx-text-fill: -eva-color-accent;
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+    -fx-text-fill: -fx-eva-accent;
     -fx-opacity: 1.0;
 }
 .eva-toolbar-icon {

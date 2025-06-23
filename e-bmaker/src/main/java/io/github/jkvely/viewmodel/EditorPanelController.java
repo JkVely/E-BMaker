@@ -1,16 +1,17 @@
 package io.github.jkvely.viewmodel;
 
+import java.io.File;
+
 import io.github.jkvely.model.Classes.EpubChapter;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
-import javafx.stage.FileChooser;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import java.io.File;
+import javafx.stage.FileChooser;
 
 /**
  * Controlador para el panel de edición de capítulos.
@@ -19,22 +20,22 @@ import java.io.File;
 public class EditorPanelController {
     @FXML private TextField chapterTitleField;
     @FXML private TextArea editorArea;
-    @FXML private Button boldBtn, italicBtn, quoteBtn, imageBtn, ulBtn, olBtn;
+    @FXML private Button boldBtn, italicBtn, quoteBtn, imageBtn, ulBtn, olBtn, dialogueBtn;
 
     private EpubChapter chapter;
 
     /**
      * Inicializa el controlador, listeners de barra y atajos de teclado.
-     */
-    @FXML
+     */    @FXML
     public void initialize() {
         // Botones Markdown
         boldBtn.setOnAction(e -> insertMarkdown("**", "**", "negrilla"));
         italicBtn.setOnAction(e -> insertMarkdown("*", "*", "itálica"));
-        quoteBtn.setOnAction(e -> insertBlockMarkdown("> ", "diálogo o cita"));
+        quoteBtn.setOnAction(e -> insertMarkdown("*", "*", "texto en cursiva"));
         imageBtn.setOnAction(e -> insertImageMarkdown());
         ulBtn.setOnAction(e -> insertBlockMarkdown("- ", "elemento de lista"));
         olBtn.setOnAction(e -> insertBlockMarkdown("1. ", "elemento numerado"));
+        dialogueBtn.setOnAction(e -> insertDialogueMarkdown());
 
         // Atajos de teclado estilo GitHub
         editorArea.addEventFilter(KeyEvent.KEY_PRESSED, this::handleShortcuts);
@@ -63,15 +64,13 @@ public class EditorPanelController {
      * Maneja los atajos de teclado para formato Markdown.
      * @param event evento de teclado
      */
-    private void handleShortcuts(KeyEvent event) {
-        if (new KeyCodeCombination(KeyCode.B, KeyCombination.CONTROL_DOWN).match(event)) {
+    private void handleShortcuts(KeyEvent event) {        if (new KeyCodeCombination(KeyCode.B, KeyCombination.CONTROL_DOWN).match(event)) {
             insertMarkdown("**", "**", "negrilla");
             event.consume();
         } else if (new KeyCodeCombination(KeyCode.I, KeyCombination.CONTROL_DOWN).match(event)) {
             insertMarkdown("*", "*", "itálica");
-            event.consume();
-        } else if (new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN).match(event)) {
-            insertBlockMarkdown("> ", "diálogo o cita");
+            event.consume();        } else if (new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN).match(event)) {
+            insertMarkdown("*", "*", "texto en cursiva");
             event.consume();
         } else if (new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN).match(event)) {
             insertBlockMarkdown("- ", "elemento de lista");
@@ -81,6 +80,9 @@ public class EditorPanelController {
             event.consume();
         } else if (new KeyCodeCombination(KeyCode.I, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN).match(event)) {
             insertImageMarkdown();
+            event.consume();
+        } else if (new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN).match(event)) {
+            insertDialogueMarkdown();
             event.consume();
         }
     }
@@ -142,6 +144,32 @@ public class EditorPanelController {
             String after = editorArea.getText(caret, editorArea.getLength());
             editorArea.setText(before + imageMarkdown + after);
             editorArea.positionCaret(before.length() + imageMarkdown.length());
+        }
+    }
+
+    /**
+     * Inserta sintaxis de diálogo literario con acotación: <Diálogo> acotación
+     */
+    private void insertDialogueMarkdown() {
+        int start = editorArea.getSelection().getStart();
+        int end = editorArea.getSelection().getEnd();
+        String selected = editorArea.getSelectedText();
+        // Si no hay selección, poner <dialogo>acotacion
+        if (selected.isEmpty()) {
+            String before = editorArea.getText(0, start);
+            String after = editorArea.getText(end, editorArea.getLength());
+            editorArea.setText(before + "<diálogo> acotación" + after);
+            editorArea.positionCaret(before.length() + 8); // Cursor después de <diálogo>
+        } else {
+            // Si hay salto de línea en la selección, solo tomar la primera línea como diálogo y el resto como acotación
+            String[] parts = selected.split("\\n", 2);
+            String dialogo = parts[0];
+            String acotacion = parts.length > 1 ? parts[1] : "acotación";
+            String before = editorArea.getText(0, start);
+            String after = editorArea.getText(end, editorArea.getLength());
+            String insert = "<" + dialogo + "> " + acotacion;
+            editorArea.setText(before + insert + after);
+            editorArea.positionCaret(before.length() + insert.length());
         }
     }
 }

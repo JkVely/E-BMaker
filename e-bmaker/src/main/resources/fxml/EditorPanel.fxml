@@ -32,6 +32,10 @@
             <tooltip><Tooltip text="Lista numerada (Ctrl+Shift+L)"/></tooltip>
             <graphic><Label text="1. List" styleClass="eva-toolbar-icon"/></graphic>
         </Button>
+        <Button fx:id="dialogueBtn" styleClass="eva-toolbar-btn">
+            <tooltip><Tooltip text="Diálogo literario y acotación"/></tooltip>
+            <graphic><Label text="—" styleClass="eva-toolbar-icon"/></graphic>
+        </Button>
         <Pane HBox.hgrow="ALWAYS" />
     </HBox>
     <TextArea fx:id="editorArea" promptText="Escribe tu capítulo aquí..." VBox.vgrow="ALWAYS" minHeight="0" />
