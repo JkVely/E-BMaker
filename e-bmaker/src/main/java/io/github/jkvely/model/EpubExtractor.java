@@ -20,7 +20,7 @@ import io.github.jkvely.model.Classes.EpubCover;
 import io.github.jkvely.model.Classes.Image;
 
 public class EpubExtractor {
-    public static void FindHtmlAndXhtml(String fileDirectory) {
+    public static EpubBook FindHtmlAndXhtml(String fileDirectory) {
         Map<String, List<String>> HtmlAndXhtmlContent = new HashMap<>();
         
         try {
@@ -85,9 +85,11 @@ public class EpubExtractor {
                         .build();
                 epubBook.addChapter(chapter);
             }
+            return epubBook;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
     public static Map<String, byte[]> extractImages(String epubFile) throws IOException {
         Map<String, byte[]> imageMap = new HashMap<>();

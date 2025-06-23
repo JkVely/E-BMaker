@@ -19,13 +19,13 @@ import io.github.jkvely.model.Classes.EpubBook;
  * This is a placeholder for EPUB logic. You can use epublib or similar libraries here.
  */
 public class EpubService {
+    private static String rutaArchivo = "";
     /**
      * Loads an EPUB file from disk.
      * @param file the EPUB file
      * @return an EpubBook model, or null if loading fails
      */
-    public static EpubBook loadEpub(File file) {
-        String rutaArchivo = "";
+    public static EpubBook loadEpub() {
 
         if (GraphicsEnvironment.isHeadless()) {
             try {
@@ -56,11 +56,15 @@ public class EpubService {
         }
 
         try {
-            EpubExtractor.FindHtmlAndXhtml(rutaArchivo);
+            EpubBook libro = EpubExtractor.FindHtmlAndXhtml(rutaArchivo);
+            return libro;    
         } catch (Exception e) {
             System.err.println("Error al extraer contenido del archivo.");
         }
-        return null;    
+        return null;
+    }
+    public static String getRutaArchivo() {
+        return rutaArchivo;
     }
 
     /**

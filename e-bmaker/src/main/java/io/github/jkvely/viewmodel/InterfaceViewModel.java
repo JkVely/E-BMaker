@@ -3,7 +3,8 @@ package io.github.jkvely.viewmodel;
 import java.io.IOException;
 
 import io.github.jkvely.model.InterfaceModel;
-import io.github.jkvely.model.Opener;
+import io.github.jkvely.epub.EpubService;
+import io.github.jkvely.model.Classes.EpubBook;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -48,9 +49,9 @@ public class InterfaceViewModel {
 
     public void handleOpenProject() {
         model.setLastAction("Abrir Proyecto");
-        String ruta = Opener.getRuta();
+        EpubBook ruta = EpubService.loadEpub();
 
-        if (ruta != null && !ruta.isEmpty()) {
+        if (EpubService.getRutaArchivo() != null && !EpubService.getRutaArchivo().isEmpty()) {
             closeCurrentStage(openProjectButton);
             loadMainMenu("E-BMaker", "No se pudo cargar el documento.");
         } else {
