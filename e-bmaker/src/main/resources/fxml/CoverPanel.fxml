@@ -9,9 +9,15 @@
     <VBox alignment="CENTER_LEFT" spacing="16" styleClass="cover-panel" VBox.vgrow="ALWAYS" minWidth="0" minHeight="0">
         <Label text="Editar portada" styleClass="eva-cover-title" />
         <Label text="Arrastra una imagen .jpg aquí o haz clic para seleccionar" styleClass="eva-cover-drop-label" />
-        <Button fx:id="uploadCoverBtn" text="Subir imagen .jpg" styleClass="eva-cover-upload-btn" />
-        <Label text="Título del libro" styleClass="eva-cover-label" />
+        <Button fx:id="uploadCoverBtn" text="Subir imagen .jpg" styleClass="eva-cover-upload-btn" />        <Label text="Título del libro" styleClass="eva-cover-label" />
         <TextField fx:id="bookTitleField" promptText="Título del libro" styleClass="eva-cover-title-field" />
+        
+        <Label text="Autor(es)" styleClass="eva-cover-label" />
+        <TextField fx:id="authorField" promptText="Autor principal" styleClass="eva-cover-title-field" />
+        
+        <Label text="Géneros literarios" styleClass="eva-cover-label" />
+        <TextField fx:id="genresField" promptText="Ej: Ficción, Romance, Aventura (separados por comas)" styleClass="eva-cover-title-field" />
+        
         <Button fx:id="setCoverBtn" text="Setear portada" styleClass="eva-cover-set-btn" />
     </VBox>
     <ImageView fx:id="coverImageView" fitWidth="180" fitHeight="240" styleClass="eva-cover-image" HBox.hgrow="ALWAYS" />

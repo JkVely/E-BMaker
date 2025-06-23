@@ -98,16 +98,26 @@ public class MainMenuController {
                 // Actualizar iconos del interruptor con animación sutil
                 updateThemeIcons(isDark);
             }
-        });
-          // Configuración inicial de iconos de tema
+        });        // Configuración inicial de iconos de tema
         setupThemeIcons();        
         
-        // Estructura base EPUB: portada y capítulo 1
-        currentBook = new EpubBook();
-        currentBook.setCover(new EpubCover("Nuevo libro", new ArrayList<>(), null));
-        currentBook.setProjectPath(currentProjectPath); // Set project path if available
-        EpubChapter cap1 = new EpubChapter(1, "Capítulo 1", "", null);
-        currentBook.addChapter(cap1);
+        // Check if there's a loaded book from opening an EPUB file
+        EpubBook loadedEpubBook = getAndClearLoadedBook();
+        if (loadedEpubBook != null) {
+            // Use the loaded book
+            currentBook = loadedEpubBook;
+            // Set project path if not already set
+            if (currentBook.getProjectPath() == null || currentBook.getProjectPath().trim().isEmpty()) {
+                currentBook.setProjectPath(currentProjectPath);
+            }
+        } else {
+            // Create new book structure: cover and chapter 1
+            currentBook = new EpubBook();
+            currentBook.setCover(new EpubCover("Nuevo libro", new ArrayList<>(), null));
+            currentBook.setProjectPath(currentProjectPath); // Set project path if available
+            EpubChapter cap1 = new EpubChapter(1, "Capítulo 1", "", null);
+            currentBook.addChapter(cap1);
+        }
         
         // Configuración de la lista de estructura
         updateBookStructureList();
@@ -474,6 +484,9 @@ public class MainMenuController {
             showCoverEditor();
             updateWindowTitle();
             showAlert(Alert.AlertType.INFORMATION, "Archivo abierto", "El libro se ha cargado correctamente.");
+            
+            // After setting up the book, refresh the UI to show the loaded content
+            refreshBookUI();
         } else {
             showAlert(Alert.AlertType.WARNING, "Error al abrir", "No se pudo cargar el archivo seleccionado.");
         }
@@ -646,10 +659,9 @@ public class MainMenuController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    // Project context for folder management
+    }    // Project context for folder management
     private static String currentProjectPath = null;
+    private static EpubBook loadedBook = null;
     
     /**
      * Sets the current project path for the application session.
@@ -665,5 +677,42 @@ public class MainMenuController {
      */
     public static String getCurrentProjectPath() {
         return currentProjectPath;
+    }
+    
+    /**
+     * Sets the loaded book for the application session.
+     * This is used when opening an existing EPUB file.
+     * @param book the loaded EPUB book
+     */
+    public static void setLoadedBook(EpubBook book) {
+        loadedBook = book;
+    }
+    
+    /**
+     * Gets the loaded book and clears the static reference.
+     * @return the loaded book or null if none set
+     */
+    public static EpubBook getAndClearLoadedBook() {
+        EpubBook book = loadedBook;
+        loadedBook = null; // Clear after getting to avoid memory leaks
+        return book;
+    }
+    
+    /**
+     * Refreshes the UI to reflect the current book state.
+     * This includes updating the structure list, window title, and showing the cover panel.
+     */
+    private void refreshBookUI() {
+        // Update the book structure list
+        updateBookStructureList();
+        
+        // Update window title with book title
+        updateWindowTitle();
+        
+        // Show the cover panel by default for loaded books
+        if (currentBook != null && currentBook.getCover() != null) {
+            epubBookContentsList.getSelectionModel().select(0); // Select "Portada"
+            showCoverEditor();
+        }
     }
 }

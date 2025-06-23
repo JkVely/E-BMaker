@@ -70,11 +70,14 @@ public class InterfaceViewModel {
         model.setLastAction("Abrir Proyecto");
         EpubBook loadedBook = EpubService.loadEpub();
 
-        if (EpubService.getRutaArchivo() != null && !EpubService.getRutaArchivo().isEmpty()) {
+        if (loadedBook != null && EpubService.getRutaArchivo() != null && !EpubService.getRutaArchivo().isEmpty()) {
+            // Set the loaded book so MainMenuController can use it
+            io.github.jkvely.viewmodel.MainMenuController.setLoadedBook(loadedBook);
+            
             closeCurrentStage(openProjectButton);
-            loadMainMenu("E-BMaker", "No se pudo cargar el documento.");
+            loadMainMenu("E-BMaker | " + loadedBook.getCover().getTitle(), "No se pudo cargar el documento.");
         } else {
-            showInfoAlert("Información", "No se seleccionó ningún archivo.");
+            showInfoAlert("Información", "No se seleccionó ningún archivo o hubo un error al cargarlo.");
         }
     }
 
