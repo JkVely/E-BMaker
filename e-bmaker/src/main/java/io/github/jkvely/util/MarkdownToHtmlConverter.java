@@ -26,7 +26,12 @@ public class MarkdownToHtmlConverter {
         // Agrupar <li> en <ul>
         html = html.replaceAll("((<li>.+?</li>\\n?)+)", "<ul>$1</ul>\n");
         // Diálogos tipo libro: > texto → &mdash; texto
-        html = html.replaceAll("(?m)^> ?(.+)$", "<p style='text-indent:2em;'><span style='font-weight:bold;'>&mdash;</span> $1</p>");
+        // Primer > al inicio de línea con indentación
+        html = html.replaceAll("(?m)^> ?(.+?)(?=>|$)", "<p style='text-indent:2em;'><span style='font-weight:bold;'>&mdash;</span> $1");
+        // > adicionales en la misma línea sin indentación
+        html = html.replaceAll(">(.+?)(?=>|$)", "<span style='font-weight:bold;'>&mdash;</span>$1");
+        // Cerrar párrafos abiertos
+        html = html.replaceAll("(<p style='text-indent:2em;'>[^<]*(?:<span[^>]*>[^<]*</span>[^<]*)*)</p>?", "$1</p>");
         // Saltos de línea
         html = html.replaceAll("\n", "<br/>");
         return html;
