@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.github.jkvely.viewmodel.CoverPanelController"
+      fx:id="root" alignment="CENTER" spacing="32" HBox.hgrow="ALWAYS" minWidth="0" minHeight="0">
+    <VBox alignment="CENTER_LEFT" spacing="16" styleClass="cover-panel" VBox.vgrow="ALWAYS" minWidth="0" minHeight="0">
+        <Label text="Editar portada" styleClass="eva-cover-title" />
+        <Label text="Arrastra una imagen .jpg aquí o haz clic para seleccionar" styleClass="eva-cover-drop-label" />
+        <Button fx:id="uploadCoverBtn" text="Subir imagen .jpg" styleClass="eva-cover-upload-btn" />
+        <Label text="Título del libro" styleClass="eva-cover-label" />
+        <TextField fx:id="bookTitleField" promptText="Título del libro" styleClass="eva-cover-title-field" />
+        <Button fx:id="setCoverBtn" text="Setear portada" styleClass="eva-cover-set-btn" />
+    </VBox>
+    <ImageView fx:id="coverImageView" fitWidth="180" fitHeight="240" styleClass="eva-cover-image" HBox.hgrow="ALWAYS" />
+</HBox>
