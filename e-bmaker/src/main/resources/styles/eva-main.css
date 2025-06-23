@@ -503,6 +503,47 @@
 }
 
 /* ========================================
+ * ESTILOS PARA LA BARRA DE HERRAMIENTAS DEL EDITOR
+ * ======================================== */
+.eva-editor-toolbar {
+    -fx-background-color: transparent;
+    -fx-padding: 4 0 4 0;
+    -fx-spacing: 6px;
+    -fx-alignment: center-left;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: -eva-border-base transparent transparent transparent;
+}
+.eva-toolbar-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 4 8 4 8;
+    -fx-font-size: 16px;
+    -fx-text-fill: -eva-color-primary;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-effect: null;
+    -fx-opacity: 0.85;
+    -fx-transition: background 0.2s;
+}
+.eva-toolbar-btn:hover {
+    -fx-background-color: -eva-bg-tertiary;
+    -fx-text-fill: -eva-color-accent;
+    -fx-opacity: 1.0;
+}
+.eva-toolbar-icon {
+    -fx-font-size: 16px;
+    -fx-font-family: 'Segoe UI', 'Inter', 'Roboto', 'Arial', sans-serif;
+    -fx-font-weight: 600;
+    -fx-text-fill: inherit;
+}
+
+/* ----- ELIMINAR EFECTOS DE SOMBRA O BLUR EN BOTÓN '+ NUEVO CAPÍTULO' ----- */
+.add-chapter-cell {
+    -fx-effect: none; /* Eliminar cualquier blur o sombra */
+}
+
+/* ========================================
  * DOCUMENTACIÓN DE CLASES CSS
  * ======================================== */
 

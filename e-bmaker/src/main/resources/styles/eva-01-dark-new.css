@@ -484,7 +484,7 @@
 }
 
 .eva-01 .scroll-bar:horizontal .track {
-    -fx-background-color: -fx-bg-tertiary;
+    -fx-background-color: -fx-bg-terciario;
     -fx-background-radius: 6px;
     -fx-border-color: transparent;
 }
@@ -687,4 +687,20 @@
 
 .eva-01 .fade-transition:hover {
     -fx-opacity: 0.9;
+}
+
+/* ========================================
+ * REGLAS ESPECÍFICAS PARA EL ÁREA DEL EDITOR
+ * ======================================== */
+.eva-editor-area, .eva-01 .eva-editor-area, .eva-01 .text-area {
+    -fx-background-color: #232336;
+    -fx-control-inner-background: #232336;
+    -fx-text-fill: #e0e0e0;
+    -fx-highlight-fill: #965fd4;
+    -fx-highlight-text-fill: #fff;
+    -fx-prompt-text-fill: #6c757d;
+    -fx-border-color: #965fd4;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
 }

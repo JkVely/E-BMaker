@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 
 <BorderPane fx:id="rootPane" styleClass="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="io.github.jkvely.controller.MainMenuController">
+            fx:controller="io.github.jkvely.viewmodel.MainMenuController">
     <!-- Top Menu Bar -->
     <top>
         <VBox>
