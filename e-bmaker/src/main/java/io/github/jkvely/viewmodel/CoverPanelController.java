@@ -39,7 +39,7 @@ public class CoverPanelController {
         // Desactivar el botón si el título está vacío
         setCoverBtn.disableProperty().bind(bookTitleField.textProperty().isEmpty());
         bookTitleField.textProperty().addListener((obs, old, val) -> {
-            if (this.book != null) this.book.setTitle(val);
+            if (this.book != null) this.book.getCover().setTitle(val);
             updateWindowTitle();
         });
     }
@@ -59,13 +59,13 @@ public class CoverPanelController {
         epubCover = new io.github.jkvely.model.Classes.EpubCover(title, java.util.Collections.emptyList(), img);
         // Sincroniza la info del libro con la de la portada
         if (book != null) {
-            book.setTitle(title);
-            if (img != null) book.setCoverImage(img);
+            book.getCover().setTitle(title);
+            if (img != null) book.getCover().setImage(img);
         }
     }
 
     private void updateWindowTitle() {
-        String bookTitle = (book != null && book.getTitle() != null && !book.getTitle().isEmpty()) ? book.getTitle() : "Sin título";
+        String bookTitle = (book != null && book.getCover().getTitle() != null && !book.getCover().getTitle().isEmpty()) ? book.getCover().getTitle() : "Sin título";
         javafx.stage.Stage stage = io.github.jkvely.Editor.getPrimaryStage();
         if (stage != null) {
             stage.setTitle("E-BMaker | " + bookTitle + " (Editando)");
@@ -75,14 +75,14 @@ public class CoverPanelController {
     public void setBook(EpubBook book) {
         this.book = book;
         if (book != null) {
-            bookTitleField.setText(book.getTitle());
-            if (book.getCoverImage() != null && book.getCoverImage().getData() != null) {
-                javafx.scene.image.Image fxImg = new javafx.scene.image.Image(new java.io.ByteArrayInputStream(book.getCoverImage().getData()));
+            bookTitleField.setText(book.getCover().getTitle());
+            if (book.getCover().getImage() != null && book.getCover().getImage().getData() != null) {
+                javafx.scene.image.Image fxImg = new javafx.scene.image.Image(new java.io.ByteArrayInputStream(book.getCover().getImage().getData()));
                 coverImageView.setImage(fxImg);
             }
         }
         bookTitleField.textProperty().addListener((obs, old, val) -> {
-            if (this.book != null) this.book.setTitle(val);
+            if (this.book != null) this.book.getCover().setTitle(val);
         });
     }
 }

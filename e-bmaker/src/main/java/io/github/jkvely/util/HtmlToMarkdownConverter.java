@@ -1,7 +1,7 @@
-package io.github.jkvely.OpenLogic;
+package io.github.jkvely.util;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

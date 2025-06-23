@@ -17,17 +17,15 @@ import lombok.Singular;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EpubBook {
-    private String title;
-    @Singular
-    private List<String> authors = new ArrayList<>();
+    private EpubCover cover;
     private String language;
     /** Unique identifier (ISBN, UUID, etc). */
     private String identifier;
     private String description;
     @Singular
+    //generos del libro
     private List<String> subjects = new ArrayList<>();
     private String rights;
-    private Image coverImage;
     private String series;
     private int seriesIndex;
     @Singular

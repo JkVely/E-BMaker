@@ -84,7 +84,7 @@ public class MainMenuController {
 
         // Estructura base EPUB: portada y capítulo 1
         currentBook = new EpubBook();
-        currentBook.setTitle("Nuevo libro");
+        currentBook.getCover().setTitle("Nuevo libro");
         EpubChapter cap1 = new EpubChapter(1, "Capítulo 1", "", null);
         currentBook.addChapter(cap1);
         
@@ -249,7 +249,7 @@ public class MainMenuController {
         // Item especial al final para crear un nuevo capítulo
         bookStructureItems.add("➕ Nuevo capítulo");
     }    private void updateWindowTitle() {
-        String bookTitle = (currentBook != null && currentBook.getTitle() != null && !currentBook.getTitle().isEmpty()) ? currentBook.getTitle() : "Sin título";
+        String bookTitle = (currentBook != null && currentBook.getCover().getTitle() != null && !currentBook.getCover().getTitle().isEmpty()) ? currentBook.getCover().getTitle() : "Sin título";
         javafx.stage.Stage stage = io.github.jkvely.Editor.getPrimaryStage();
         if (stage != null) {
             stage.setTitle("E-BMaker | " + bookTitle + " (Editando)");
