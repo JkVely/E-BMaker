@@ -14,7 +14,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.FileChooser;
 
 /**
  * Controlador para el panel de edición de capítulos.
@@ -151,27 +150,58 @@ public class EditorPanelController {
         String insert = sb.toString();
         editorArea.setText(before + insert + after);
         editorArea.positionCaret(before.length() + insert.length());
-    }
-
-    /**
-     * Inserta sintaxis Markdown para imagen, abriendo un selector de archivos.
+    }    /**
+     * Inserta sintaxis Markdown para imagen, abriendo un selector de archivos nativo.
+     * Copia la imagen al proyecto y usa la ruta relativa.
      */
     private void insertImageMarkdown() {
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Seleccionar imagen");
-        fc.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp")
-        );
-        File file = fc.showOpenDialog(editorArea.getScene().getWindow());
-        if (file != null) {
-            String imageMarkdown = "![](" + file.getName() + ")";
-            int caret = editorArea.getCaretPosition();
-            String before = editorArea.getText(0, caret);
-            String after = editorArea.getText(caret, editorArea.getLength());
-            editorArea.setText(before + imageMarkdown + after);
-            editorArea.positionCaret(before.length() + imageMarkdown.length());
+        String selectedImagePath = io.github.jkvely.util.NativeFileManager.selectImageFile();
+        
+        if (selectedImagePath != null) {
+            File selectedFile = new File(selectedImagePath);
+            
+            // Verificar que es un formato de imagen soportado
+            if (!io.github.jkvely.util.ImageManager.isSupportedImageFormat(selectedFile)) {
+                System.err.println("Formato de imagen no soportado: " + selectedFile.getName());
+                return;
+            }
+            
+            try {
+                // Obtener la ruta del proyecto desde MainMenuController
+                String projectPath = io.github.jkvely.viewmodel.MainMenuController.getCurrentProjectPath();
+                
+                String imageReference;
+                if (projectPath != null && !projectPath.trim().isEmpty()) {
+                    // Copiar imagen al proyecto y obtener referencia relativa
+                    imageReference = io.github.jkvely.util.ImageManager.copyImageToProject(selectedFile, projectPath);
+                    System.out.println("📁 Imagen copiada al proyecto: " + imageReference);
+                } else {
+                    // Si no hay proyecto, usar referencia directa al archivo
+                    imageReference = selectedFile.getName();
+                    System.out.println("⚠️ No hay proyecto activo, usando referencia directa: " + imageReference);
+                }
+                
+                // Insertar markdown con la referencia apropiada
+                String imageMarkdown = "![](" + imageReference + ")";
+                int caret = editorArea.getCaretPosition();
+                String before = editorArea.getText(0, caret);
+                String after = editorArea.getText(caret, editorArea.getLength());
+                editorArea.setText(before + imageMarkdown + after);
+                editorArea.positionCaret(before.length() + imageMarkdown.length());
+                
+            } catch (Exception e) {
+                System.err.println("Error al procesar la imagen: " + e.getMessage());
+                e.printStackTrace();
+                // Fallback: usar referencia directa
+                String imageMarkdown = "![](" + selectedFile.getName() + ")";
+                int caret = editorArea.getCaretPosition();
+                String before = editorArea.getText(0, caret);
+                String after = editorArea.getText(caret, editorArea.getLength());
+                editorArea.setText(before + imageMarkdown + after);
+                editorArea.positionCaret(before.length() + imageMarkdown.length());
+            }
         }
-    }    /**
+    }/**
      * Inserta sintaxis de diálogo literario con acotación: - diálogo - acotación -
      */
     private void insertDialogueMarkdown() {

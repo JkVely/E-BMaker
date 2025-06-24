@@ -81,31 +81,24 @@ public class EpubExtractor {    public static EpubBook FindHtmlAndXhtml(String f
                 String firstImage = imageMap.keySet().iterator().next();
                 coverImage = new Image("cover", "image/png", imageMap.get(firstImage), "cover");
             }
-            
-            // Create cover with available information
+              // Create cover with available information
             List<String> coverInfo = new ArrayList<>();
-            coverInfo.add("title=" + title);
-            coverInfo.add("creator=" + creator);
-            coverInfo.add("language=" + lang);
+            if (!title.isEmpty()) coverInfo.add("title=" + title);
+            if (!creator.isEmpty()) coverInfo.add("creator=" + creator);
+            if (!lang.isEmpty()) coverInfo.add("language=" + lang);
+            if (!description.isEmpty()) coverInfo.add("description=" + description);
             
-            EpubCover cover = new EpubCover(fileDirectory, coverInfo, coverImage);
+            EpubCover cover = new EpubCover(title, coverInfo, coverImage);
             
             // Initialize chapters list
             List<EpubChapter> chapters = new ArrayList<>();
-            
-            // Create the EPUB book
+              // Create the EPUB book
             EpubBook epubBook = new EpubBook(cover, lang, identifier, description, subjects, 
                                            "Hecho con E-Bmaker", series, index, "./", chapters, metadata);
-            // Añadir los capítulos al libro
-            for(Map.Entry<String, List<String>> entry : HtmlAndXhtmlContent.entrySet()) {
-                List<String> content = entry.getValue();
-                List<String> markdown = HtmlToMarkdownConverter.convert(content);
-                EpubChapter chapter = EpubChapter.builder()
-                        .title(entry.getKey())
-                        .content(String.join("\n", markdown))
-                        .build();
-                epubBook.addChapter(chapter);
-            }
+            
+            // Process HTML/XHTML files and convert to chapters
+            processHtmlContent(HtmlAndXhtmlContent, epubBook);
+            
             return epubBook;
         } catch (Exception e) {
             e.printStackTrace();
@@ -280,5 +273,94 @@ public class EpubExtractor {    public static EpubBook FindHtmlAndXhtml(String f
             // Ignore parsing errors for individual elements
         }
         return null;
+    }
+    /**
+     * Procesa el contenido HTML/XHTML y crea capítulos apropiados.
+     * Filtra archivos no deseados y extrae títulos apropiados.
+     */
+    private static void processHtmlContent(Map<String, List<String>> htmlContent, EpubBook epubBook) {
+        int chapterNumber = 1;
+        
+        for (Map.Entry<String, List<String>> entry : htmlContent.entrySet()) {
+            String filename = entry.getKey();
+            List<String> htmlLines = entry.getValue();
+              // Skip files that are not actual book content
+            if (isStructuralFile(filename)) {
+                System.out.println("📄 Saltando archivo estructural: " + filename);
+                continue;
+            }
+            
+            // Join HTML lines into a single string
+            String htmlContent_str = String.join("\n", htmlLines);
+            
+            // Extract chapter title using the new method
+            String chapterTitle = HtmlToMarkdownConverter.extractChapterTitle(htmlContent_str);
+            if (chapterTitle.equals("Capítulo sin título")) {
+                chapterTitle = "Capítulo " + chapterNumber;
+            }
+            
+            // Convert HTML to Markdown using the improved converter
+            String markdown = HtmlToMarkdownConverter.convert(htmlContent_str);
+              // Create chapter only if we have meaningful content
+            if (markdown != null && !markdown.trim().isEmpty() && hasActualContent(markdown)) {
+                EpubChapter chapter = EpubChapter.builder()
+                        .id(chapterNumber)
+                        .title(chapterTitle)
+                        .content(markdown)
+                        .build();
+                epubBook.addChapter(chapter);
+                System.out.println("📖 Capítulo agregado: " + chapterTitle);
+                chapterNumber++;
+            } else {
+                System.out.println("⚠️ Archivo sin contenido útil: " + filename);
+            }
+        }
+        
+        // If no chapters were created, add a default empty chapter
+        if (epubBook.getChapters().isEmpty()) {
+            EpubChapter defaultChapter = EpubChapter.builder()
+                    .id(1)
+                    .title("Capítulo 1")
+                    .content("Contenido del libro cargado.")
+                    .build();
+            epubBook.addChapter(defaultChapter);
+        }
+    }
+      /**
+     * Checks if a file is structural (cover, title page, etc.) and should be skipped.
+     */
+    private static boolean isStructuralFile(String filename) {
+        String lowerFilename = filename.toLowerCase();
+        
+        // Common structural file patterns
+        return lowerFilename.contains("cover") ||
+               lowerFilename.contains("title") ||
+               lowerFilename.contains("copyright") ||
+               lowerFilename.contains("toc") ||
+               lowerFilename.contains("contents") ||
+               lowerFilename.contains("index") ||
+               lowerFilename.contains("nav") ||
+               lowerFilename.contains("portada") ||
+               lowerFilename.contains("indice") ||
+               lowerFilename.contains("contenido") ||
+               lowerFilename.equals("titlepage.xhtml") ||
+               lowerFilename.equals("toc.xhtml") ||
+               (lowerFilename.matches(".*\\d{1,2}\\.x?html?") && lowerFilename.contains("front"));
+    }
+    
+    /**
+     * Checks if the markdown content has actual readable content.
+     */
+    private static boolean hasActualContent(String markdown) {
+        if (markdown == null) return false;
+        
+        String cleanText = markdown.trim()
+                .replaceAll("#+ ", "") // Remove headings
+                .replaceAll("\\*+", "") // Remove formatting
+                .replaceAll("- ", "") // Remove list markers
+                .replaceAll("\\s+", " ") // Normalize whitespace
+                .trim();
+          // Consider it actual content if it has more than 10 characters
+        return cleanText.length() > 10;
     }
 }

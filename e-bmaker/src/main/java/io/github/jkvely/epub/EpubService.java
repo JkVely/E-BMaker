@@ -1,13 +1,11 @@
 package io.github.jkvely.epub;
 
-import java.awt.GraphicsEnvironment;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import io.github.jkvely.model.Classes.EpubBook;
 import io.github.jkvely.model.EpubExtractor;
+import io.github.jkvely.util.NativeFileManager;
 
 
 
@@ -18,47 +16,29 @@ import io.github.jkvely.model.EpubExtractor;
  * This is a placeholder for EPUB logic. You can use epublib or similar libraries here.
  */
 public class EpubService {
-    private static String rutaArchivo = "";
-    /**
-     * Loads an EPUB file from disk.
-     * @param file the EPUB file
+    private static String rutaArchivo = "";    /**
+     * Loads an EPUB file from disk using native file dialog.
      * @return an EpubBook model, or null if loading fails
      */
     public static EpubBook loadEpub() {
-
-        if (GraphicsEnvironment.isHeadless()) {
-            try {
-                ProcessBuilder pb = new ProcessBuilder("zenity", "--file-selection", "--title=Selecciona un archivo");
-                Process proceso = pb.start();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
-                rutaArchivo = reader.readLine();
-                reader.close();
-
-                if (rutaArchivo == null || rutaArchivo.isEmpty()) {
-                    System.out.println("No se seleccionó ningún archivo.");
-                    return null;
-                }
-            } catch (IOException e) {
-                System.err.println("Error al ejecutar zenity.");
-                return null;
-            }
-        } else {
-            javax.swing.JFileChooser selector = new javax.swing.JFileChooser();
-            int resultado = selector.showOpenDialog(null);
-
-            if (resultado == javax.swing.JFileChooser.APPROVE_OPTION) {
-                rutaArchivo = selector.getSelectedFile().getAbsolutePath();
-            } else {
-                System.out.println("No se seleccionó ningún archivo.");
-                return null;
-            }
+        // Use native file manager to select EPUB file
+        String selectedFilePath = NativeFileManager.selectEpubFile();
+        
+        if (selectedFilePath == null || selectedFilePath.trim().isEmpty()) {
+            System.out.println("No se seleccionó ningún archivo.");
+            return null;
         }
-
+        
+        // Store the path for later reference
+        rutaArchivo = selectedFilePath;
+        
         try {
             EpubBook libro = EpubExtractor.FindHtmlAndXhtml(rutaArchivo);
+            System.out.println("📖 Archivo EPUB cargado desde: " + rutaArchivo);
             return libro;    
         } catch (Exception e) {
-            System.err.println("Error al extraer contenido del archivo.");
+            System.err.println("Error al extraer contenido del archivo: " + e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -71,10 +51,8 @@ public class EpubService {
      */
     public static void saveEpub(EpubBook book, File file) throws IOException {
         EpubWriter.exportEpub(book, file);
-    }
-
-    /**
-     * Saves an EpubBook model with file selection dialog.
+    }    /**
+     * Saves an EpubBook model with native file selection dialog.
      * @param book the EpubBook model to save
      * @return true if the book was saved successfully, false otherwise
      */
@@ -84,55 +62,30 @@ public class EpubService {
             return false;
         }
 
-        String saveFilePath = null;
+        // Generate suggested filename based on book title
+        String suggestedName = "libro.epub";
+        if (book.getCover() != null && book.getCover().getTitle() != null) {
+            String title = book.getCover().getTitle().replaceAll("[\\\\/:*?\"<>|]", "_");
+            suggestedName = title + ".epub";
+        }
 
-        if (GraphicsEnvironment.isHeadless()) {
-            try {
-                ProcessBuilder pb = new ProcessBuilder("zenity", "--file-selection", "--save", 
-                    "--title=Guardar como EPUB", "--filename=libro.epub");
-                Process proceso = pb.start();
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()))) {
-                    saveFilePath = reader.readLine();
-                }
+        // Use native file manager to get save location
+        String saveFilePath = NativeFileManager.saveEpubFile(suggestedName);
+        
+        if (saveFilePath == null || saveFilePath.trim().isEmpty()) {
+            System.out.println("No se seleccionó ubicación para guardar.");
+            return false;
+        }
 
-                if (saveFilePath == null || saveFilePath.isEmpty()) {
-                    System.out.println("No se seleccionó ubicación para guardar.");
-                    return false;
-                }
-            } catch (IOException e) {
-                System.err.println("Error al ejecutar zenity para guardar: " + e.getMessage());
-                return false;
-            }
-        } else {
-            javax.swing.JFileChooser selector = new javax.swing.JFileChooser();
-            selector.setDialogTitle("Guardar como EPUB");
-            selector.setSelectedFile(new File("libro.epub"));
-            
-            // Add EPUB file filter
-            javax.swing.filechooser.FileNameExtensionFilter filter = 
-                new javax.swing.filechooser.FileNameExtensionFilter("Archivos EPUB (*.epub)", "epub");
-            selector.setFileFilter(filter);
-            
-            int resultado = selector.showSaveDialog(null);
-            
-            if (resultado == javax.swing.JFileChooser.APPROVE_OPTION) {
-                File selectedFile = selector.getSelectedFile();
-                saveFilePath = selectedFile.getAbsolutePath();
-                
-                // Ensure .epub extension
-                if (!saveFilePath.toLowerCase().endsWith(".epub")) {
-                    saveFilePath += ".epub";
-                }
-            } else {
-                System.out.println("No se seleccionó ubicación para guardar.");
-                return false;
-            }
+        // Ensure .epub extension
+        if (!saveFilePath.toLowerCase().endsWith(".epub")) {
+            saveFilePath += ".epub";
         }
 
         try {
             File outputFile = new File(saveFilePath);
             saveEpub(book, outputFile);
-            System.out.println("Libro guardado exitosamente en: " + outputFile.getAbsolutePath());
+            System.out.println("📚 Libro guardado exitosamente en: " + outputFile.getAbsolutePath());
             return true;
         } catch (IOException e) {
             System.err.println("Error al guardar el libro: " + e.getMessage());

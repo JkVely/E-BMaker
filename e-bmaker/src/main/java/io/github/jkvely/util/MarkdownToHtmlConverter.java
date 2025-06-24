@@ -19,12 +19,11 @@ public class MarkdownToHtmlConverter {
         // Cursiva: _texto_ (solo si hay al menos un carácter alfanumérico)
         html = html.replaceAll("(?<!_)_([A-Za-z0-9][^_]*[A-Za-z0-9])_(?!_)", "<i>$1</i>");
         // Imágenes: ![alt](src)
-        html = html.replaceAll("!\\[(.*?)\\]\\((.+?)\\)", "<img src='$2' alt='$1' style='max-width:100%;'/>");
-        html = html.replaceAll("(?m)^# (.+)$", "<h1>$1</h1>");
+        html = html.replaceAll("!\\[(.*?)\\]\\((.+?)\\)", "<img src='$2' alt='$1' style='max-width:100%;'/>");        html = html.replaceAll("(?m)^# (.+)$", "<h1>$1</h1>");
         html = html.replaceAll("(?m)^## (.+)$", "<h2>$1</h2>");
         html = html.replaceAll("(?m)^### (.+)$", "<h3>$1</h3>");
-        html = html.replaceAll("(?m)^- (.+)$", "<li>$1</li>");
-        html = html.replaceAll("((<li>.+?</li>\\n?)+)", "<ul>$1</ul>\n");        
+        // Remover soporte para listas - solo diálogos con guiones
+        
         
         // Procesar diálogos con nuevo formato de guiones
         StringBuilder dialogBuilder = new StringBuilder();
@@ -33,14 +32,14 @@ public class MarkdownToHtmlConverter {
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
             String trimmed = line.trim();
-            
-            // Nuevo formato: líneas que empiezan con - y contienen diálogos
+              // Nuevo formato: líneas que empiezan con - y contienen diálogos
             if (trimmed.startsWith("- ") && containsDialoguePattern(trimmed)) {
                 String processedLine = parseDialogueLineWithDashes(trimmed);
                 if (processedLine != null) {
                     dialogBuilder.append(processedLine);
                     // No agregar \n después de elementos de bloque como <p>
                 } else {
+                    // Si no se pudo procesar como diálogo, tratar como texto normal
                     dialogBuilder.append(line);
                     // Solo agregar \n si no es la última línea
                     if (i < lines.length - 1) {
@@ -81,14 +80,26 @@ public class MarkdownToHtmlConverter {
         return html;
     }    /**
      * Verifica si una línea contiene un patrón de diálogo con guiones.
-     * El patrón debe ser: - texto - texto - (puede tener más segmentos)
+     * El patrón debe ser: - texto - texto (puede tener más segmentos y terminar con -)
      */
     private static boolean containsDialoguePattern(String line) {
         if (line == null || !line.startsWith("- ")) return false;
         
         // Contar guiones que no estén al principio
         String afterFirstDash = line.substring(2); // Remove "- "
-        int dashCount = afterFirstDash.split(" - ", -1).length - 1;
+        
+        // Buscar patrones " - " (espacios antes y después del guión)
+        int dashCount = 0;
+        int index = 0;
+        while ((index = afterFirstDash.indexOf(" - ", index)) != -1) {
+            dashCount++;
+            index += 3; // Avanzar después de " - "
+        }
+        
+        // También contar si termina con " -"
+        if (afterFirstDash.endsWith(" -")) {
+            dashCount++;
+        }
         
         // Debe tener al menos un guión más (para la acotación)
         return dashCount >= 1;

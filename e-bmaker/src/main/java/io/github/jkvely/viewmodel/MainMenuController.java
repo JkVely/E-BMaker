@@ -23,7 +23,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -470,8 +469,7 @@ public class MainMenuController {
             showAlert(Alert.AlertType.INFORMATION, "Nuevo archivo", "Se ha creado un nuevo libro sin carpeta de proyecto.");
         }
     }
-    
-    /**
+      /**
      * Maneja la apertura de un archivo EPUB existente.
      */
     @FXML
@@ -479,14 +477,16 @@ public class MainMenuController {
         EpubBook loadedBook = EpubService.loadEpub();
         if (loadedBook != null) {
             currentBook = loadedBook;
-            updateBookStructureList();
-            epubBookContentsList.getSelectionModel().select(0);
-            showCoverEditor();
-            updateWindowTitle();
-            showAlert(Alert.AlertType.INFORMATION, "Archivo abierto", "El libro se ha cargado correctamente.");
             
-            // After setting up the book, refresh the UI to show the loaded content
+            // Debug: Print book information
+            System.out.println("📖 Libro cargado: " + currentBook.getCover().getTitle());
+            System.out.println("👤 Autor: " + currentBook.getMetadata().getOrDefault("creator", "Desconocido"));
+            System.out.println("📚 Capítulos: " + currentBook.getChapters().size());
+            
+            // Refresh the UI to show the loaded content
             refreshBookUI();
+            
+            showAlert(Alert.AlertType.INFORMATION, "Archivo abierto", "El libro se ha cargado correctamente.");
         } else {
             showAlert(Alert.AlertType.WARNING, "Error al abrir", "No se pudo cargar el archivo seleccionado.");
         }
@@ -505,8 +505,7 @@ public class MainMenuController {
         // Por ahora, usar exportar como funcionalidad de guardado
         handleExportEpub();
     }
-    
-    /**
+      /**
      * Maneja la exportación del libro actual a formato EPUB.
      */
     @FXML
@@ -515,32 +514,24 @@ public class MainMenuController {
             showAlert(Alert.AlertType.WARNING, "Error", "No hay un libro para exportar.");
             return;
         }
-          // Configurar FileChooser para seleccionar donde guardar el EPUB
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Exportar libro como EPUB");
-        fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Archivos EPUB", "*.epub")
-        );
         
-        // Set initial directory to project's Exports folder if available
-        if (currentBook.getProjectPath() != null && !currentBook.getProjectPath().trim().isEmpty()) {
-            String exportsPath = ProjectFolderUtils.getExportsPath(currentBook.getProjectPath());
-            File exportsDir = new File(exportsPath);
-            if (exportsDir.exists() && exportsDir.isDirectory()) {
-                fileChooser.setInitialDirectory(exportsDir);
-            }
-        }
-        
-        // Sugerir nombre de archivo basado en el título del libro
+        // Generar nombre sugerido basado en el título del libro
         String suggestedName = "libro.epub";
         if (currentBook.getCover() != null && currentBook.getCover().getTitle() != null) {
             suggestedName = sanitizeFileName(currentBook.getCover().getTitle()) + ".epub";
         }
-        fileChooser.setInitialFileName(suggestedName);
         
-        // Mostrar dialog de guardado
-        File outputFile = fileChooser.showSaveDialog(rootPane.getScene().getWindow());
-        if (outputFile != null) {
+        // Usar el administrador nativo de archivos para seleccionar donde guardar
+        String outputPath = io.github.jkvely.util.NativeFileManager.saveEpubFile(suggestedName);
+        
+        if (outputPath != null) {
+            // Asegurar extensión .epub
+            if (!outputPath.toLowerCase().endsWith(".epub")) {
+                outputPath += ".epub";
+            }
+            
+            File outputFile = new File(outputPath);
+            
             // Realizar exportación en hilo separado para no bloquear UI
             Task<Void> exportTask = new Task<Void>() {
                 @Override
@@ -697,8 +688,7 @@ public class MainMenuController {
         loadedBook = null; // Clear after getting to avoid memory leaks
         return book;
     }
-    
-    /**
+      /**
      * Refreshes the UI to reflect the current book state.
      * This includes updating the structure list, window title, and showing the cover panel.
      */
@@ -711,8 +701,19 @@ public class MainMenuController {
         
         // Show the cover panel by default for loaded books
         if (currentBook != null && currentBook.getCover() != null) {
-            epubBookContentsList.getSelectionModel().select(0); // Select "Portada"
-            showCoverEditor();
+            Platform.runLater(() -> {
+                epubBookContentsList.getSelectionModel().select(0); // Select "Portada"
+                showCoverEditor();
+                
+                // Debug: Print cover information
+                System.out.println("🎨 Portada mostrada: " + currentBook.getCover().getTitle());
+                if (currentBook.getChapters() != null && !currentBook.getChapters().isEmpty()) {
+                    System.out.println("📝 Primer capítulo: " + currentBook.getChapters().get(0).getTitle());
+                    System.out.println("📄 Contenido preview: " + 
+                        currentBook.getChapters().get(0).getContent().substring(0, 
+                        Math.min(100, currentBook.getChapters().get(0).getContent().length())) + "...");
+                }
+            });
         }
     }
 }

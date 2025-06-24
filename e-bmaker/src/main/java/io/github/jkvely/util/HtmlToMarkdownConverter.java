@@ -21,8 +21,7 @@ public class HtmlToMarkdownConverter {
         }
         return markdown;
     }
-    
-    /**
+      /**
      * Convierte una cadena HTML completa a Markdown.
      */
     public static String convert(String html) {
@@ -32,13 +31,117 @@ public class HtmlToMarkdownConverter {
         
         String markdown = html;
         
+        // Limpiar el HTML primero - remover elementos estructurales del EPUB
+        markdown = cleanEpubStructure(markdown);
+        
         // Convertir diálogos literarios primero (más específico)
         markdown = convertDialogues(markdown);
         
         // Convertir otros elementos HTML
         markdown = convertBasicElements(markdown);
         
+        // Limpiar espacios extra y líneas vacías
+        markdown = cleanupText(markdown);
+        
         return markdown;
+    }
+    
+    /**
+     * Limpia la estructura del EPUB y extrae solo el contenido del libro.
+     */
+    private static String cleanEpubStructure(String html) {
+        String content = html;
+        
+        // Remover elementos comunes del EPUB que no son contenido
+        content = content.replaceAll("(?i)<\\?xml[^>]*>", ""); // XML declaration
+        content = content.replaceAll("(?i)<!DOCTYPE[^>]*>", ""); // DOCTYPE
+        content = content.replaceAll("(?i)<html[^>]*>", ""); // html tag
+        content = content.replaceAll("(?i)</html>", "");
+        content = content.replaceAll("(?i)<head>.*?</head>", ""); // head section
+        content = content.replaceAll("(?i)<body[^>]*>", ""); // body tag
+        content = content.replaceAll("(?i)</body>", "");
+        content = content.replaceAll("(?i)<link[^>]*>", ""); // CSS links
+        content = content.replaceAll("(?i)<meta[^>]*>", ""); // meta tags
+        content = content.replaceAll("(?i)<style[^>]*>.*?</style>", ""); // style sections
+        content = content.replaceAll("(?i)<script[^>]*>.*?</script>", ""); // scripts
+        
+        // Remover divs de estructura/navegación comunes
+        content = content.replaceAll("(?i)<div[^>]*class=['\"][^'\"]*nav[^'\"]*['\"][^>]*>.*?</div>", "");
+        content = content.replaceAll("(?i)<div[^>]*class=['\"][^'\"]*header[^'\"]*['\"][^>]*>.*?</div>", "");
+        content = content.replaceAll("(?i)<div[^>]*class=['\"][^'\"]*footer[^'\"]*['\"][^>]*>.*?</div>", "");
+        content = content.replaceAll("(?i)<nav[^>]*>.*?</nav>", "");
+        
+        return content;
+    }
+    
+    /**
+     * Extrae el título del capítulo del HTML.
+     */
+    public static String extractChapterTitle(String html) {
+        if (html == null || html.trim().isEmpty()) {
+            return "Capítulo sin título";
+        }
+        
+        // Buscar títulos en orden de prioridad
+        String[] titlePatterns = {
+            "(?i)<h1[^>]*>(.*?)</h1>",
+            "(?i)<h2[^>]*>(.*?)</h2>",
+            "(?i)<title[^>]*>(.*?)</title>",
+            "(?i)<h3[^>]*>(.*?)</h3>"
+        };
+        
+        for (String pattern : titlePatterns) {
+            Pattern p = Pattern.compile(pattern, Pattern.DOTALL);
+            Matcher m = p.matcher(html);
+            if (m.find()) {
+                String title = m.group(1).trim();
+                // Limpiar HTML del título
+                title = title.replaceAll("<[^>]+>", "").trim();
+                if (!title.isEmpty() && !isGenericTitle(title)) {
+                    return title;
+                }
+            }
+        }
+        
+        return "Capítulo sin título";
+    }
+    
+    /**
+     * Verifica si un título es genérico (como "Cover", "Title Page", etc.)
+     */
+    private static boolean isGenericTitle(String title) {
+        String lowerTitle = title.toLowerCase();
+        String[] genericTitles = {
+            "cover", "title page", "copyright", "table of contents", "toc",
+            "portada", "índice", "contenido", "derechos", "página de título"
+        };
+        
+        for (String generic : genericTitles) {
+            if (lowerTitle.contains(generic)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Limpia el texto final removiendo espacios extra y líneas vacías.
+     */
+    private static String cleanupText(String text) {
+        if (text == null) return "";
+        
+        // Remover líneas vacías múltiples
+        text = text.replaceAll("\n\\s*\n\\s*\n+", "\n\n");
+        
+        // Remover espacios al inicio y final de líneas
+        text = text.replaceAll("(?m)^\\s+", "");
+        text = text.replaceAll("(?m)\\s+$", "");
+        
+        // Remover espacios múltiples
+        text = text.replaceAll(" +", " ");
+        
+        return text.trim();
     }
     
     /**
@@ -134,40 +237,73 @@ public class HtmlToMarkdownConverter {
         
         return markdown;
     }
-    
-    /**
+      /**
      * Convierte elementos HTML básicos a Markdown.
      */
     private static String convertBasicElements(String html) {
         String markdown = html;
         
+        // Convertir títulos SOLO si no son de estructura
+        markdown = markdown.replaceAll("(?i)<h1[^>]*>((?!.*(?:cover|title page|copyright|table of contents|toc|portada|índice|contenido|derechos)).+?)</h1>", "# $1");
+        markdown = markdown.replaceAll("(?i)<h2[^>]*>((?!.*(?:cover|title page|copyright|table of contents|toc|portada|índice|contenido|derechos)).+?)</h2>", "## $1");
+        markdown = markdown.replaceAll("(?i)<h3[^>]*>((?!.*(?:cover|title page|copyright|table of contents|toc|portada|índice|contenido|derechos)).+?)</h3>", "### $1");
+        
+        // Remover títulos de estructura que no queremos
+        markdown = markdown.replaceAll("(?i)<h[1-6][^>]*>.*?(?:cover|title page|copyright|table of contents|toc|portada|índice|contenido|derechos).*?</h[1-6]>", "");
+        
         // Negrita+cursiva: <b><i>texto</i></b> -> ***texto***
         markdown = markdown.replaceAll("<b><i>(.+?)</i></b>", "***$1***");
         markdown = markdown.replaceAll("<i><b>(.+?)</b></i>", "***$1***");
+        markdown = markdown.replaceAll("<strong><em>(.+?)</em></strong>", "***$1***");
+        markdown = markdown.replaceAll("<em><strong>(.+?)</strong></em>", "***$1***");
         
         // Negrita: <b>texto</b> -> **texto**
         markdown = markdown.replaceAll("<b>(.+?)</b>", "**$1**");
+        markdown = markdown.replaceAll("<strong>(.+?)</strong>", "**$1**");
         
         // Cursiva: <i>texto</i> -> *texto*
         markdown = markdown.replaceAll("<i>(.+?)</i>", "*$1*");
+        markdown = markdown.replaceAll("<em>(.+?)</em>", "*$1*");
+          // Imágenes: <img src='...' alt='...' /> -> ![alt](src)
+        markdown = markdown.replaceAll("<img\\s+src=['\"](.+?)['\"]\\s+alt=['\"](.+?)['\"].*?/?>", "![$2]($1)");
+        markdown = markdown.replaceAll("<img\\s+alt=['\"](.+?)['\"]\\s+src=['\"](.+?)['\"].*?/?>", "![$1]($2)");
+        markdown = markdown.replaceAll("<img\\s+src=['\"](.+?)['\"].*?/?>", "![]($1)");
         
-        // Imágenes: <img src='...' alt='...' /> -> ![alt](src)
-        markdown = markdown.replaceAll("<img\\s+src=['\"](.+?)['\"]\\s+alt=['\"](.+?)['\"].*?/>", "![$2]($1)");
-        markdown = markdown.replaceAll("<img\\s+alt=['\"](.+?)['\"]\\s+src=['\"](.+?)['\"].*?/>", "![$1]($2)");
-        
-        // Títulos
-        markdown = markdown.replaceAll("<h1>(.+?)</h1>", "# $1");
-        markdown = markdown.replaceAll("<h2>(.+?)</h2>", "## $1");
-        markdown = markdown.replaceAll("<h3>(.+?)</h3>", "### $1");
-        
-        // Listas: primero convertir elementos <li>, luego remover <ul>
-        markdown = markdown.replaceAll("<li>(.+?)</li>", "- $1");
-        markdown = markdown.replaceAll("<ul>|</ul>", "");
+        // Remover elementos de lista sin convertir a Markdown
+        // Solo extraemos el contenido sin crear listas con guiones
+        markdown = markdown.replaceAll("<li[^>]*>(.+?)</li>", "$1\n");
+        markdown = markdown.replaceAll("</?[uo]l[^>]*>", "");
         
         // Saltos de línea
         markdown = markdown.replaceAll("<br\\s*/?>", "\n");
-          // Remover otros tags HTML residuales
-        markdown = markdown.replaceAll("</?p[^>]*>", "");
+        
+        // Párrafos - convertir a saltos de línea dobles pero solo si contienen texto
+        markdown = markdown.replaceAll("<p[^>]*>\\s*</p>", ""); // Remover párrafos vacíos
+        markdown = markdown.replaceAll("<p[^>]*>", "\n");
+        markdown = markdown.replaceAll("</p>", "\n");
+        
+        // Remover divs estructurales comunes
+        markdown = markdown.replaceAll("(?i)<div[^>]*class=['\"][^'\"]*(?:nav|header|footer|toc|copyright)[^'\"]*['\"][^>]*>.*?</div>", "");
+        markdown = markdown.replaceAll("</?div[^>]*>", ""); // Remover divs restantes
+        
+        // Remover spans sin formato especial
+        markdown = markdown.replaceAll("<span[^>]*>", "");
+        markdown = markdown.replaceAll("</span>", "");
+        
+        // Remover cualquier otro tag HTML restante
+        markdown = markdown.replaceAll("<[^>]+>", "");
+          // Limpiar entidades HTML
+        markdown = markdown.replaceAll("&nbsp;", " ");
+        markdown = markdown.replaceAll("&mdash;", "—");
+        markdown = markdown.replaceAll("&ndash;", "–");
+        markdown = markdown.replaceAll("&ldquo;", "\"");
+        markdown = markdown.replaceAll("&rdquo;", "\"");
+        markdown = markdown.replaceAll("&lsquo;", "'");
+        markdown = markdown.replaceAll("&rsquo;", "'");
+        markdown = markdown.replaceAll("&amp;", "&");
+        markdown = markdown.replaceAll("&lt;", "<");
+        markdown = markdown.replaceAll("&gt;", ">");
+        markdown = markdown.replaceAll("&quot;", "\"");
         
         return markdown;
     }

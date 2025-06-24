@@ -137,24 +137,58 @@ public class ChapterPanelController {
         String insert = sb.toString();
         editorArea.setText(before + insert + after);
         editorArea.positionCaret(before.length() + insert.length());
-    }
-
-    private void insertImageMarkdown() {
-        javafx.stage.FileChooser fc = new javafx.stage.FileChooser();
-        fc.setTitle("Seleccionar imagen");
-        fc.getExtensionFilters().addAll(
-            new javafx.stage.FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp")
-        );
-        java.io.File file = fc.showOpenDialog(editorArea.getScene().getWindow());
-        if (file != null) {
-            String imageMarkdown = "![](" + file.getName() + ")";
-            int caret = editorArea.getCaretPosition();
-            String before = editorArea.getText(0, caret);
-            String after = editorArea.getText(caret, editorArea.getLength());
-            editorArea.setText(before + imageMarkdown + after);
-            editorArea.positionCaret(before.length() + imageMarkdown.length());
-        }
     }    /**
+     * Inserta sintaxis Markdown para imagen, abriendo un selector de archivos nativo.
+     * Copia la imagen al proyecto y usa la ruta relativa.
+     */
+    private void insertImageMarkdown() {
+        String selectedImagePath = io.github.jkvely.util.NativeFileManager.selectImageFile();
+        
+        if (selectedImagePath != null) {
+            java.io.File selectedFile = new java.io.File(selectedImagePath);
+            
+            // Verificar que es un formato de imagen soportado
+            if (!io.github.jkvely.util.ImageManager.isSupportedImageFormat(selectedFile)) {
+                System.err.println("Formato de imagen no soportado: " + selectedFile.getName());
+                return;
+            }
+            
+            try {
+                // Obtener la ruta del proyecto desde MainMenuController
+                String projectPath = io.github.jkvely.viewmodel.MainMenuController.getCurrentProjectPath();
+                
+                String imageReference;
+                if (projectPath != null && !projectPath.trim().isEmpty()) {
+                    // Copiar imagen al proyecto y obtener referencia relativa
+                    imageReference = io.github.jkvely.util.ImageManager.copyImageToProject(selectedFile, projectPath);
+                    System.out.println("📁 Imagen copiada al proyecto: " + imageReference);
+                } else {
+                    // Si no hay proyecto, usar referencia directa al archivo
+                    imageReference = selectedFile.getName();
+                    System.out.println("⚠️ No hay proyecto activo, usando referencia directa: " + imageReference);
+                }
+                
+                // Insertar markdown con la referencia apropiada
+                String imageMarkdown = "![](" + imageReference + ")";
+                int caret = editorArea.getCaretPosition();
+                String before = editorArea.getText(0, caret);
+                String after = editorArea.getText(caret, editorArea.getLength());
+                editorArea.setText(before + imageMarkdown + after);
+                editorArea.positionCaret(before.length() + imageMarkdown.length());
+                
+            } catch (Exception e) {
+                System.err.println("Error al procesar la imagen: " + e.getMessage());
+                e.printStackTrace();
+                // Fallback: usar referencia directa
+                String imageMarkdown = "![](" + selectedFile.getName() + ")";
+                int caret = editorArea.getCaretPosition();
+                String before = editorArea.getText(0, caret);
+                String after = editorArea.getText(caret, editorArea.getLength());
+                editorArea.setText(before + imageMarkdown + after);
+                editorArea.positionCaret(before.length() + imageMarkdown.length());
+            }
+        }
+    }/**
      * Inserta sintaxis de diálogo literario con acotación: - diálogo - acotación -
      */
     private void insertDialogueMarkdown() {

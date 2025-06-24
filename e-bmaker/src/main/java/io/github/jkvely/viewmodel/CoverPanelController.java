@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.stage.FileChooser;
 
 public class CoverPanelController {    @FXML private Button uploadCoverBtn;
     @FXML private Button setCoverBtn;
@@ -18,28 +17,30 @@ public class CoverPanelController {    @FXML private Button uploadCoverBtn;
     @FXML private TextField authorField;
     @FXML private TextField genresField;
     @FXML private ImageView coverImageView;
-    @FXML private HBox root;    private EpubBook book;
-
-    @FXML
+    @FXML private HBox root;    private EpubBook book;    @FXML
     public void initialize() {        uploadCoverBtn.setOnAction(e -> {
-            FileChooser fc = new FileChooser();
-            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imágenes JPG", "*.jpg", "*.jpeg"));
-            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imágenes PNG", "*.png"));
-            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Todas las imágenes", "*.jpg", "*.jpeg", "*.png"));
+            // Usar selector nativo de archivos
+            String selectedImagePath = io.github.jkvely.util.NativeFileManager.selectImageFile();
             
-            // Set initial directory to project's Images folder if available
-            if (book != null && book.getProjectPath() != null && !book.getProjectPath().trim().isEmpty()) {
-                String imagesPath = ProjectFolderUtils.getImagesPath(book.getProjectPath());
-                File imagesDir = new File(imagesPath);
-                if (imagesDir.exists() && imagesDir.isDirectory()) {
-                    fc.setInitialDirectory(imagesDir);
+            if (selectedImagePath != null) {
+                File file = new File(selectedImagePath);
+                
+                // Verificar que es un formato de imagen soportado
+                if (!io.github.jkvely.util.ImageManager.isSupportedImageFormat(file)) {
+                    System.err.println("Formato de imagen no soportado para portada: " + file.getName());
+                    return;
                 }
-            }
-            
-            File file = fc.showOpenDialog(root.getScene().getWindow());
-            if (file != null) {
-                coverImageView.setImage(new Image(file.toURI().toString()));
-                coverImageView.setUserData(file); // Guardar el archivo para luego
+                
+                try {
+                    // Mostrar la imagen en el ImageView
+                    coverImageView.setImage(new Image(file.toURI().toString()));
+                    coverImageView.setUserData(file); // Guardar el archivo para después
+                    
+                    System.out.println("🎨 Imagen de portada seleccionada: " + file.getName());
+                } catch (Exception ex) {
+                    System.err.println("Error al cargar la imagen de portada: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
             }
         });
         setCoverBtn.setOnAction(e -> {
