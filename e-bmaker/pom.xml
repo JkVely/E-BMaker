@@ -46,7 +46,7 @@
         <javafx.version>21.0.2</javafx.version>
         <java.version>21</java.version>
         <ikonli.version>12.4.0</ikonli.version>
-        <controlsfx.version>11.1.2</controlsfx.version>
+        <controlsfx.version>11.2.2</controlsfx.version>
         <flexmark.version>0.64.8</flexmark.version>
     </properties>
 
