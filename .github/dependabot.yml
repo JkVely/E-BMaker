@@ -8,11 +8,11 @@ updates:
   - package-ecosystem: "maven"
     directory: "/e-bmaker"
     schedule:
-      interval: "weekly" # Frecuencia con la que Dependabot buscará actualizaciones (semanalmente)
+      interval: "monthly"
 
     labels:
-      - "dependencies" # Añade una etiqueta a los PRs de Dependabot
+      - "dependencies"
     commit-message:
-       prefix: "deps" # Prefijo para los mensajes de commit de Dependabot
+       prefix: "deps"
        prefix-development: "deps-dev"
        include: "scope"
